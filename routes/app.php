@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::redirect('/app', '/app/login');
 
 Route::middleware(['guest:web'])->prefix('app')->name('app.')->group(function () {
 

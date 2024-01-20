@@ -3,7 +3,7 @@
         <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
             <div class="grid items-start md:grid-cols-2 gap-8 lg:gap-12">
                 <div>
-                    <img src="{{ asset('herkobi.png') }}" alt="Herkobi" class="h-auto max-w-[40%] mb-32">
+                    <img src="{{ asset('herkobi.png') }}" alt="Herkobi" class="h-auto max-w-[35%] mb-32">
                     <div class="mt-4 md:mb-12 max-w-2xl">
                         <h1 class="mb-4 font-semibold text-gray-800 text-3xl lg:text-4xl dark:text-gray-200">
                             {{ __('user/auth/register.page.title') }}
@@ -38,23 +38,11 @@
                                             <div class="relative">
                                                 <input type="text" id="hs-hero-signup-form-floating-input-first-name"
                                                     name="name"
-                                                    class="peer p-4 block w-full border-gray-200 rounded-lg text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600
-                        focus:pt-6
-                        focus:pb-2
-                        [&:not(:placeholder-shown)]:pt-6
-                        [&:not(:placeholder-shown)]:pb-2
-                        autofill:pt-6
-                        autofill:pb-2"
+                                                    class="peer p-4 block w-full border-gray-200 rounded-lg text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 focus:pt-6 focus:pb-2 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 autofill:pt-6 autofill:pb-2"
                                                     placeholder="{{ __('user/auth/register.form.name') }}"
                                                     value="{{ old('name') }}" required>
                                                 <label for="hs-hero-signup-form-floating-input-first-name"
-                                                    class="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:text-white peer-disabled:opacity-50 peer-disabled:pointer-events-none
-                            peer-focus:text-xs
-                            peer-focus:-translate-y-1.5
-                            peer-focus:text-gray-500
-                            peer-[:not(:placeholder-shown)]:text-xs
-                            peer-[:not(:placeholder-shown)]:-translate-y-1.5
-                            peer-[:not(:placeholder-shown)]:text-gray-500">{{ __('user/auth/register.form.name') }}</label>
+                                                    class="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:text-white peer-disabled:opacity-50 peer-disabled:pointer-events-none peer-focus:text-xs peer-focus:-translate-y-1.5 peer-focus:text-gray-500 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-translate-y-1.5 peer-[:not(:placeholder-shown)]:text-gray-500">{{ __('user/auth/register.form.name') }}</label>
                                                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
                                             </div>
                                         </div>
@@ -62,59 +50,29 @@
                                             <div class="relative">
                                                 <input type="text" id="hs-hero-signup-form-floating-input-last-name"
                                                     name="surname"
-                                                    class="peer p-4 block w-full border-gray-200 rounded-lg text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600
-                        focus:pt-6
-                        focus:pb-2
-                        [&:not(:placeholder-shown)]:pt-6
-                        [&:not(:placeholder-shown)]:pb-2
-                        autofill:pt-6
-                        autofill:pb-2"
+                                                    class="peer p-4 block w-full border-gray-200 rounded-lg text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 focus:pt-6 focus:pb-2 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 autofill:pt-6 autofill:pb-2"
                                                     placeholder="{{ __('user/auth/register.form.surname') }}"
                                                     value="{{ old('surname') }}" required>
                                                 <label for="hs-hero-signup-form-floating-input-last-name"
-                                                    class="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:text-white peer-disabled:opacity-50 peer-disabled:pointer-events-none
-                            peer-focus:text-xs
-                            peer-focus:-translate-y-1.5
-                            peer-focus:text-gray-500
-                            peer-[:not(:placeholder-shown)]:text-xs
-                            peer-[:not(:placeholder-shown)]:-translate-y-1.5
-                            peer-[:not(:placeholder-shown)]:text-gray-500">{{ __('user/auth/register.form.surname') }}</label>
+                                                    class="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:text-white peer-disabled:opacity-50 peer-disabled:pointer-events-none peer-focus:text-xs peer-focus:-translate-y-1.5 peer-focus:text-gray-500 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-translate-y-1.5 peer-[:not(:placeholder-shown)]:text-gray-500">{{ __('user/auth/register.form.surname') }}</label>
                                                 <x-input-error :messages="$errors->get('surname')" class="mt-2" />
                                             </div>
                                         </div>
                                         <div class="relative col-span-full">
                                             <input type="email" id="hs-hero-signup-form-floating-input-email"
                                                 name="email"
-                                                class="peer p-4 block w-full border-gray-200 rounded-lg text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600
-                        focus:pt-6
-                        focus:pb-2
-                        [&:not(:placeholder-shown)]:pt-6
-                        [&:not(:placeholder-shown)]:pb-2
-                        autofill:pt-6
-                        autofill:pb-2"
+                                                class="peer p-4 block w-full border-gray-200 rounded-lg text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 focus:pt-6 focus:pb-2 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 autofill:pt-6 autofill:pb-2"
                                                 placeholder="{{ __('user/auth/register.form.email') }}"
                                                 value="{{ old('email') }}" required>
                                             <label for="hs-hero-signup-form-floating-input-email"
-                                                class="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:text-white peer-disabled:opacity-50 peer-disabled:pointer-events-none
-                            peer-focus:text-xs
-                            peer-focus:-translate-y-1.5
-                            peer-focus:text-gray-500
-                            peer-[:not(:placeholder-shown)]:text-xs
-                            peer-[:not(:placeholder-shown)]:-translate-y-1.5
-                            peer-[:not(:placeholder-shown)]:text-gray-500">{{ __('user/auth/register.form.email') }}</label>
+                                                class="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:text-white peer-disabled:opacity-50 peer-disabled:pointer-events-none peer-focus:text-xs peer-focus:-translate-y-1.5 peer-focus:text-gray-500 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-translate-y-1.5 peer-[:not(:placeholder-shown)]:text-gray-500">{{ __('user/auth/register.form.email') }}</label>
                                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                         </div>
                                         <div class="relative col-span-full">
                                             <div class="relative">
                                                 <input type="password" name="password"
                                                     id="hs-hero-signup-form-floating-input-new-password"
-                                                    class="peer p-4 block w-full border-gray-200 rounded-lg text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600
-                        focus:pt-6
-                        focus:pb-2
-                        [&:not(:placeholder-shown)]:pt-6
-                        [&:not(:placeholder-shown)]:pb-2
-                        autofill:pt-6
-                        autofill:pb-2"
+                                                    class="peer p-4 block w-full border-gray-200 rounded-lg text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 focus:pt-6 focus:pb-2 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 autofill:pt-6 autofill:pb-2"
                                                     placeholder="********">
                                                 <button type="button"
                                                     data-hs-toggle-password='{
@@ -140,24 +98,13 @@
                                                     </svg>
                                                 </button>
                                                 <label for="hs-hero-signup-form-floating-input-new-password"
-                                                    class="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:text-white peer-disabled:opacity-50 peer-disabled:pointer-events-none
-                            peer-focus:text-xs
-                            peer-focus:-translate-y-1.5
-                            peer-focus:text-gray-500
-                            peer-[:not(:placeholder-shown)]:text-xs
-                            peer-[:not(:placeholder-shown)]:-translate-y-1.5
-                            peer-[:not(:placeholder-shown)]:text-gray-500">{{ __('user/auth/register.form.password') }}</label>
+                                                    class="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:text-white peer-disabled:opacity-50 peer-disabled:pointer-events-none peer-focus:text-xs peer-focus:-translate-y-1.5 peer-focus:text-gray-500 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-translate-y-1.5 peer-[:not(:placeholder-shown)]:text-gray-500">{{ __('user/auth/register.form.password') }}</label>
                                                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                             </div>
                                             <div id="hs-strong-password-popover"
                                                 class="hidden absolute z-10 w-full bg-blue-50 rounded-lg p-4 dark:bg-blue-950">
                                                 <div id="hs-strong-password-in-popover"
-                                                    data-hs-strong-password='{
-                            "target": "#hs-hero-signup-form-floating-input-new-password",
-                            "hints": "#hs-strong-password-popover",
-                            "stripClasses": "hs-strong-password:opacity-100 hs-strong-password-accepted:bg-teal-500 h-2 flex-auto rounded-full bg-blue-500 opacity-50 mx-1",
-                            "mode": "popover"
-                            }'
+                                                    data-hs-strong-password='{ "target": "#hs-hero-signup-form-floating-input-new-password", "hints": "#hs-strong-password-popover", "stripClasses": "hs-strong-password:opacity-100 hs-strong-password-accepted:bg-teal-500 h-2 flex-auto rounded-full bg-blue-500 opacity-50 mx-1", "mode": "popover"}'
                                                     class="flex mt-2 -mx-1">
                                                 </div>
                                                 <h4
@@ -287,13 +234,7 @@
                                             <div class="relative">
                                                 <input type="password" name="password_confirmation"
                                                     id="hs-hero-signup-form-floating-input-current-password"
-                                                    class="peer p-4 block w-full border-gray-200 rounded-lg text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600
-                        focus:pt-6
-                        focus:pb-2
-                        [&:not(:placeholder-shown)]:pt-6
-                        [&:not(:placeholder-shown)]:pb-2
-                        autofill:pt-6
-                        autofill:pb-2"
+                                                    class="peer p-4 block w-full border-gray-200 rounded-lg text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 focus:pt-6 focus:pb-2 [&:not(:placeholder-shown)]:pt-6 [&:not(:placeholder-shown)]:pb-2 autofill:pt-6 autofill:pb-2"
                                                     placeholder="********">
                                                 <button type="button"
                                                     data-hs-toggle-password='{
@@ -319,13 +260,7 @@
                                                     </svg>
                                                 </button>
                                                 <label for="hs-hero-signup-form-floating-input-current-password"
-                                                    class="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:text-white peer-disabled:opacity-50 peer-disabled:pointer-events-none
-                            peer-focus:text-xs
-                            peer-focus:-translate-y-1.5
-                            peer-focus:text-gray-500
-                            peer-[:not(:placeholder-shown)]:text-xs
-                            peer-[:not(:placeholder-shown)]:-translate-y-1.5
-                            peer-[:not(:placeholder-shown)]:text-gray-500">{{ __('user/auth/register.form.password.again') }}</label>
+                                                    class="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:text-white peer-disabled:opacity-50 peer-disabled:pointer-events-none peer-focus:text-xs peer-focus:-translate-y-1.5 peer-focus:text-gray-500 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-translate-y-1.5 peer-[:not(:placeholder-shown)]:text-gray-500">{{ __('user/auth/register.form.password.again') }}</label>
                                                 <x-input-error :messages="$errors->get('confirm_password')" class="mt-2" />
                                             </div>
                                         </div>
@@ -341,6 +276,7 @@
                                                     href="#">{{ __('user/auth/register.form.terms.link') }}</a>
                                                 {{ __('user/auth/register.form.terms') }}</label>
                                         </div>
+                                        <x-input-error :messages="$errors->get('accepted_terms')" class="mt-2" />
                                     </div>
                                     <div class="mt-5">
                                         <button type="submit"

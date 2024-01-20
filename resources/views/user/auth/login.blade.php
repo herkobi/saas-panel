@@ -1,24 +1,22 @@
 <x-user-guest-layout>
-    <!-- Hero -->
     <div class="relative h-[100vh] overflow-hidden">
-        <div class="mx-auto max-w-screen-md py-12 px-4 sm:px-6 md:max-w-screen-xl md:py-20 lg:py-32 md:px-8">
+        <div class="mx-auto max-w-screen-md py-12 px-4 sm:px-6 md:max-w-screen-xl md:px-8">
             <div class="md:pe-8 md:w-1/2 xl:pe-0 xl:w-5/12">
-                <!-- Title -->
+                <img src="{{ asset('herkobi.png') }}" alt="Herkobi" class="h-auto max-w-[45%] mb-12">
                 <h1
-                    class="text-3xl text-gray-800 font-bold md:text-4xl md:leading-tight lg:text-5xl lg:leading-tight dark:text-gray-200">
+                    class="text-xl text-gray-800 font-bold md:text-4xl md:leading-tight lg:text-4xl lg:leading-tight dark:text-gray-200">
                     Solving problems for every <span class="text-blue-600 dark:text-blue-500">team</span>
                 </h1>
                 <p class="mt-3 text-base text-gray-500 mb-6">
                     Built on standard web technology, teams use Preline to build beautiful cross-platform hybrid apps in
                     a fraction of the time.
                 </p>
-                <!-- End Title -->
-
-                <form>
+                <form accept="{{ route('app.login.store') }}" method="POST">
+                    @csrf
                     <div class="grid gap-y-4">
-                        <!-- Form Group -->
                         <div>
-                            <label for="email" class="block text-sm mb-2 dark:text-white">Email address</label>
+                            <x-label for="email" class="block text-sm mb-2 dark:text-white"
+                                :value="__('user/auth/login.form.email')"></x-label>
                             <div class="relative">
                                 <input type="email" id="email" name="email"
                                     class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
@@ -34,14 +32,12 @@
                             <p class="hidden text-xs text-red-600 mt-2" id="email-error">Please include a valid email
                                 address so we can get back to you</p>
                         </div>
-                        <!-- End Form Group -->
-
-                        <!-- Form Group -->
                         <div>
                             <div class="flex justify-between items-center">
-                                <label for="password" class="block text-sm mb-2 dark:text-white">Password</label>
+                                <x-label for="password" class="block text-sm mb-2 dark:text-white"
+                                    :value="__('user/auth/login.form.password')"></x-label>
                                 <a class="text-sm text-blue-600 decoration-2 hover:underline font-medium dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                                    href="../examples/html/recover-account.html">Forgot password?</a>
+                                    href="{{ route('app.forgot.password') }}">{{ __('user/auth/login.form.forgot.password') }}</a>
                             </div>
                             <div class="relative">
                                 <input type="password" id="password" name="password"
@@ -57,32 +53,26 @@
                             </div>
                             <p class="hidden text-xs text-red-600 mt-2" id="password-error">8+ characters required</p>
                         </div>
-                        <!-- End Form Group -->
-
-                        <!-- Checkbox -->
                         <div class="flex items-center">
                             <div class="flex">
                                 <input id="remember-me" name="remember-me" type="checkbox"
-                                    class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 pointer-events-none focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
+                                    class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
                             </div>
                             <div class="ms-3">
-                                <label for="remember-me" class="text-sm dark:text-white">Remember me</label>
+                                <x-label for="remember-me" class="text-sm mb-0 dark:text-white"
+                                    :value="__('user/auth/login.form.remember.me')"></x-label>
                             </div>
                         </div>
-                        <!-- End Checkbox -->
-
-                        <button type="submit"
-                            class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Sign
-                            in</button>
+                        <x-submit
+                            class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">{{ __('user/auth/login.form.login') }}</x-submit>
                     </div>
                 </form>
+                <a href="{{ route('app.register') }}"
+                    class="w-full mt-3 py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">{{ __('user/auth/login.register') }}</a>
             </div>
         </div>
-
         <div
             class="hidden md:block md:absolute md:top-0 md:start-1/2 md:end-0 h-full bg-[url('https://images.unsplash.com/photo-1606868306217-dbf5046868d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1981&q=80')] bg-no-repeat bg-center bg-cover">
         </div>
-        <!-- End Col -->
     </div>
-    <!-- End Hero -->
 </x-user-guest-layout>
