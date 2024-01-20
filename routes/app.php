@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::middleware(['guest:user'])->prefix('app')->name('app.')->group(function () {
+Route::middleware(['guest:web'])->prefix('app')->name('app.')->group(function () {
 
     Route::controller(AuthenticatedSessionController::class)->group(function () {
         Route::get('/login', 'create')->name('login');
@@ -57,7 +57,7 @@ Route::middleware(['guest:user'])->prefix('app')->name('app.')->group(function (
 
 });
 
-Route::middleware(['auth:user'])->prefix('app')->name('app.')->group(function () {
+Route::middleware(['auth:web'])->group(function () {
 
     Route::get('/verify-email', EmailVerificationPromptController::class)->name('verification.notice');
 
@@ -68,9 +68,14 @@ Route::middleware(['auth:user'])->prefix('app')->name('app.')->group(function ()
     Route::middleware('throttle:6,1')->controller(EmailVerificationNotificationController::class)->group(function () {
         Route::post('/email/verification-notification', 'store')->name('verification.send');
     });
+
+    Route::controller(AuthenticatedSessionController::class)->group(function () {
+        Route::post('/logout', 'destroy')->name('app.logout');
+    });
+
 });
 
-Route::middleware(['auth:user', 'auth.session', 'verified'])->prefix('app')->name('app.')->group(function () {
+Route::middleware(['auth:web', 'auth.session', 'verified'])->prefix('app')->name('app.')->group(function () {
 
     /**
      * Başlangıç
@@ -107,13 +112,6 @@ Route::middleware(['auth:user', 'auth.session', 'verified'])->prefix('app')->nam
      */
     Route::controller(PasswordController::class)->group(function () {
         Route::put('/password', 'update')->name('password.update');
-    });
-
-    /**
-     * Oturumu Kapat
-     */
-    Route::controller(AuthenticatedSessionController::class)->group(function () {
-        Route::post('/logout', 'destroy')->name('logout');
     });
 
 });

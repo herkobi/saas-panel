@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('surname')->after('name');
             $table->timestamp('last_login_at')->nullable()->after('password');
             $table->string('last_login_ip')->nullable()->after('password');
+            $table->boolean('accepted_terms')->default(false)->after('last_login_at');
         });
     }
 
