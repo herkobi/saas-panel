@@ -18,9 +18,10 @@ class State extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'status',
         'country_id',
-        'title',
+        'status',
+        'state',
+        'slug',
     ];
 
     /**
@@ -38,7 +39,7 @@ class State extends Model
      * Countries.
     */
     public function country() {
-        return $this->hasMany(Country::class, 'country_id');
+        return $this->belongsTo(Country::class, 'country_id');
     }
 
 }

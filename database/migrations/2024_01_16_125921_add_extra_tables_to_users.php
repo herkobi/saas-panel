@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->integer('status')->after('id');
+            $table->string('surname')->after('name');
             $table->timestamp('last_login_at')->nullable()->after('password');
             $table->string('last_login_ip')->nullable()->after('password');
         });

@@ -20,6 +20,8 @@ class Country extends Model
     protected $fillable = [
         'status',
         'title',
+        'slug',
+        'code'
     ];
 
     /**
@@ -37,7 +39,7 @@ class Country extends Model
      * States.
     */
     public function states() {
-        return $this->belongsTo(State::class, 'country_id');
+        return $this->hasMany(State::class, 'country_id');
     }
 
 }

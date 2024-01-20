@@ -26,7 +26,8 @@ class UserFactory extends Factory
     {
         return [
             'status' => Account::ACTIVE,
-            'name' => 'Standart User',
+            'name' => 'Standart',
+            'surname' => 'User',
             'email' => 'user@user.com',
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
