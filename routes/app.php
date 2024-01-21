@@ -54,6 +54,14 @@ Route::middleware(['guest:web'])->prefix('app')->name('app.')->group(function ()
 
 });
 
+Route::middleware(['auth:web'])->group(function () {
+
+    Route::middleware('throttle:6,1')->controller(EmailVerificationNotificationController::class)->group(function () {
+        Route::post('/email/verification-notification', 'store')->name('verification.send');
+    });
+
+});
+
 Route::middleware(['auth:web'])->prefix('app')->name('app.')->group(function () {
 
     Route::get('/verify-email', EmailVerificationPromptController::class)->name('verification.notice');
@@ -62,17 +70,13 @@ Route::middleware(['auth:web'])->prefix('app')->name('app.')->group(function () 
         Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)->name('verification.verify');
     });
 
-    Route::middleware('throttle:6,1')->controller(EmailVerificationNotificationController::class)->group(function () {
-        Route::post('/email/verification-notification', 'store')->name('verification.send');
-    });
-
     Route::controller(AuthenticatedSessionController::class)->group(function () {
         Route::post('/logout', 'destroy')->name('logout');
     });
 
 });
 
-Route::middleware(['auth:web', 'auth.session', 'verified'])->prefix('app')->name('app.')->group(function () {
+Route::middleware(['auth:web', 'auth.session', 'user.verified'])->prefix('app')->name('app.')->group(function () {
 
     /**
      * Başlangıç

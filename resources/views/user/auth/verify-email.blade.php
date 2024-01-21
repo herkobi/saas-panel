@@ -53,7 +53,7 @@
                     </div>
                     <div class="mt-2 flex items-center justify-start">
                         <div class="me-3">
-                            <form method="POST" action="{{ route('app.verification.send') }}">
+                            <form method="POST" action="{{ route('verification.send') }}">
                                 @csrf
                                 <div>
                                     <x-submit
