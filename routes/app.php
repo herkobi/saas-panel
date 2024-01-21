@@ -67,7 +67,7 @@ Route::middleware(['auth:web'])->prefix('app')->name('app.')->group(function () 
     });
 
     Route::controller(AuthenticatedSessionController::class)->group(function () {
-        Route::post('/logout', 'destroy')->name('app.logout');
+        Route::post('/logout', 'destroy')->name('logout');
     });
 
 });
