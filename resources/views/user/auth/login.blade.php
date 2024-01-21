@@ -5,11 +5,9 @@
                 <img src="{{ asset('herkobi.png') }}" alt="Herkobi" class="h-auto max-w-[45%] mb-12">
                 <h1
                     class="text-xl text-gray-800 font-bold md:text-4xl md:leading-tight lg:text-4xl lg:leading-tight dark:text-gray-200">
-                    Solving problems for every <span class="text-blue-600 dark:text-blue-500">team</span>
-                </h1>
+                    {!! __('user/auth/login.form.title') !!}</h1>
                 <p class="mt-3 text-base text-gray-500 mb-6">
-                    Built on standard web technology, teams use Preline to build beautiful cross-platform hybrid apps in
-                    a fraction of the time.
+                    {{ __('user/auth/login.form.text') }}
                 </p>
                 <form accept="{{ route('app.login.store') }}" method="POST">
                     @csrf
@@ -18,19 +16,9 @@
                             <x-label for="email" class="block text-sm mb-2 dark:text-white"
                                 :value="__('user/auth/login.form.email')"></x-label>
                             <div class="relative">
-                                <input type="email" id="email" name="email"
-                                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
-                                    required aria-describedby="email-error">
-                                <div class="hidden absolute inset-y-0 end-0 flex items-center pointer-events-none pe-3">
-                                    <svg class="h-5 w-5 text-red-500" width="16" height="16" fill="currentColor"
-                                        viewBox="0 0 16 16" aria-hidden="true">
-                                        <path
-                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-                                    </svg>
-                                </div>
+                                <x-input type="email" id="email" name="email" :value="old('email')" />
                             </div>
-                            <p class="hidden text-xs text-red-600 mt-2" id="email-error">Please include a valid email
-                                address so we can get back to you</p>
+                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         </div>
                         <div>
                             <div class="flex justify-between items-center">
@@ -40,27 +28,16 @@
                                     href="{{ route('app.forgot.password') }}">{{ __('user/auth/login.form.forgot.password') }}</a>
                             </div>
                             <div class="relative">
-                                <input type="password" id="password" name="password"
-                                    class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
-                                    required aria-describedby="password-error">
-                                <div class="hidden absolute inset-y-0 end-0 flex items-center pointer-events-none pe-3">
-                                    <svg class="h-5 w-5 text-red-500" width="16" height="16" fill="currentColor"
-                                        viewBox="0 0 16 16" aria-hidden="true">
-                                        <path
-                                            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-                                    </svg>
-                                </div>
+                                <x-input type="password" id="password" name="password" />
                             </div>
-                            <p class="hidden text-xs text-red-600 mt-2" id="password-error">8+ characters required</p>
+                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
                         </div>
                         <div class="flex items-center">
                             <div class="flex">
-                                <input id="remember-me" name="remember-me" type="checkbox"
-                                    class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800">
+                                <x-checkbox id="remember-me" name="remember-me" type="checkbox" />
                             </div>
-                            <div class="ms-3">
-                                <x-label for="remember-me" class="text-sm mb-0 dark:text-white"
-                                    :value="__('user/auth/login.form.remember.me')"></x-label>
+                            <div class="ms-2">
+                                <x-label for="remember-me" class="text-sm dark:text-white" :value="__('user/auth/login.form.remember.me')"></x-label>
                             </div>
                         </div>
                         <x-submit
