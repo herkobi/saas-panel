@@ -34,7 +34,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/app', '/app/login');
 
-Route::middleware(['guest:web'])->group(function () {
+Route::middleware(['guest:web'])->prefix('app')->name('app.')->group(function () {
 
     Route::controller(AuthenticatedSessionController::class)->group(function () {
         Route::get('/login', 'create')->name('login');
@@ -58,7 +58,7 @@ Route::middleware(['guest:web'])->group(function () {
 
 });
 
-Route::middleware(['auth:web'])->group(function () {
+Route::middleware(['auth:web'])->prefix('app')->name('app.')->group(function () {
 
     Route::get('/verify-email', EmailVerificationPromptController::class)->name('verification.notice');
 
@@ -76,7 +76,7 @@ Route::middleware(['auth:web'])->group(function () {
 
 });
 
-Route::middleware(['auth:web', 'auth.session', 'verified'])->group(function () {
+Route::middleware(['auth:web', 'auth.session', 'verified'])->prefix('app')->name('app.')->group(function () {
 
     /**
      * Başlangıç
