@@ -1,4 +1,4 @@
-<footer class="w-full mx-auto py-4">
+<footer class="w-full max-w-7xl mx-auto py-4 px-4">
     <div class="pt-5 mt-5 border-t border-gray-200 dark:border-gray-700">
         <div class="sm:flex sm:justify-between sm:items-center">
             <div class="flex items-center gap-x-3">
