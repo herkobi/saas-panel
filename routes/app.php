@@ -17,10 +17,6 @@ use App\Http\Controllers\User\Profile\{
 };
 use Illuminate\Support\Facades\Route;
 
-/**
- * Örnek Uygulama
- */
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
