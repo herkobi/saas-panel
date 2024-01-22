@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
-class AdminVerifyEmail extends BaseEnsureEmailIsVerified
+class AdminEmailVerified extends BaseEnsureEmailIsVerified
 {
 /**
      * Handle an incoming request.

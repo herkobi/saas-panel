@@ -11,7 +11,7 @@ use App\Http\Controllers\Admin\Auth\{
     VerifyEmailController
 };
 use App\Http\Controllers\Admin\Accounts\{
-    AccountsController,
+    AccountController,
 };
 use App\Http\Controllers\Admin\Gateways\{
     GatewayController,
@@ -19,14 +19,13 @@ use App\Http\Controllers\Admin\Gateways\{
     PaytrController,
 };
 use App\Http\Controllers\Admin\Users\{
-    AuthLogsController,
-    UsersController,
+    UserController,
 };
 use App\Http\Controllers\Admin\Settings\{
     CurrencyController,
-    PagesController,
-    PaymentsController,
-    SettingsController,
+    PageController,
+    PaymentController,
+    SettingController,
 };
 use App\Http\Controllers\Admin\Profile\{
     ProfileController,
@@ -97,12 +96,12 @@ Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('pan
     /**
      * Hesap Yönetimi
      */
-    Route::controller(AccountsController::class)->group(function() {
+    Route::controller(AccountController::class)->group(function() {
 
         /**
          * Hesaplar
          */
-        Route::get('/accounts', 'index')->name('accounts.list');
+        Route::get('/accounts', 'index')->name('accounts');
         Route::get('/account/detail/plan/{user}', 'plan')->name('account.plan.detail');
         Route::get('/account/detail/order/{user}', 'order')->name('account.order.detail');
         Route::get('/account/detail/activity/{user}', 'activity')->name('account.activity.detail');
@@ -116,7 +115,7 @@ Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('pan
         /**
          * Sistem Kullanıcıları
          */
-        Route::controller(UsersController::class)->group(function(){
+        Route::controller(UserController::class)->group(function(){
             Route::get('/list', 'index')->name('list');
             Route::get('/create', 'create')->name('create');
             Route::post('/create/store', 'store')->name('create.store');
@@ -171,7 +170,7 @@ Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('pan
         /**
          * Genel Ayarlar
          */
-        Route::controller(SettingsController::class)->group(function(){
+        Route::controller(SettingController::class)->group(function(){
             Route::get('/general', 'index')->name('general');
             Route::post('/general/update', 'update')->name('general.update');
         });
@@ -190,7 +189,7 @@ Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('pan
         /**
          * Ödeme Sistemleri
          */
-        Route::controller(PaymentsController::class)->group(function(){
+        Route::controller(PaymentController::class)->group(function(){
             Route::get('/payments', 'index')->name('payments');
             Route::get('/payment/edit/{payment}', 'edit')->name('payment.edit');
             Route::post('/payment/update/{payment}', 'update')->name('payment.update');
@@ -202,7 +201,7 @@ Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('pan
         /**
          * Sözleşmeler
          */
-        Route::controller(PagesController::class)->group(function(){
+        Route::controller(PageController::class)->group(function(){
             Route::get('/pages', 'index')->name('page');
             Route::get('/page/create', 'create')->name('page.create');
             Route::post('/page/create/store', 'store')->name('page.create.store');

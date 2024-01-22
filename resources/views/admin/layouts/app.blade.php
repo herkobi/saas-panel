@@ -16,14 +16,14 @@
     @vite(['resources/css/panel.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased bg-white flex flex-col min-h-screen">
-    <div class="flex-grow">
-        @include('admin.layouts.header')
-        <main id="content" role="main">
-            @include('admin.layouts.navigation')
+<body class="font-sans antialiased">
+    @include('admin.layouts.header')
+    <main id="content" role="main">
+        @include('admin.layouts.navigation')
+        <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 min-h-[27.5rem]">
             {{ $slot }}
-        </main>
-    </div>
+        </div>
+    </main>
     @include('admin.layouts.footer')
 </body>
 
