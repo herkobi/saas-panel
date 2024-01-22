@@ -2,15 +2,15 @@
 
 namespace App\Models\Admin;
 
-//use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use App\Enums\Admin as AdminStatus;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Notifications\AdminResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Admin extends Authenticatable
+class Admin extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -67,5 +67,10 @@ class Admin extends Authenticatable
         'last_login_at' => 'datetime',
         'status' => AdminStatus::class,
     ];
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new AdminResetPasswordNotification($token));
+    }
 
 }

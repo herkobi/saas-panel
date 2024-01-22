@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\AdminVerifyEmail;
 use App\Models\Admin\Setting;
+use App\Notifications\UserVerifyEmail;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +23,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        /**
+         * E-mail Verification
+         */
+        VerifyEmail::toMailUsing(function ($notifiable, $url) {
+            if ($notifiable->guard == 'web') { // Örnek olarak 'web' guard kontrolü
+                return (new UserVerifyEmail)->toMail($notifiable, $url);
+            } else {
+                // Diğer guard için özel bildirim sınıfını belirle
+                return (new AdminVerifyEmail)->toMail($notifiable, $url);
+            }
+        });
+
         /**
          * Settings tablosundaki değerlere direk erişmeyi sağlıyor.
          * Kullanımı config('panel.userrole')
