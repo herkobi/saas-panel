@@ -2,35 +2,36 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Auth\Notifications\VerifyEmail;
+use Closure;
+use Illuminate\Auth\Middleware\EnsureEmailIsVerified as BaseEnsureEmailIsVerified;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 
-class AdminVerifyEmail extends VerifyEmail
+class AdminVerifyEmail extends BaseEnsureEmailIsVerified
 {
 /**
-     * Get the verification URL for the given notifiable.
+     * Handle an incoming request.
      *
-     * @param  mixed  $notifiable
-     * @return string
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string|null  $redirectToRoute
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse|null
      */
-    protected function verificationUrl($notifiable)
+    public function handle($request, Closure $next, $redirectToRoute = null)
     {
-        // Özel bir URL oluşturma mantığını burada uygulayabilirsiniz
-        // Örneğin, URL'ye özel parametreler ekleyebilir veya farklı bir URL oluşturabilirsiniz
+        // İstediğiniz özel rotayı burada belirtin
+        $customRoute = 'panel.verification.notice';
 
-        // Eğer bir özel URL oluşturma callback'i tanımladıysanız, onu kullanın
-        if (static::$createUrlCallback) {
-            return call_user_func(static::$createUrlCallback, $notifiable);
+        if (! $request->user() ||
+            ($request->user() instanceof MustVerifyEmail &&
+            ! $request->user()->hasVerifiedEmail())) {
+            return $request->expectsJson()
+                ? abort(403, 'Your email address is not verified.')
+                : Redirect::guest(URL::route($redirectToRoute ?: $customRoute));
         }
 
-        // Özel URL mantığını buraya ekleyin
-        return URL::temporarySignedRoute(
-            'panel.verification.verify', // Özel bir rotayı kullanabilirsiniz
-            now()->addMinutes(config('auth.verification.expire', 60)),
-            [
-                'id' => $notifiable->getKey(),
-                'hash' => sha1($notifiable->getEmailForVerification()),
-            ]
-        );
+        return $next($request);
     }
+
 }

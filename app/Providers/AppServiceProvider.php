@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Http\Middleware\AdminVerifyEmail;
+use App\Notifications\AdminVerifyEmail;
 use App\Models\Admin\Setting;
 use App\Notifications\UserVerifyEmail;
 use Illuminate\Auth\Notifications\VerifyEmail;

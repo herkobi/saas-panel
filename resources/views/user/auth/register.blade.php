@@ -261,7 +261,7 @@
                                                 </button>
                                                 <label for="hs-hero-signup-form-floating-input-current-password"
                                                     class="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent dark:text-white peer-disabled:opacity-50 peer-disabled:pointer-events-none peer-focus:text-xs peer-focus:-translate-y-1.5 peer-focus:text-gray-500 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:-translate-y-1.5 peer-[:not(:placeholder-shown)]:text-gray-500">{{ __('user/auth/register.form.password.again') }}</label>
-                                                <x-input-error :messages="$errors->get('confirm_password')" class="mt-2" />
+                                                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                                             </div>
                                         </div>
                                     </div>
@@ -279,8 +279,8 @@
                                         <x-input-error :messages="$errors->get('accepted_terms')" class="mt-2" />
                                     </div>
                                     <div class="mt-5">
-                                        <button type="submit"
-                                            class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">{{ __('user/auth/register.form.submit') }}</button>
+                                        <x-submit
+                                            class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">{{ __('user/auth/register.form.submit') }}</x-submit>
                                     </div>
                                 </div>
                             </div>

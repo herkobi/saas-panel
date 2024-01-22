@@ -54,6 +54,14 @@ Route::middleware(['guest:web'])->prefix('app')->name('app.')->group(function ()
 
 });
 
+Route::middleware(['auth:web'])->group(function () {
+
+    Route::middleware(['signed', 'throttle:6,1'])->group(function () {
+        Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)->name('verification.verify');
+    });
+
+});
+
 Route::middleware(['auth:web'])->prefix('app')->name('app.')->group(function () {
 
     Route::get('/verify-email', EmailVerificationPromptController::class)->name('verification.notice');

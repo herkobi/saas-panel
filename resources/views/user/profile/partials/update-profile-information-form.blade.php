@@ -8,7 +8,7 @@
         </p>
     </div>
     <div class="mb-4">
-        <form id="send-verification" method="post" action="{{ route('verification.send') }}">
+        <form id="send-verification" method="post" action="{{ route('app.verification.send') }}">
             @csrf
         </form>
     </div>
