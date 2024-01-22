@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-trait Tenantable
+trait Owner
 {
     protected static function bootTenantable(): void
     {

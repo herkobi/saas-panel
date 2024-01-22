@@ -29,9 +29,9 @@ class ProfileController extends Controller
     {
         $request->user()->fill($request->validated());
 
-        // if ($request->user()->isDirty('email')) {
-        //     $request->user()->email_verified_at = null;
-        // }
+        if ($request->user()->isDirty('email')) {
+            $request->user()->email_verified_at = null;
+        }
 
         $request->user()->save();
 
@@ -56,6 +56,6 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/panel');
+        return Redirect::to('/panel/login');
     }
 }

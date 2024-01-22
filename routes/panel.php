@@ -76,9 +76,16 @@ Route::middleware(['auth:admin'])->prefix('panel')->name('panel.')->group(functi
     Route::middleware('throttle:6,1')->controller(EmailVerificationNotificationController::class)->group(function () {
         Route::post('/email/verification-notification', 'store')->name('verification.send');
     });
+
+    /**
+     * Oturumu Kapat
+     */
+    Route::controller(AuthenticatedSessionController::class)->group(function () {
+        Route::post('/logout', 'destroy')->name('logout');
+    });
 });
 
-Route::middleware(['auth:admin', 'auth.session', 'verified'])->prefix('panel')->name('panel.')->group(function () {
+Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('panel')->name('panel.')->group(function () {
 
     /**
      * Başlangıç
@@ -119,12 +126,6 @@ Route::middleware(['auth:admin', 'auth.session', 'verified'])->prefix('panel')->
             Route::get('/detail/auth/{admin}', 'auth')->name('auth.detail');
         });
 
-        /**
-         * Oturum Kayıtları
-         */
-        Route::controller(AuthLogsController::class)->group(function(){
-            Route::get('/auth-logs', 'index')->name('auth.logs');
-        });
     });
 
     /**
@@ -233,13 +234,6 @@ Route::middleware(['auth:admin', 'auth.session', 'verified'])->prefix('panel')->
      */
     Route::controller(PasswordController::class)->group(function () {
         Route::put('/password', 'update')->name('password.update');
-    });
-
-    /**
-     * Oturumu Kapat
-     */
-    Route::controller(AuthenticatedSessionController::class)->group(function () {
-        Route::post('/logout', 'destroy')->name('logout');
     });
 
 });
