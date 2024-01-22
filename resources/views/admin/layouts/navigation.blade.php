@@ -53,7 +53,7 @@
         <div class="snap-center shrink-0">
             <div class="relative">
                 <a class="flex items-center gap-x-2 py-2 px-3 text-sm text-slate-700 font-medium me-1 hover:bg-gray-100 hover:rounded-lg"
-                    href="{{ route('panel.orders') }}">
+                    href="#">
                     <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="lucide lucide-wallet">
@@ -68,7 +68,7 @@
         <div class="snap-center shrink-0">
             <div class="relative">
                 <a class="flex items-center gap-x-2 py-2 px-3 text-sm text-slate-700 font-medium me-1 hover:bg-gray-100 hover:rounded-lg"
-                    href="{{ route('panel.users') }}">
+                    href="#">
                     <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="lucide lucide-user-round-check">
@@ -83,7 +83,7 @@
         <div class="snap-center shrink-0">
             <div class="relative">
                 <a class="flex items-center gap-x-2 py-2 px-3 text-sm text-slate-700 font-medium hover:bg-gray-100 hover:rounded-lg"
-                    href="{{ route('panel.settings') }}">
+                    href="#">
                     <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="lucide lucide-settings">
