@@ -8,6 +8,12 @@ Herkobi SaaS Panel, ücretsiz ve açık kaynak olarak sunulmaktadır ve özellik
 
 Herkobi SaaS Panel, PHP dilinde ve Laravel Framework kullanılarak Herkobi A.Ş. tarafından geliştirilmekte ve MIT lisansı ile sunulmaktadır.
 
+### Kullanılan Teknolojiler
+- [Laravel Framework](https://www.laravel.com)
+- [Laravel Breeze](https://github.com/laravel/breeze)
+- [Tailwind CSS](https://tailwindcss.com)
+- [Preline UI Kit](https://preline.co)
+
 ## Herkobi SaaS Panel (EN)
 
 Herkobi SaaS Panel provides a ready-made infrastructure for individuals and companies looking to develop SaaS applications, focusing on customer and package management.
@@ -18,6 +24,12 @@ Offered as both free and open-source, Herkobi SaaS Panel particularly accelerate
 
 Herkobi SaaS Panel is being developed by Herkobi Inc. using the PHP language and Laravel Framework, and it is distributed under the MIT license.
 
+### Used Technologies
+- [Laravel Framework](https://www.laravel.com)
+- [Laravel Breeze](https://github.com/laravel/breeze)
+- [Tailwind CSS](https://tailwindcss.com)
+- [Preline UI Kit](https://preline.co)
+
 ## Herkobi SaaS Panel (DE)
 
 Herkobi SaaS Panel bietet eine vorgefertigte Infrastruktur für Einzelpersonen und Unternehmen, die SaaS-Anwendungen entwickeln möchten, mit Fokus auf Kunden- und Paketmanagement.
@@ -27,3 +39,9 @@ Um Ihnen dabei zu helfen, Ihre Motivation ausschließlich auf die Softwareentwic
 Als kostenloses und Open-Source-Tool beschleunigt Herkobi SaaS Panel insbesondere die Entwicklung von Micro-SaaS-Anwendungen. Das System kann mit Funktionen wie dem Hinzufügen von Subdomains, dem Erstellen von benutzerdefinierten Paketen basierend auf Benutzerpräferenzen und benutzerspezifischen Optionen für Zeitzonen und Sprachauswahl erweitert werden.
 
 Herkobi SaaS Panel wird von Herkobi A.Ş. unter Verwendung der Programmiersprache PHP und des Laravel Frameworks entwickelt und unter der MIT-Lizenz verteilt.
+
+### Verwendete Technologien
+- [Laravel Framework](https://www.laravel.com)
+- [Laravel Breeze](https://github.com/laravel/breeze)
+- [Tailwind CSS](https://tailwindcss.com)
+- [Preline UI Kit](https://preline.co)
