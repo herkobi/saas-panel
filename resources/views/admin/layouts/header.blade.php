@@ -3,7 +3,7 @@
     <nav class="max-w-7xl flex basis-full items-center w-full mx-auto px-4 sm:px-6 lg:px-8" aria-label="Global">
         <div class="me-5 md:me-8">
             <a class="flex-none text-xl font-semibold text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                href="#" aria-label="Brand">Brand</a>
+                href="{{ route('panel.dashboard') }}" aria-label="Herkobi">Herkobi</a>
         </div>
         <div class="w-full flex items-center justify-end ms-auto sm:justify-between sm:gap-x-3 sm:order-3">
             <div class="sm:hidden">
