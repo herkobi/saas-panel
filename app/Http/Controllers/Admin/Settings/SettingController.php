@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin\Settings;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Settings\SettingsUpdateRequest;
-use App\Models\Admin\Settings;
+use App\Http\Requests\Admin\Settings\Settings\SettingsUpdateRequest;
+use App\Models\Admin\Setting;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -15,7 +15,7 @@ class SettingController extends Controller
 {
     public function index(): View
     {
-        $settings = Settings::pluck('value', 'key')->toArray();
+        $settings = Setting::pluck('value', 'key')->toArray();
         return view('admin.settings.settings.index', [
             'settings' => $settings
         ]);
@@ -49,7 +49,7 @@ class SettingController extends Controller
 
         $value = json_encode($data);
 
-        Settings::firstWhere('key', 'settings')->update([
+        Setting::firstWhere('key', 'settings')->update([
             'value' => $value
         ]);
 

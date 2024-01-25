@@ -15,15 +15,15 @@ class PageController extends Controller
 {
     public function index(): View
     {
-        $contracts = Page::all();
-        return view('admin.settings.contracts.index', [
-            'contracts' => $contracts
+        $page = Page::all();
+        return view('admin.settings.pages.index', [
+            'page' => $page
         ]);
     }
 
     public function create(): View
     {
-        return view('admin.settings.contracts.create');
+        return view('admin.settings.pages.create');
     }
 
     public function store(ContractCreateRequest $request): RedirectResponse
@@ -34,12 +34,12 @@ class PageController extends Controller
             'text' => $request->text
         ]);
 
-        return Redirect::route('panel.settings.contracts')->with('success', __('admin/settings/contract.store.success'));
+        return Redirect::route('panel.settings.page')->with('success', __('admin/settings/contract.store.success'));
     }
 
     public function edit(Contract $contract): View
     {
-        return view('admin.settings.contracts.edit', [
+        return view('admin.settings.pages.edit', [
             'contract' => $contract
         ]);
     }
@@ -52,7 +52,7 @@ class PageController extends Controller
         $contract->text = $request->text;
         $contract->save();
 
-        return Redirect::route('panel.settings.contracts')->with('success', __('admin/settings/contract.update.success'));
+        return Redirect::route('panel.settings.page')->with('success', __('admin/settings/contract.update.success'));
 
     }
 }

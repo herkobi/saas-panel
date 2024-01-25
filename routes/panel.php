@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\Users\{
 };
 use App\Http\Controllers\Admin\Settings\{
     CurrencyController,
+    LocationController,
     PageController,
     PaymentController,
     SettingController,
@@ -176,6 +177,17 @@ Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('pan
         });
 
         /**
+         * Bölgeler
+         */
+        Route::controller(LocationController::class)->group(function(){
+            Route::get('/locations', 'index')->name('locations');
+            Route::get('/location/create', 'create')->name('location.create');
+            Route::post('/location/create/store', 'store')->name('location.create.store');
+            Route::get('/location/edit/{location}', 'edit')->name('location.edit');
+            Route::post('/location/update/{location}', 'update')->name('location.update');
+        });
+
+        /**
          * Para Birimleri
          */
         Route::controller(CurrencyController::class)->group(function(){
@@ -202,7 +214,7 @@ Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('pan
          * Sözleşmeler
          */
         Route::controller(PageController::class)->group(function(){
-            Route::get('/pages', 'index')->name('page');
+            Route::get('/pages', 'index')->name('pages');
             Route::get('/page/create', 'create')->name('page.create');
             Route::post('/page/create/store', 'store')->name('page.create.store');
             Route::get('/page/edit/{page}', 'edit')->name('page.edit');

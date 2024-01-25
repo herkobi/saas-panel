@@ -16,15 +16,15 @@ class LocationController extends Controller
 
     public function index(): View
     {
-        $currencies = Currency::all();
-        return view('admin.settings.currencies.index', [
-            'currencies' => $currencies
+        $locations = Currency::all();
+        return view('admin.settings.locations.index', [
+            'locations' => $locations
         ]);
     }
 
     public function create(): View
     {
-        return view('admin.settings.currencies.create');
+        return view('admin.settings.locations.create');
     }
 
     public function store(CurrencyCreateRequest $request): RedirectResponse
@@ -36,12 +36,12 @@ class LocationController extends Controller
             'code' => $request->code
         ]);
 
-        return Redirect::route('panel.settings.currencies')->with('success', __('admin/settings/currencies.store.success'));
+        return Redirect::route('panel.settings.locations')->with('success', __('admin/settings/locations.store.success'));
     }
 
     public function edit(Currency $currency): View
     {
-        return view('admin.settings.currencies.edit', [
+        return view('admin.settings.locations.edit', [
             'currency' => $currency
         ]);
     }
@@ -55,7 +55,7 @@ class LocationController extends Controller
         $currency->code = $request->code;
         $currency->save();
 
-        return Redirect::route('panel.settings.currencies')->with('success', __('admin/settings/currencies.update.success'));
+        return Redirect::route('panel.settings.locations')->with('success', __('admin/settings/locations.update.success'));
 
     }
 }
