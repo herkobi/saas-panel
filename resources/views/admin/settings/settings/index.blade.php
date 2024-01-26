@@ -20,9 +20,23 @@
                             <div class="md:col-span-6">
                                 <x-label for="title" class="block font-medium text-sm text-gray-700"
                                     :value="__('admin/settings/general.form.title')" />
-                                <x-input type="text" name="title" id="title"
-                                    class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 mt-1 block w-full"
-                                    placeholder="{{ __('admin/settings/general.form.title') }}" :value="config('panel.title')" />
+                                <div class="relative">
+                                    <div
+                                        class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4">
+                                        <svg class="flex-shrink-0 h-4 w-4 text-gray-600"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-type">
+                                            <polyline points="4 7 4 4 20 4 20 7" />
+                                            <line x1="9" x2="15" y1="20" y2="20" />
+                                            <line x1="12" x2="12" y1="4" y2="20" />
+                                        </svg>
+                                    </div>
+                                    <x-input type="text" id="title" name="title"
+                                        class="py-2 px-4 ps-11 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+                                        placeholder="{{ __('admin/settings/general.form.title') }}" :value="config('panel.title')"
+                                        required autocomplete="title" />
+                                </div>
                                 <x-input-error :messages="$errors->get('title')" class="mt-2" />
                             </div>
                             <div class="md:col-span-6 mt-4">
@@ -34,12 +48,11 @@
                                         <svg class="flex-shrink-0 h-4 w-4 text-gray-600"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="lucide lucide-mail-plus">
-                                            <path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h8" />
-                                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-                                            <path d="M19 16v6" />
-                                            <path d="M16 19h6" />
+                                            stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-quote">
+                                            <path
+                                                d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+                                            <path
+                                                d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                         </svg>
                                     </div>
                                     <x-input type="text" id="slogan" name="slogan"
@@ -85,7 +98,8 @@
                                 <x-input-error :messages="$errors->get('favicon')" class="mt-2" />
                             </div>
                             <div class="mt-4">
-                                <x-submit>
+                                <x-submit
+                                    class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
                                     {{ __('admin/settings/general.form.submit') }}
                                 </x-submit>
                             </div>

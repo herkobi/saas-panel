@@ -27,4 +27,6 @@ return [
     'favicon.image' => 'Lütfen resim seçiniz',
     'favicon.max' => 'En fazla 1MB\'lık resim yükleyiniz',
     'favicon.mimes' => 'Uygun formatta resim seçiniz',
+
+    'update.success' => 'Ayarlar güncellendi',
 ];
