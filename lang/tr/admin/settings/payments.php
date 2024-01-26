@@ -7,7 +7,9 @@ return [
 
     'add.button' => 'Yeni Ekle',
     'table.status' => 'Durum',
-    'table.payment' => 'Ödeme Sistemi',
+    'table.payment' => 'Ödeme Yöntemi',
     'table.edit' => 'Düzenle',
     'table.detail' => 'Bilgiler',
+
+    'create.page.title' => 'Yeni Ödeme Yöntemi',
 ];

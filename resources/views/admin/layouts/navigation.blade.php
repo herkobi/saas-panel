@@ -1,10 +1,10 @@
-<nav class="sticky -top-px bg-white font-medium text-black ring-1 ring-gray-900 ring-opacity-5 shadow-sm shadow-gray-100 pt-4 pb-4 -mt-px dark:bg-slate-900 dark:border-gray-800 dark:shadow-slate-700/[.7]"
+<nav class="sticky -top-px bg-white font-medium text-black ring-1 ring-gray-900 ring-opacity-5 shadow-sm shadow-gray-100 pt-3 pb-3 -mt-px dark:bg-slate-900 dark:border-gray-800 dark:shadow-slate-700/[.7]"
     aria-label="Jump links">
     <div
         class="max-w-7xl snap-x w-full flex items-center overflow-x-auto px-4 sm:px-6 lg:px-8 pb-4 md:pb-0 mx-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-slate-900">
         <div class="snap-center shrink-0">
             <div class="relative">
-                <a class="flex items-center gap-x-2 py-2 px-3 text-slate-700 font-medium me-1 hover:bg-gray-100 hover:rounded-lg {{ request()->routeIs('panel.dashboard') ? 'bg-gray-100 rounded-lg' : '' }}"
+                <a class="flex items-center gap-x-2 py-1.5 px-2.5 text-slate-700 font-medium me-1 hover:bg-gray-100 hover:rounded-lg {{ request()->routeIs('panel.dashboard') ? 'bg-gray-100 rounded-lg' : '' }}"
                     href="{{ route('panel.dashboard') }}">
                     <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -18,7 +18,7 @@
         </div>
         <div class="snap-center shrink-0">
             <div class="relative">
-                <a class="flex items-center gap-x-2 py-2 px-3 text-slate-700 font-medium me-1 hover:bg-gray-100 hover:rounded-lg"
+                <a class="flex items-center gap-x-2 py-1.5 px-2.5 text-slate-700 font-medium me-1 hover:bg-gray-100 hover:rounded-lg"
                     href="{{ route('panel.accounts') }}">
                     <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -34,7 +34,7 @@
         </div>
         <div class="snap-center shrink-0">
             <div class="relative">
-                <a class="flex items-center gap-x-2 py-2 px-3 text-slate-700 font-medium me-1 hover:bg-gray-100 hover:rounded-lg"
+                <a class="flex items-center gap-x-2 py-1.5 px-2.5 text-slate-700 font-medium me-1 hover:bg-gray-100 hover:rounded-lg"
                     href="#">
                     <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -52,7 +52,7 @@
         </div>
         <div class="snap-center shrink-0">
             <div class="relative">
-                <a class="flex items-center gap-x-2 py-2 px-3 text-slate-700 font-medium me-1 hover:bg-gray-100 hover:rounded-lg"
+                <a class="flex items-center gap-x-2 py-1.5 px-2.5 text-slate-700 font-medium me-1 hover:bg-gray-100 hover:rounded-lg"
                     href="#">
                     <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -67,7 +67,7 @@
         </div>
         <div class="snap-center shrink-0">
             <div class="relative">
-                <a class="flex items-center gap-x-2 py-2 px-3 text-slate-700 font-medium me-1 hover:bg-gray-100 hover:rounded-lg"
+                <a class="flex items-center gap-x-2 py-1.5 px-2.5 text-slate-700 font-medium me-1 hover:bg-gray-100 hover:rounded-lg"
                     href="#">
                     <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -82,7 +82,7 @@
         </div>
         <div class="snap-center shrink-0">
             <div class="relative">
-                <a class="flex items-center gap-x-2 py-2 px-3 text-slate-700 font-medium hover:bg-gray-100 hover:rounded-lg {{ request()->routeIs('panel.settings.*') ? 'bg-gray-100 rounded-lg' : '' }}"
+                <a class="flex items-center gap-x-2 py-1.5 px-2.5 text-slate-700 font-medium hover:bg-gray-100 hover:rounded-lg {{ request()->routeIs('panel.settings.*') ? 'bg-gray-100 rounded-lg' : '' }}"
                     href="{{ route('panel.settings.general') }}">
                     <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
