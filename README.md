@@ -9,10 +9,12 @@ Herkobi SaaS Panel, ücretsiz ve açık kaynak olarak sunulmaktadır ve özellik
 Herkobi SaaS Panel, PHP dilinde ve Laravel Framework kullanılarak Herkobi A.Ş. tarafından geliştirilmekte ve MIT lisansı ile sunulmaktadır.
 
 ### Kullanılan Teknolojiler
-- [Laravel Framework](https://www.laravel.com)
-- [Laravel Breeze](https://github.com/laravel/breeze)
-- [Tailwind CSS](https://tailwindcss.com)
-- [Preline UI Kit](https://preline.co)
+
+-   [Laravel Framework](https://www.laravel.com)
+-   [Laravel Breeze](https://github.com/laravel/breeze)
+-   [Tailwind CSS](https://tailwindcss.com)
+-   [Preline UI Kit](https://preline.co)
+-   [Lucide Icons](https://lucide.dev/)
 
 ## Herkobi SaaS Panel (EN)
 
@@ -25,10 +27,12 @@ Offered as both free and open-source, Herkobi SaaS Panel particularly accelerate
 Herkobi SaaS Panel is being developed by Herkobi Inc. using the PHP language and Laravel Framework, and it is distributed under the MIT license.
 
 ### Used Technologies
-- [Laravel Framework](https://www.laravel.com)
-- [Laravel Breeze](https://github.com/laravel/breeze)
-- [Tailwind CSS](https://tailwindcss.com)
-- [Preline UI Kit](https://preline.co)
+
+-   [Laravel Framework](https://www.laravel.com)
+-   [Laravel Breeze](https://github.com/laravel/breeze)
+-   [Tailwind CSS](https://tailwindcss.com)
+-   [Preline UI Kit](https://preline.co)
+-   [Lucide Icons](https://lucide.dev/)
 
 ## Herkobi SaaS Panel (DE)
 
@@ -41,7 +45,9 @@ Als kostenloses und Open-Source-Tool beschleunigt Herkobi SaaS Panel insbesonder
 Herkobi SaaS Panel wird von Herkobi A.Ş. unter Verwendung der Programmiersprache PHP und des Laravel Frameworks entwickelt und unter der MIT-Lizenz verteilt.
 
 ### Verwendete Technologien
-- [Laravel Framework](https://www.laravel.com)
-- [Laravel Breeze](https://github.com/laravel/breeze)
-- [Tailwind CSS](https://tailwindcss.com)
-- [Preline UI Kit](https://preline.co)
+
+-   [Laravel Framework](https://www.laravel.com)
+-   [Laravel Breeze](https://github.com/laravel/breeze)
+-   [Tailwind CSS](https://tailwindcss.com)
+-   [Preline UI Kit](https://preline.co)
+-   [Lucide Icons](https://lucide.dev/)

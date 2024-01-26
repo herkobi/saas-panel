@@ -54,13 +54,13 @@
                             <path d="M16 19h6" />
                         </svg>
                     </div>
-                    <input type="email" id="af-account-email" name="email"
+                    <x-input type="email" id="af-account-email" name="email"
                         class="py-2 px-4 ps-11 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
                         placeholder="{{ __('user/profile/profile.profile.form.email') }}"
-                        value="{{ old('email', $user->email) }}" required autocomplete="email">
+                        value="{{ old('email', $user->email) }}" required autocomplete="email" />
                 </div>
                 <x-input-error class="mt-2" :messages="$errors->get('email')" />
-                    
+
                 @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
                     <div class="mt-3 mb-3">
                         <p class="text-sm mt-2 text-gray-800">
