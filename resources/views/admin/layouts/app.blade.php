@@ -44,9 +44,6 @@
         </div>
     @endif
 
-    @if (Session::has('error'))
-    @endif
-
     @include('admin.layouts.header')
     <main id="content" role="main">
         @include('admin.layouts.navigation')

@@ -6,6 +6,8 @@ return[
 
     'active' => 'Etkin',
     'passive' => 'Devre Dışı',
+    'ACTIVE' => 'Etkin',
+    'PASSIVE' => 'Devre Dışı',
 
     'results' => 'sonuç',
     'prev' => 'Önceki',

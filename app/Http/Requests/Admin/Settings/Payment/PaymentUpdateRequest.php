@@ -27,7 +27,7 @@ class PaymentUpdateRequest extends FormRequest
         return [
             'status' => ['required', new Enum(Status::class)],
             'title' => ['required', 'string', 'max:255', Rule::unique('payments', 'title')->ignore($this->payment->id, 'id')],
-            'desc' => ['string']
+            'desc' => ['max:255']
         ];
     }
 
@@ -51,13 +51,13 @@ class PaymentUpdateRequest extends FormRequest
              */
             'title.required' => __('admin/settings/payments.title.required'),
             'title.string' => __('admin/settings/payments.title.string'),
-            'title.max:255' => __('admin/settings/payments.title.max'),
+            'title.max:255' => __('admin/settings/payments.title.max255'),
             'title.unique' => __('admin/settings/payments.title.unique'),
 
             /**
              * Desc Messages
              */
-            'desc.string' => __('admin/settings/payments.desc.string'),
+            'desc.max:255' => __('admin/settings/payments.desc.max255'),
         ];
     }
 

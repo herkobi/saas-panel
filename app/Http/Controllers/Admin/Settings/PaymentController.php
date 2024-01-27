@@ -63,9 +63,9 @@ class PaymentController extends Controller
         if($gatewaysCount == 0 && $payment->is_system != 1)
         {
             $payment->delete();
-            return Redirect::route('panel.settings.payments')->with('success', __('admin/settings/payments.payment.delete.success.text'));
+            return Redirect::route('panel.settings.payments')->with('success', __('admin/settings/payments.destroy.success'));
         }
 
-        return Redirect::back()->with('error', __('admin/settings/payments.destroy.confirmation.error.text'));
+        return Redirect::back()->with('error', __('admin/settings/payments.destroy.error'));
     }
 }

@@ -12,7 +12,7 @@
                     <div class="text-gray-900 mb-4">
                         <p class="font-medium text-lg">
                             {{ __('admin/settings/general.app.title') }}</p>
-                        <p class="text-gray-600">{{ __('admin/settings/general.app.text') }}
+                        <p class="text-sm text-gray-600">{{ __('admin/settings/general.app.text') }}
                         </p>
                     </div>
                     <div class="lg:col-span-2">
