@@ -10,10 +10,8 @@
                 @csrf
                 <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                     <div class="text-gray-900 mb-4">
-                        <p class="font-medium text-lg">
-                            {{ __('admin/settings/general.app.title') }}</p>
-                        <p class="text-sm text-gray-600">{{ __('admin/settings/general.app.text') }}
-                        </p>
+                        <p class="font-medium text-lg">{{ __('admin/settings/general.app.title') }}</p>
+                        <p class="text-sm text-gray-600">{{ __('admin/settings/general.app.text') }}</p>
                     </div>
                     <div class="lg:col-span-2">
                         <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-6">
