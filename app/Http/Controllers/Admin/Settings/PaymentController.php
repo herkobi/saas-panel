@@ -9,6 +9,8 @@ use App\Models\Admin\Payment;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Route;
 
 class PaymentController extends Controller
 {
@@ -30,12 +32,19 @@ class PaymentController extends Controller
 
     public function update(PaymentUpdateRequest $request, Payment $payment): RedirectResponse
     {
-        $payment->status = $request->status;
-        $payment->title = $request->title;
-        $payment->desc = $request->desc;
-        $payment->save();
+        if(Route::has('panel.gateways.'. Str::slug($request->title, '-')))
+        {
+            $payment->status = $request->status;
+            $payment->title = $request->title;
+            $payment->code = Str::slug($request->title, '-');
+            $payment->desc = $request->desc;
+            $payment->save();
 
-        return Redirect::route('panel.settings.payments')->with('success', __('admin/settings/payments.update.success'));
+            return Redirect::route('panel.settings.payments')->with('success', __('admin/settings/payments.update.success'));
+        }
+
+        return Redirect::route('panel.settings.payments')->with('error', __('admin/settings/payments.nofile.error'));
+
     }
 
     public function create(): View
@@ -45,14 +54,19 @@ class PaymentController extends Controller
 
     public function store(PaymentCreateRequest $request) : RedirectResponse
     {
-        $payment = Payment::create([
-            'status' => $request->status,
-            'title' => $request->title,
-            'desc' => $request->desc,
-        ]);
+        if(Route::has('panel.gateways.'. Str::slug($request->title, '-')))
+        {
+            $payment = Payment::create([
+                'status' => $request->status,
+                'title' => $request->title,
+                'code' => Str::slug($request->title, '-'),
+                'desc' => $request->desc,
+            ]);
 
-        return Redirect::route('panel.settings.payments')->with('success', __('/admin/settings/payments.store.success'));
+            return Redirect::route('panel.settings.payments')->with('success', __('/admin/settings/payments.store.success'));
+        }
 
+        return Redirect::route('panel.settings.payments')->with('error', __('admin/settings/payments.nofile.error'));
     }
 
     public function destroy(Payment $payment): RedirectResponse

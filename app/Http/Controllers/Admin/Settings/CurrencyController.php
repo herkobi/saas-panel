@@ -58,4 +58,17 @@ class CurrencyController extends Controller
         return Redirect::route('panel.settings.currencies')->with('success', __('admin/settings/currencies.update.success'));
 
     }
+
+    public function destroy(Currency $currency): RedirectResponse
+    {
+
+        $gatewaysCount = $currency->gateways()->count();
+        if($gatewaysCount == 0 )
+        {
+            $currency->delete();
+            return Redirect::route('panel.settings.currencies')->with('success', __('admin/settings/currencies.destroy.success'));
+        }
+
+        return Redirect::back()->with('error', __('admin/settings/currencies.destroy.error'));
+    }
 }

@@ -4,11 +4,11 @@
             @include('admin.settings.partials.navigation')
         </div>
         <div class="col-span-9">
-            <h1 class="mb-8 text-xl	font-medium	border-b pb-2">{{ __('admin/settings/currencies.edit.page.title') }}</h1>
-            <form action="{{ route('panel.settings.currency.create.store') }}" class="form" method="post">
+            <h1 class="mb-8 text-xl	font-medium	border-b pb-2">{{ __('admin/settings/pages.edit.page.title') }}</h1>
+            <form action="{{ route('panel.settings.page.create.store') }}" class="form" method="post">
                 @csrf
                 <div class="mb-4 grid gap-4 grid-cols-12">
-                    <x-label for="status" class="block font-medium text-gray-700 col-span-3" :value="__('admin/settings/currencies.form.status')" />
+                    <x-label for="status" class="block font-medium text-gray-700 col-span-3" :value="__('admin/settings/pages.form.status')" />
                     <div class="col-span-9">
                         <div id="status" class="flex justify-start">
                             @foreach (Status::values() as $key => $value)
@@ -27,7 +27,7 @@
                 </div>
                 <div class="mb-4 grid gap-4 grid-cols-12">
                     <x-label for="title" class="block font-medium text-sm text-gray-700 col-span-3"
-                        :value="__('admin/settings/currencies.form.title')" />
+                        :value="__('admin/settings/pages.form.title')" />
                     <div class="relative col-span-9">
                         <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4">
                             <svg class="flex-shrink-0 h-4 w-4 text-gray-600" xmlns="http://www.w3.org/2000/svg"
@@ -41,59 +41,17 @@
                         </div>
                         <x-input type="text" id="title" name="title"
                             class="py-2 px-4 ps-11 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
-                            placeholder="{{ __('admin/settings/currencies.form.title') }}" :value="old('title')" required
+                            placeholder="{{ __('admin/settings/pages.form.title') }}" :value="old('title')" required
                             autocomplete="title" />
                         <x-input-error :messages="$errors->get('title')" class="mt-2" />
                     </div>
                 </div>
                 <div class="mb-4 grid gap-4 grid-cols-12">
                     <x-label for="desc" class="block font-medium text-sm text-gray-700 col-span-3"
-                        :value="__('admin/settings/currencies.form.codeandsymbol')" />
+                        :value="__('admin/settings/pages.form.text')" />
                     <div class="relative col-span-9">
-                        <div class="grid gap-4 grid-cols-12">
-                            <div class="col-span-6">
-                                <div class="relative">
-                                    <div
-                                        class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4">
-                                        <svg class="flex-shrink-0 h-4 w-4 text-gray-600"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="lucide lucide-banknote">
-                                            <rect width="20" height="12" x="2" y="6" rx="2" />
-                                            <circle cx="12" cy="12" r="2" />
-                                            <path d="M6 12h.01M18 12h.01" />
-                                        </svg>
-                                    </div>
-                                    <x-input type="text" id="code" name="code"
-                                        class="py-2 px-4 ps-11 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
-                                        placeholder="{{ __('admin/settings/currencies.form.code') }}" :value="old('code')"
-                                        required autocomplete="code" />
-                                    <x-input-error :messages="$errors->get('code')" class="mt-2" />
-                                </div>
-                            </div>
-                            <div class="col-span-6">
-                                <div class="relative">
-                                    <div
-                                        class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4">
-                                        <svg class="flex-shrink-0 h-4 w-4 text-gray-600"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="lucide lucide-pilcrow">
-                                            <path d="M13 4v16" />
-                                            <path d="M17 4v16" />
-                                            <path d="M19 4H9.5a4.5 4.5 0 0 0 0 9H13" />
-                                        </svg>
-                                    </div>
-                                    <x-input type="text" id="symbol" name="symbol"
-                                        class="py-2 px-4 ps-11 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
-                                        placeholder="{{ __('admin/settings/currencies.form.symbol') }}"
-                                        :value="old('symbol')" required autocomplete="symbol" />
-                                    <x-input-error :messages="$errors->get('symbol')" class="mt-2" />
-                                </div>
-                            </div>
-                        </div>
+                        <x-textarea id="text" name="text" required aria-autocomplete="text"></x-textarea>
+                        <x-input-error :messages="$errors->get('text')" class="mt-2" />
                     </div>
                 </div>
                 <div class="mt-4 grid gap-4 grid-cols-12">
@@ -101,7 +59,7 @@
                         <div class="flex items-center justify-between">
                             <x-submit
                                 class="border border-transparent bg-blue-600 text-white hover:bg-blue-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                                {{ __('admin/settings/currencies.form.submit') }}
+                                {{ __('admin/settings/pages.form.submit') }}
                             </x-submit>
                         </div>
                     </div>

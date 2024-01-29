@@ -21,6 +21,7 @@ class PaymentFactory extends Factory
             'status' => Status::ACTIVE,
             'is_system' => 1,
             'title' => 'EFT/Havale İle Ödeme',
+            'code' => 'bac',
             'desc' => 'Doğrudan banka havalesi ile ödeme yapılması için etkinleştiriniz.'
         ];
     }
@@ -37,6 +38,7 @@ class PaymentFactory extends Factory
                 'status' => Status::PASSIVE,
                 'is_system' => 1,
                 'title' => 'Kredi Kartı İle Ödeme',
+                'code' => 'cc',
                 'desc' => 'Kredi kartı ile ödeme yapılması için etkinleştiriniz.'
             ];
         });

@@ -20,6 +20,7 @@ class Payment extends Model
     protected $fillable = [
         'status',
         'title',
+        'code',
         'desc'
     ];
 

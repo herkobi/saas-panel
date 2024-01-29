@@ -3,21 +3,22 @@
 namespace App\Http\Controllers\Admin\Settings;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Settings\ContractCreateRequest;
-use App\Http\Requests\Admin\Settings\ContractUpdateRequest;
-use App\Models\Admin\Contract;
+use App\Http\Requests\Admin\Settings\Page\PageCreateRequest;
+use App\Http\Requests\Admin\Settings\Page\PageUpdateRequest;
+use App\Models\Admin\Page;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
     public function index(): View
     {
-        $page = Page::all();
+        $pages = Page::all();
         return view('admin.settings.pages.index', [
-            'page' => $page
+            'pages' => $pages
         ]);
     }
 
@@ -26,33 +27,39 @@ class PageController extends Controller
         return view('admin.settings.pages.create');
     }
 
-    public function store(ContractCreateRequest $request): RedirectResponse
+    public function store(PageCreateRequest $request): RedirectResponse
     {
-        $contract = Contract::create([
+        $page = Page::create([
             'status' => $request->status,
             'title' => $request->title,
+            'slug' => Str::slug($request->title, '-'),
             'text' => $request->text
         ]);
 
-        return Redirect::route('panel.settings.page')->with('success', __('admin/settings/contract.store.success'));
+        return Redirect::route('panel.settings.pages')->with('success', __('admin/settings/pages.store.success'));
     }
 
-    public function edit(Contract $contract): View
+    public function edit(Page $page): View
     {
         return view('admin.settings.pages.edit', [
-            'contract' => $contract
+            'page' => $page
         ]);
     }
 
-    public function update(ContractUpdateRequest $request, Contract $contract): RedirectResponse
+    public function update(PageUpdateRequest $request, Page $page): RedirectResponse
     {
 
-        $contract->status = $request->status;
-        $contract->title = $request->title;
-        $contract->text = $request->text;
-        $contract->save();
+        $page->status = $request->status;
+        $page->title = $request->title;
+        $page->text = $request->text;
+        $page->save();
 
-        return Redirect::route('panel.settings.page')->with('success', __('admin/settings/contract.update.success'));
+        return Redirect::route('panel.settings.pages')->with('success', __('admin/settings/pages.update.success'));
+    }
 
+    public function destroy(Page $page): RedirectResponse
+    {
+        $page->delete();
+        return Redirect::route('panel.settings.pages')->with('success', __('admin/settings/pages.destroy.success'));
     }
 }

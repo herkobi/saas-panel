@@ -10,12 +10,13 @@ return [
     'table.currency' => 'Para Birimi',
     'table.codeandsymbol' => 'Kod ve Sembol',
     'table.edit' => 'Düzenle',
-    'table.detail' => 'Bilgiler',
 
     'create.page.title' => 'Yeni Para Birimi',
     'form.status' => 'Durum',
     'form.title' => 'Para Birimi',
-    'form.desc' => 'Açıklama',
+    'form.codeandsymbol' => 'Kod ve Sembol',
+    'form.code' => 'Kod',
+    'form.symbol' => 'Sembol',
     'form.submit' => 'Para Birimi Ekle',
 
     'edit.page.title' => 'Para Birimini Güncelle',

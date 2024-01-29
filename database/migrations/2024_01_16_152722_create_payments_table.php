@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('status');
             $table->integer('is_system')->default(0);
             $table->string('title')->nullable();
+            $table->string('code')->nullable();
             $table->string('desc')->nullable();
             $table->timestamps();
         });

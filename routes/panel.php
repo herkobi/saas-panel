@@ -196,6 +196,7 @@ Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('pan
             Route::post('/currency/create/store', 'store')->name('currency.create.store');
             Route::get('/currency/edit/{currency}', 'edit')->name('currency.edit');
             Route::post('/currency/update/{currency}', 'update')->name('currency.update');
+            Route::post('/currency/destroy/{currency}', 'destroy')->name('currency.destroy');
         });
 
         /**
@@ -219,6 +220,7 @@ Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('pan
             Route::post('/page/create/store', 'store')->name('page.create.store');
             Route::get('/page/edit/{page}', 'edit')->name('page.edit');
             Route::post('/page/update/{page}', 'update')->name('page.update');
+            Route::post('/page/destroy/{page}', 'destroy')->name('page.destroy');
         });
 
     });
