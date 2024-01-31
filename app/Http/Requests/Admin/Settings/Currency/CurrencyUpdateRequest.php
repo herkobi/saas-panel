@@ -52,7 +52,7 @@ class CurrencyUpdateRequest extends FormRequest
              */
             'title.required' => __('admin/settings/currencies.title.required'),
             'title.string' => __('admin/settings/currencies.title.string'),
-            'title.max:255' => __('admin/settings/currencies.title.max'),
+            'title.max' => __('admin/settings/currencies.title.max'),
             'title.unique' => __('admin/settings/currencies.title.unique'),
 
             /**

@@ -25,9 +25,16 @@ class GatewayUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['required', new Enum(Status::class)],
+            'status' => ['required', 'integer', new Enum(Status::class)],
             'title' => ['required', 'string', 'max:255'],
-            'value' => ['string']
+            'desc' => ['nullable'],
+            'currency_id' => ['exists:currencies,id', 'numeric'],
+            'account_name' => ['required', 'string', 'max:255'],
+            'account_bank' => ['required', 'string', 'max:255'],
+            'account_branch' => ['nullable', 'numeric', 'required_with:account_number'],
+            'account_number' => ['nullable', 'numeric', 'required_with:account_branch'],
+            'account_iban' => ['nullable', 'numeric', 'required_without_all:account_branch,account_number'],
+            'account_swift' => ['nullable'],
         ];
     }
 
@@ -43,21 +50,53 @@ class GatewayUpdateRequest extends FormRequest
             /**
              * Status Messages
              */
-            'status.required' => __('admin/settings/gateways.status.required'),
-            'status.integer' => __('admin/settings/gateways.status.integer'),
+            'status.required' => __('admin/gateways/bac.status.required'),
+            'status.integer' => __('admin/gateways/bac.status.integer'),
 
             /**
              * Title Messages
              */
-            'title.required' => __('admin/settings/gateways.title.required'),
-            'title.string' => __('admin/settings/gateways.title.string'),
-            'title.max:255' => __('admin/settings/gateways.title.max'),
-            'title.unique' => __('admin/settings/gateways.title.unique'),
+            'title.required' => __('admin/gateways/bac.title.required'),
+            'title.string' => __('admin/gateways/bac.title.string'),
+            'title.max' => __('admin/gateways/bac.title.max255'),
 
             /**
-             * Code Messages
+             * Currency Messages
              */
-            'value.required' => __('admin/settings/gateways.value.required'),
+            'currency_id.exists' => __('admin/gateways/bac.currency_id.exists'),
+            'currency_id.numeric' => __('admin/gateways/bac.currency_id.numeric'),
+
+            /**
+             * Account Name Messages
+             */
+            'account_name.required' => __('admin/gateways/bac.account_name.required'),
+            'account_name.string' => __('admin/gateways/bac.account_name.string'),
+            'account_name.max' => __('admin/gateways/bac.account_name.max255'),
+
+            /**
+             * Account Bank Messages
+             */
+            'account_bank.required' => __('admin/gateways/bac.account_bank.required'),
+            'account_bank.string' => __('admin/gateways/bac.account_bank.string'),
+            'account_bank.max' => __('admin/gateways/bac.account_bank.max255'),
+
+            /**
+             * Account Branch Messages
+             */
+            'account_branch.numeric' => __('admin/gateways/bac.account_branch.numeric'),
+            'account_branch.required_with' => __('admin/gateways/bac.account_branch.required_with'),
+
+            /**
+             * Account Number Messages
+             */
+            'account_number.numeric' => __('admin/gateways/bac.account_number.numeric'),
+            'account_number.required_with' => __('admin/gateways/bac.account_number.required_with'),
+
+            /**
+             * Account IBAN Messages
+             */
+            'account_iban.numeric' => __('admin/gateways/bac.account_iban.numeric'),
+            'account_iban.required_without_all' => __('admin/gateways/bac.account_iban.required_without_all'),
         ];
     }
 

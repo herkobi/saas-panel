@@ -23,7 +23,7 @@ class SettingsUpdateRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'slogan' => ['string', 'max:255'],
+            'slogan' => ['nullable', 'string', 'max:255'],
             'logo' => ['nullable','image', 'max:1024', 'mimes:jpg,jpeg,png,svg'],
             'favicon' => ['nullable','image', 'max:512', 'mimes:png'],
         ];
@@ -43,26 +43,26 @@ class SettingsUpdateRequest extends FormRequest
              */
             'title.required' => __('admin/settings/general.title.required'),
             'title.string' => __('admin/settings/general.title.string'),
-            'title.max:255' => __('admin/settings/general.title.max'),
+            'title.max' => __('admin/settings/general.title.max'),
 
             /**
              * Slogan Messages
              */
             'slogan.string' => __('admin/settings/general.slogan.string'),
-            'slogan.max:255' => __('admin/settings/general.slogan.max'),
+            'slogan.max' => __('admin/settings/general.slogan.max'),
 
             /**
              * Logo Messages
              */
             'logo.image' => __('admin/settings/general.logo.image'),
-            'logo.max:1024' => __('admin/settings/general.logo.max'),
+            'logo.max' => __('admin/settings/general.logo.max'),
             'logo.mimes' => __('admin/settings/general.logo.mimes'),
 
             /**
              * Favicon Messages
              */
             'favicon.image' => __('admin/settings/general.favicon.image'),
-            'favicon.max:1024' => __('admin/settings/general.favicon.max'),
+            'favicon.max' => __('admin/settings/general.favicon.max'),
             'favicon.mimes' => __('admin/settings/general.favicon.mimes'),
         ];
     }

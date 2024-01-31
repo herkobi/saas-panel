@@ -51,7 +51,7 @@ class PageUpdateRequest extends FormRequest
              */
             'title.required' => __('admin/settings/pages.title.required'),
             'title.string' => __('admin/settings/pages.title.string'),
-            'title.max:255' => __('admin/settings/pages.title.max255'),
+            'title.max' => __('admin/settings/pages.title.max255'),
             'title.unique' => __('admin/settings/pages.title.unique'),
 
             /**

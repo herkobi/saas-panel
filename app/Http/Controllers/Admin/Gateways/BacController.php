@@ -63,22 +63,22 @@ class BacController extends Controller
     public function update(GatewayUpdateRequest $request, Gateway $bac): RedirectResponse
     {
 
-        $bac->status = $request->status;
-        $bac->title = $request->title;
-        $bac->desc = $request->desc;
-        $bac->currency_id = $request->currency_id;
-        $bac->payment_id = self::PAYMENT_ID;
-        $bac->value = json_encode(
-            [
-                'account_name' => $request->account_name,
-                'account_bank' => $request->account_bank,
-                'account_number' => $request->account_number,
-                'account_iban' => $request->account_iban,
-                'account_swift' => $request->account_swift,
-            ]
-        );
-
-        $bac->save();
+        $bac->update([
+            'status' => $request->status,
+            'title' => $request->title,
+            'desc' => $request->desc,
+            'currency_id' => $request->currency_id,
+            'payment_id' => self::PAYMENT_ID,
+            'value' => json_encode(
+                [
+                    'account_name' => $request->account_name,
+                    'account_bank' => $request->account_bank,
+                    'account_number' => $request->account_number,
+                    'account_iban' => $request->account_iban,
+                    'account_swift' => $request->account_swift,
+                ]
+            ),
+        ]);
 
         return Redirect::route('panel.gateways.bac')->with('success', __('admin/gateways/bac.update.success'));
 
@@ -86,7 +86,10 @@ class BacController extends Controller
 
     public function destroy(Gateway $bac): RedirectResponse
     {
-        $bac->delete();
-        return Redirect::route('panel.gateways.bac')->with('success', __('admin/gateways/bac.delete.success.text'));
+        if($bac->delete()) {
+            return Redirect::route('panel.gateways.bac')->with('success', __('admin/gateways/bac.destroy.success'));
+        }
+
+        return Redirect::route('panel.gateways.bac')->with('error', __('admin/gateways/bac.destroy.error'));
     }
 }

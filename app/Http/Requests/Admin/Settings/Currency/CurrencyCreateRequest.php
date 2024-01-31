@@ -52,7 +52,7 @@ class CurrencyCreateRequest extends FormRequest
              */
             'title.required' => __('admin/settings/currencies.title.required'),
             'title.string' => __('admin/settings/currencies.title.string'),
-            'title.max:255' => __('admin/settings/currencies.title.max255'),
+            'title.max' => __('admin/settings/currencies.title.max255'),
             'title.unique' => __('admin/setting/currencies.title.unique'),
 
             /**

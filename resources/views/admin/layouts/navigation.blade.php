@@ -1,4 +1,4 @@
-<nav class="sticky -top-px bg-white font-medium text-black ring-1 ring-gray-900 ring-opacity-5 shadow-sm shadow-gray-100 pt-3 pb-3 -mt-px dark:bg-slate-900 dark:border-gray-800 dark:shadow-slate-700/[.7]"
+<nav class="sticky -top-px bg-white font-medium text-black ring-1 ring-gray-900 ring-opacity-5 shadow-sm shadow-gray-100 pt-3 pb-3 -mt-px dark:bg-slate-900 dark:border-gray-800 dark:shadow-slate-700/[.7] z-10"
     aria-label="Jump links">
     <div
         class="max-w-7xl snap-x w-full flex items-center overflow-x-auto px-4 sm:px-6 lg:px-8 pb-4 md:pb-0 mx-auto [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-slate-900">

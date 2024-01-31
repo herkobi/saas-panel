@@ -12,4 +12,6 @@ return[
     'results' => 'sonuç',
     'prev' => 'Önceki',
     'next' => 'Sonraki',
+
+    'selected' => 'Lütfen seçiniz',
 ];
