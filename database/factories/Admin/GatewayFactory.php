@@ -28,6 +28,7 @@ class GatewayFactory extends Factory
                 [
                     'account_name' => '',
                     'account_bank' => '',
+                    'account_branch' => '',
                     'account_number' => '',
                     'account_iban' => '',
                     'account_swift' => ''

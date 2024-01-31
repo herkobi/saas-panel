@@ -20,6 +20,8 @@ return [
     'form.currency_id' => 'Para Birimi',
     'form.account_name' => 'Hesap Sahibi',
     'form.account_bank' => 'Banka Adı',
+    'form.account_branch_and_number' => 'Şube Kodu ve Hesap Numarası',
+    'form.account_branch' => 'Şube Kodu',
     'form.account_number' => 'Hesap Numarası',
     'form.account_iban' => 'IBAN Numarası',
     'form.account_swift' => 'SWIFT Kodu',
@@ -38,6 +40,6 @@ return [
     'destroy.success' => 'Hesap bilgisi başarılı bir şekilde silindi',
     'destroy.error' => 'Kayıt silinemedi. Lütfen ilgili kayıtları kontrol ediniz',
 
-    
+
 
 ];

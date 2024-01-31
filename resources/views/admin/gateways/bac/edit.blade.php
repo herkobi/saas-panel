@@ -137,26 +137,56 @@
                 </div>
                 <div class="mb-4 grid gap-4 grid-cols-12">
                     <x-label for="account_number" class="block font-medium text-sm text-gray-700 col-span-3"
-                        :value="__('admin/gateways/bac.form.account_number')" />
+                        :value="__('admin/gateways/bac.form.account_branch_and_number')" />
                     <div class="relative col-span-9">
-                        <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none p-4">
-                            <svg class="flex-shrink-0 h-4 w-4 text-gray-600" xmlns="http://www.w3.org/2000/svg"
-                                width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="lucide lucide-hand-coins">
-                                <path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17" />
-                                <path
-                                    d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" />
-                                <path d="m2 16 6 6" />
-                                <circle cx="16" cy="9" r="2.9" />
-                                <circle cx="6" cy="5" r="3" />
-                            </svg>
+                        <div class="grid gap-4 grid-cols-12">
+                            <div class="col-span-6">
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none p-4">
+                                        <svg class="flex-shrink-0 h-4 w-4 text-gray-600"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-hand-coins">
+                                            <path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17" />
+                                            <path
+                                                d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" />
+                                            <path d="m2 16 6 6" />
+                                            <circle cx="16" cy="9" r="2.9" />
+                                            <circle cx="6" cy="5" r="3" />
+                                        </svg>
+                                    </div>
+                                    <x-input type="text" id="account_branch" name="account_branch"
+                                        class="py-2 px-4 ps-11 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+                                        placeholder="{{ __('admin/gateways/bac.form.account_branch') }}"
+                                        :value="$values['account_branch']" required autocomplete="account_branch" />
+                                    <x-input-error :messages="$errors->get('account_branch')" class="mt-2" />
+                                </div>
+                            </div>
+                            <div class="col-span-6">
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none p-4">
+                                        <svg class="flex-shrink-0 h-4 w-4 text-gray-600"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-hand-coins">
+                                            <path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17" />
+                                            <path
+                                                d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" />
+                                            <path d="m2 16 6 6" />
+                                            <circle cx="16" cy="9" r="2.9" />
+                                            <circle cx="6" cy="5" r="3" />
+                                        </svg>
+                                    </div>
+                                    <x-input type="text" id="account_number" name="account_number"
+                                        class="py-2 px-4 ps-11 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+                                        placeholder="{{ __('admin/gateways/bac.form.account_number') }}"
+                                        :value="$values['account_number']" required autocomplete="account_number" />
+                                    <x-input-error :messages="$errors->get('account_number')" class="mt-2" />
+                                </div>
+                            </div>
                         </div>
-                        <x-input type="text" id="account_number" name="account_number"
-                            class="py-2 px-4 ps-11 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
-                            placeholder="{{ __('admin/gateways/bac.form.account_number') }}" :value="$values['account_number']"
-                            required autocomplete="account_number" />
-                        <x-input-error :messages="$errors->get('account_number')" class="mt-2" />
                     </div>
                 </div>
                 <div class="mb-4 grid gap-4 grid-cols-12">
