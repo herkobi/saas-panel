@@ -21,6 +21,7 @@ class Tax extends Model
         'status',
         'title',
         'desc',
+        'value',
         'country_id',
     ];
 

@@ -28,6 +28,19 @@
         </svg>
         {{ __('admin/settings/navigation.menu.payments') }}
     </a>
+    <a class="inline-flex items-center gap-x-3.5 py-3 px-4 text-sm font-medium bg-white border border-gray-200 {{ request()->routeIs(['panel.settings.taxes', 'panel.settings.tax.*']) ? 'text-blue-600' : 'text-gray-800' }} -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg hover:text-blue-600 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:text-blue-600 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+        href="{{ route('panel.settings.taxes') }}">
+        <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" class="lucide lucide-percent-diamond">
+            <path
+                d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41L13.7 2.71a2.41 2.41 0 0 0-3.41 0Z" />
+            <path d="M9.2 9.2h.01" />
+            <path d="m14.5 9.5-5 5" />
+            <path d="M14.7 14.8h.01" />
+        </svg>
+        {{ __('admin/settings/navigation.menu.taxes') }}
+    </a>
     <a class="inline-flex items-center gap-x-3.5 py-3 px-4 text-sm font-medium bg-white border border-gray-200 {{ request()->routeIs(['panel.settings.currencies', 'panel.settings.currency.*']) ? 'text-blue-600' : 'text-gray-800' }} -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg hover:text-blue-600 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-600 dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:text-blue-600 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
         href="{{ route('panel.settings.currencies') }}">
         <svg class="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
