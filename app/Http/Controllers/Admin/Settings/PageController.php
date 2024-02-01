@@ -49,10 +49,12 @@ class PageController extends Controller
     public function update(PageUpdateRequest $request, Page $page): RedirectResponse
     {
 
-        $page->status = $request->status;
-        $page->title = $request->title;
-        $page->text = $request->text;
-        $page->save();
+        $page->update([
+            'status' => $request->status,
+            'title' => $request->title,
+            'slug' => Str::slug($request->title, '-'),
+            'text' => $request->text
+        ]);
 
         return Redirect::route('panel.settings.pages')->with('success', __('admin/settings/pages.update.success'));
     }

@@ -13,6 +13,9 @@ use App\Http\Controllers\Admin\Auth\{
 use App\Http\Controllers\Admin\Accounts\{
     AccountController,
 };
+use App\Http\Controllers\Admin\Orders\{
+    OrderController,
+};
 use App\Http\Controllers\Admin\Gateways\{
     GatewayController,
     BacController,
@@ -22,11 +25,13 @@ use App\Http\Controllers\Admin\Users\{
     UserController,
 };
 use App\Http\Controllers\Admin\Settings\{
+    CountryController,
     CurrencyController,
-    LocationController,
     PageController,
     PaymentController,
     SettingController,
+    StateController,
+    TaxController,
 };
 use App\Http\Controllers\Admin\Profile\{
     ProfileController,
@@ -158,9 +163,6 @@ Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('pan
         Route::controller(PaytrController::class)->group(function(){
             Route::get('/paytr/edit/{paytr}', 'edit')->name('paytr.edit');
             Route::post('/paytr/edit/update/{paytr}', 'update')->name('paytr.update');
-            Route::get('/paytr/create', 'create')->name('paytr.create');
-            Route::post('/paytr/create/store', 'store')->name('paytr.create.store');
-            Route::post('/paytr/destroy/{paytr}', 'destroy')->name('paytr.destroy');
         });
     });
 
@@ -179,12 +181,37 @@ Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('pan
         /**
          * Bölgeler
          */
-        Route::controller(LocationController::class)->group(function(){
-            Route::get('/locations', 'index')->name('locations');
-            Route::get('/location/create', 'create')->name('location.create');
-            Route::post('/location/create/store', 'store')->name('location.create.store');
-            Route::get('/location/edit/{location}', 'edit')->name('location.edit');
-            Route::post('/location/update/{location}', 'update')->name('location.update');
+        Route::prefix('locations')->name('locations.')->group(function () {
+
+            Route::controller(CountryController::class)->group(function(){
+                Route::get('/countries', 'index')->name('countries');
+                Route::get('/country/create', 'create')->name('country.create');
+                Route::post('/country/create/store', 'store')->name('country.create.store');
+                Route::get('/country/edit/{country}', 'edit')->name('country.edit');
+                Route::post('/country/update/{country}', 'update')->name('country.update');
+                Route::post('/country/destroy/{country}', 'destroy')->name('country.destroy');
+            });
+
+            Route::controller(StateController::class)->group(function(){
+                Route::get('/states', 'index')->name('states');
+                Route::get('/state/create', 'create')->name('state.create');
+                Route::post('/state/create/store', 'store')->name('state.create.store');
+                Route::get('/state/edit/{state}', 'edit')->name('state.edit');
+                Route::post('/state/update/{state}', 'update')->name('state.update');
+                Route::post('/state/destroy/{state}', 'destroy')->name('state.destroy');
+            });
+        });
+
+        /**
+         * Vergi Oranları
+         */
+        Route::controller(TaxController::class)->group(function(){
+            Route::get('/taxes', 'index')->name('taxes');
+            Route::get('/tax/create', 'create')->name('tax.create');
+            Route::post('/tax/create/store', 'store')->name('tax.create.store');
+            Route::get('/tax/edit/{tax}', 'edit')->name('tax.edit');
+            Route::post('/tax/update/{tax}', 'update')->name('tax.update');
+            Route::post('/tax/destroy/{tax}', 'destroy')->name('tax.destroy');
         });
 
         /**

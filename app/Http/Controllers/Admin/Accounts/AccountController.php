@@ -7,7 +7,7 @@ use App\Models\User\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class AccountsController extends Controller
+class AccountController extends Controller
 {
     public function index(): View
     {

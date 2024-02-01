@@ -6,11 +6,11 @@ use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Country extends Model
+class Tax extends Model
 {
     use HasFactory;
 
-    protected $table = 'countries';
+    protected $table = 'taxes';
 
     /**
      * The attributes that are mass assignable.
@@ -20,8 +20,8 @@ class Country extends Model
     protected $fillable = [
         'status',
         'title',
-        'slug',
-        'code'
+        'desc',
+        'country_id',
     ];
 
     /**
@@ -36,17 +36,10 @@ class Country extends Model
     ];
 
     /**
-     * States.
+     * Countries.
     */
-    public function states() {
-        return $this->hasMany(State::class, 'country_id');
-    }
-
-    /**
-     * Taxes.
-    */
-    public function taxes() {
-        return $this->hasMany(Tax::class, 'country_id');
+    public function country() {
+        return $this->belongsTo(Country::class, 'country_id');
     }
 
 }

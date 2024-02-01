@@ -18,10 +18,10 @@ class State extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'country_id',
         'status',
         'state',
         'slug',
+        'country_id',
     ];
 
     /**
