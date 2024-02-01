@@ -70,6 +70,7 @@ class BacController extends Controller
             'value' => json_encode([
                 'account_name' => $request->account_name,
                 'account_bank' => $request->account_bank,
+                'account_branch' => $request->account_branch,
                 'account_number' => $request->account_number,
                 'account_iban' => $request->account_iban,
                 'account_swift' => $request->account_swift,

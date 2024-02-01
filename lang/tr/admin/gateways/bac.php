@@ -40,6 +40,54 @@ return [
     'destroy.success' => 'Hesap bilgisi başarılı bir şekilde silindi',
     'destroy.error' => 'Kayıt silinemedi. Lütfen ilgili kayıtları kontrol ediniz',
 
-//TODO: hata mesajları
+    /**
+     * Status Messages
+     */
+    'status.required' => 'Durum seçiniz',
+    'status.integer' => 'Durum rakam olmalıdır',
+
+    /**
+     * Title Messages
+     */
+    'title.required' => 'Başlık giriniz',
+    'title.string' => 'Lütfen geçerli içerik giriniz',
+    'title.max' => 'Daha kısa içerik giriniz',
+
+    /**
+     * Currency Messages
+     */
+    'currency_id.exists' => 'Geçerli bir ödeme türü seçiniz',
+    'currency_id.numeric' => 'Ödeme türü değeri rakam olmalıdır',
+
+    /**
+     * Account Name Messages
+     */
+    'account_name.required' => 'Lütfen hesap sahibini giriniz',
+    'account_name.string' => 'Lütfen geçerli bir içerik giriniz',
+    'account_name.max' => 'Lütfen daha kısa içerik giriniz',
+
+    /**
+     * Account Bank Messages
+     */
+    'account_bank.required' => 'Lütfen banka adını giriniz',
+    'account_bank.string' => 'Lütfen geçerli bir içerik giriniz',
+    'account_bank.max' => 'Lütfen daha kısa içerik giriniz',
+
+    /**
+     * Account Branch Messages
+     */
+    'account_branch.numeric' => 'Lütfen şube kodunu giriniz',
+    'account_branch.required_with' => 'Lütfen hesap numarasını da giriniz',
+
+    /**
+     * Account Number Messages
+     */
+    'account_number.numeric' => 'Lütfen hesap numarasını giriniz',
+    'account_number.required_with' => 'Lütfen şube kodunu da giriniz',
+
+    /**
+     * Account IBAN Messages
+     */
+    'account_iban.required_without_all' => 'Lütfen IBAN bilgisini giriniz',
 
 ];

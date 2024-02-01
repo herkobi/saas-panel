@@ -136,8 +136,8 @@
                     </div>
                 </div>
                 <div class="mb-4 grid gap-4 grid-cols-12">
-                    <x-label for="account_number" class="block font-medium text-sm text-gray-700 col-span-3"
-                        :value="__('admin/gateways/bac.form.account_branch_and_number')" />
+                    <x-label for="account_branch_and_number"
+                        class="block font-medium text-sm text-gray-700 col-span-3" :value="__('admin/gateways/bac.form.account_branch_and_number')" />
                     <div class="relative col-span-9">
                         <div class="grid gap-4 grid-cols-12">
                             <div class="col-span-6">

@@ -29,7 +29,7 @@ class PaytrUpdateRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'desc' => ['nullable'],
             'currency_id' => ['exists:currencies,id', 'numeric'],
-            'logo' => ['nullable'],
+            'logo' => ['nullable','image', 'max:1024', 'mimes:jpg,jpeg,png'],
             'merchant_id' => ['required',],
             'merchant_key' => ['required'],
             'merchant_salt' => ['required'],
@@ -58,13 +58,20 @@ class PaytrUpdateRequest extends FormRequest
              */
             'title.required' => __('admin/gateways/paytr.title.required'),
             'title.string' => __('admin/gateways/paytr.title.string'),
-            'title.max' => __('admin/gateways/paytr.title.max255'),
+            'title.max' => __('admin/gateways/paytr.title.max'),
 
             /**
              * Currency Messages
              */
             'currency_id.exists' => __('admin/gateways/paytr.currency_id.exists'),
             'currency_id.numeric' => __('admin/gateways/paytr.currency_id.numeric'),
+
+            /**
+             * Logo Messages
+             */
+            'logo.images' => __('admin/gateways/paytr.logo.images'),
+            'logo.max' => __('admin/gateways/paytr.logo.max'),
+            'logo.mimes' => __('admin/gateways/paytr.logo.mimes'),
 
             /**
              * Account ID Messages

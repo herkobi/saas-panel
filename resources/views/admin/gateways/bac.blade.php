@@ -64,7 +64,7 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                                @foreach ($gateways as $gateway)
+                                @foreach ($gateways as $key => $gateway)
                                     <tr>
                                         <td class="h-px w-px whitespace-nowrap">
                                             <div class="px-6 py-3">
@@ -105,8 +105,16 @@
                                         <td class="h-px w-72 whitespace-nowrap">
                                             <div class="px-6 py-3">
                                                 <span
-                                                    class="block text-sm font-semibold text-gray-800 dark:text-gray-200">{{ $gateway->bank }}</span>
-                                                <span class="block text-sm text-gray-500">{{ $gateway->price }}</span>
+                                                    class="block text-sm font-semibold text-gray-800 dark:text-gray-200">{{ $values[$key]['account_bank'] }}</span>
+                                                @if (!empty($values[$key]['account_iban']))
+                                                    <span
+                                                        class="block text-sm text-gray-500">{{ $values[$key]['account_iban'] }}</span>
+                                                @else
+                                                    <span
+                                                        class="block text-sm text-gray-500">{{ $values[$key]['account_branch'] . ' / ' . $values[$key]['account_number'] }}</span>
+                                                @endif
+                                                <span
+                                                    class="block text-sm text-gray-500">{{ $gateway->currency->title }}</span>
                                             </div>
                                         </td>
                                         <td class="h-px w-px whitespace-nowrap">

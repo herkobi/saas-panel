@@ -33,7 +33,7 @@ class BacCreateRequest extends FormRequest
             'account_bank' => ['required', 'string', 'max:255'],
             'account_branch' => ['nullable', 'numeric', 'required_with:account_number'],
             'account_number' => ['nullable', 'numeric', 'required_with:account_branch'],
-            'account_iban' => ['nullable', 'numeric', 'required_without_all:account_branch,account_number'],
+            'account_iban' => ['nullable', 'required_without_all:account_branch,account_number'],
             'account_swift' => ['nullable'],
         ];
     }
@@ -95,7 +95,6 @@ class BacCreateRequest extends FormRequest
             /**
              * Account IBAN Messages
              */
-            'account_iban.numeric' => __('admin/gateways/bac.account_iban.numeric'),
             'account_iban.required_without_all' => __('admin/gateways/bac.account_iban.required_without_all'),
         ];
     }

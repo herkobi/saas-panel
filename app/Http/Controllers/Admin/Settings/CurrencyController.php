@@ -49,11 +49,12 @@ class CurrencyController extends Controller
     public function update(CurrencyUpdateRequest $request, Currency $currency): RedirectResponse
     {
 
-        $currency->status = $request->status;
-        $currency->title = $request->title;
-        $currency->symbol = $request->symbol;
-        $currency->code = $request->code;
-        $currency->save();
+        $currency->update([
+            'status' => $request->status,
+            'title' => $request->title,
+            'symbol' => $request->symbol,
+            'code' => $request->code,
+        ]);
 
         return Redirect::route('panel.settings.currencies')->with('success', __('admin/settings/currencies.update.success'));
 

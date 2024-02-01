@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin\Settings;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Settings\Currency\CurrencyCreateRequest;
-use App\Http\Requests\Admin\Settings\Currency\CurrencyUpdateRequest;
-use App\Models\Admin\Currency;
+use App\Http\Requests\Admin\Settings\Location\LocationCreateRequest;
+use App\Http\Requests\Admin\Settings\Location\LocationUpdateRequest;
+use App\Models\Admin\Location;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -16,7 +16,7 @@ class LocationController extends Controller
 
     public function index(): View
     {
-        $locations = Currency::all();
+        $locations = Location::all();
         return view('admin.settings.locations.index', [
             'locations' => $locations
         ]);
@@ -27,9 +27,9 @@ class LocationController extends Controller
         return view('admin.settings.locations.create');
     }
 
-    public function store(CurrencyCreateRequest $request): RedirectResponse
+    public function store(LocationCreateRequest $request): RedirectResponse
     {
-        $currency = Currency::create([
+        $location = Location::create([
             'status' => $request->status,
             'title' => $request->title,
             'symbol' => $request->symbol,
@@ -39,21 +39,21 @@ class LocationController extends Controller
         return Redirect::route('panel.settings.locations')->with('success', __('admin/settings/locations.store.success'));
     }
 
-    public function edit(Currency $currency): View
+    public function edit(Location $location): View
     {
         return view('admin.settings.locations.edit', [
-            'currency' => $currency
+            'location' => $location
         ]);
     }
 
-    public function update(CurrencyUpdateRequest $request, Currency $currency): RedirectResponse
+    public function update(LocationUpdateRequest $request, Location $location): RedirectResponse
     {
 
-        $currency->status = $request->status;
-        $currency->title = $request->title;
-        $currency->symbol = $request->symbol;
-        $currency->code = $request->code;
-        $currency->save();
+        $location->update([
+            'status' => $request->status,
+            'parent_id' => $request->parent_id,
+            'title' => $request->title,
+        ]);
 
         return Redirect::route('panel.settings.locations')->with('success', __('admin/settings/locations.update.success'));
 
