@@ -19,7 +19,7 @@ class Country extends Model
      */
     protected $fillable = [
         'status',
-        'title',
+        'country',
         'slug',
         'code'
     ];

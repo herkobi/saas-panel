@@ -26,7 +26,7 @@ class CountryUpdateRequest extends FormRequest
     {
         return [
             'status' => ['required', new Enum(Status::class)],
-            'country' => ['required', 'string', 'max:255', Rule::unique('countries', 'country')->ignore($this->country->id, 'id')],
+            'country' => ['required', 'string', 'max:255', Rule::unique('countries', 'country')->ignore($this->route('country')->getKey(), 'id')],
             'code' => ['required']
         ];
     }
