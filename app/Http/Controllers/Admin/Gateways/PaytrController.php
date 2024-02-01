@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Gateways;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Gateways\GatewayUpdateRequest;
+use App\Http\Requests\Admin\Gateways\Paytr\PaytrUpdateRequest;
 use App\Models\Admin\Currency;
 use App\Models\Admin\Gateway;
 use Illuminate\Http\RedirectResponse;
@@ -29,16 +29,16 @@ class PaytrController extends Controller
         ]);
     }
 
-    public function update(GatewayUpdateRequest $request, Gateway $paytr): RedirectResponse
+    public function update(PaytrUpdateRequest $request, Gateway $paytr): RedirectResponse
     {
 
-        $paytr->status = $request->status;
-        $paytr->title = $request->title;
-        $paytr->desc = $request->desc;
-        $paytr->currency_id = $request->currency_id;
-        $paytr->payment_id = self::PAYMENT_ID;
-        $paytr->value = json_encode(
-            [
+        $paytr->update([
+            'status' => $request->status,
+            'title' => $request->title,
+            'desc' => $request->desc,
+            'currency_id' => $request->currency_id,
+            'payment_id' => self::PAYMENT_ID,
+            'value' => json_encode([
                 'code' => self::CODE,
                 'logo' => $request->logo,
                 'merchant_id' => $request->merchant_id,
@@ -46,10 +46,8 @@ class PaytrController extends Controller
                 'merchant_salt' => $request->merchant_salt,
                 'merchant_ok_url' => $request->merchant_ok_url,
                 'merchant_fail_url' => $request->merchant_fail_url,
-            ]
-        );
-
-        $paytr->save();
+            ]),
+        ]);
 
         return Redirect::route('panel.gateways.cc')->with('success', __('admin/gateways/cc.update.success'));
 

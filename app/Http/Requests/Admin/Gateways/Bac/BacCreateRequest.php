@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Admin\Gateways;
+namespace App\Http\Requests\Admin\Gateways\Bac;
 
 use App\Enums\Status;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
-class GatewayUpdateRequest extends FormRequest
+class BacCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,7 +20,7 @@ class GatewayUpdateRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Currency\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
@@ -99,5 +99,4 @@ class GatewayUpdateRequest extends FormRequest
             'account_iban.required_without_all' => __('admin/gateways/bac.account_iban.required_without_all'),
         ];
     }
-
 }

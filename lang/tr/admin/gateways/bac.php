@@ -40,6 +40,6 @@ return [
     'destroy.success' => 'Hesap bilgisi başarılı bir şekilde silindi',
     'destroy.error' => 'Kayıt silinemedi. Lütfen ilgili kayıtları kontrol ediniz',
 
-
+//TODO: hata mesajları
 
 ];
