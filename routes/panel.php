@@ -103,34 +103,23 @@ Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('pan
      * Hesap Yönetimi
      */
     Route::controller(AccountController::class)->group(function() {
-
-        /**
-         * Hesaplar
-         */
         Route::get('/accounts', 'index')->name('accounts');
         Route::get('/account/detail/plan/{user}', 'plan')->name('account.plan.detail');
         Route::get('/account/detail/order/{user}', 'order')->name('account.order.detail');
         Route::get('/account/detail/activity/{user}', 'activity')->name('account.activity.detail');
-
     });
 
     /**
-     * Kullanıcı İşlemleri / Yönetimi
+     * Sistem Kullanıcıları
      */
-    Route::prefix('users')->name('users.')->group(function () {
-        /**
-         * Sistem Kullanıcıları
-         */
-        Route::controller(UserController::class)->group(function(){
-            Route::get('/list', 'index')->name('list');
-            Route::get('/create', 'create')->name('create');
-            Route::post('/create/store', 'store')->name('create.store');
-            Route::get('/edit/{admin}', 'edit')->name('edit');
-            Route::post('/edit/update/{admin}', 'update')->name('edit.update');
-            Route::get('/detail/{admin}', 'detail')->name('detail');
-            Route::get('/detail/auth/{admin}', 'auth')->name('auth.detail');
-        });
-
+    Route::controller(UserController::class)->group(function(){
+        Route::get('/users', 'index')->name('users');
+        Route::get('/user/create', 'create')->name('user.create');
+        Route::post('/user/create/store', 'store')->name('user.create.store');
+        Route::get('/user/edit/{admin}', 'edit')->name('user.edit');
+        Route::post('/user/edit/update/{admin}', 'update')->name('user.edit.update');
+        Route::get('/user/detail/{admin}', 'detail')->name('user.detail');
+        Route::get('/user/detail/auth/{admin}', 'auth')->name('user.auth.detail');
     });
 
     /**
