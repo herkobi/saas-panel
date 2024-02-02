@@ -15,8 +15,8 @@ enum Admin: int
     public static function title($title): string
     {
         return match ($title) {
-            self::ACTIVE => __('ACTIVE'),
-            self::PASSIVE => __('PASSIVE'),
+            self::ACTIVE => __('global.active'),
+            self::PASSIVE => __('global.passive'),
         };
     }
 

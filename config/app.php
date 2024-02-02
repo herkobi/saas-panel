@@ -185,7 +185,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'Status' => App\Enums\Status::class,
         'AdminStatus' => App\Enums\Admin::class,
-        'Account' => App\Enums\Account::class,
+        'AccountStatus' => App\Enums\Account::class,
     ])->toArray(),
 
 ];
