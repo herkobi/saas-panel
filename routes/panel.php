@@ -104,6 +104,10 @@ Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('pan
      */
     Route::controller(AccountController::class)->group(function() {
         Route::get('/accounts', 'index')->name('accounts');
+        Route::get('/account/create', 'create')->name('account.create');
+        Route::post('/account/create/store', 'store')->name('account.create.store');
+        Route::get('/account/edit/{user}', 'edit')->name('account.edit');
+        Route::post('/account/edit/update/{user}', 'update')->name('account.edit.update');
         Route::get('/account/detail/plan/{user}', 'plan')->name('account.plan.detail');
         Route::get('/account/detail/order/{user}', 'order')->name('account.order.detail');
         Route::get('/account/detail/activity/{user}', 'activity')->name('account.activity.detail');

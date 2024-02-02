@@ -16,7 +16,7 @@ class TaxController extends Controller
 {
     public function index(): View
     {
-        $taxes = Tax::all();
+        $taxes = Tax::with('country')->get();
         return view('admin.settings.taxes.index', [
             'taxes' => $taxes
         ]);

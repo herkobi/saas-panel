@@ -60,6 +60,14 @@
                                             </span>
                                         </div>
                                     </th>
+                                    <th scope="col" class="px-6 py-3 text-start">
+                                        <div class="flex items-center gap-x-2">
+                                            <span
+                                                class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
+                                                {{ __('admin/settings/taxes.table.location') }}
+                                            </span>
+                                        </div>
+                                    </th>
                                     <th scope="col" class="px-6 py-3 text-end"></th>
                                 </tr>
                             </thead>
@@ -106,6 +114,12 @@
                                             <div class="px-6 py-3">
                                                 <span
                                                     class="block text-sm font-semibold text-gray-800 dark:text-gray-200">%{{ $tax->value }}</span>
+                                            </div>
+                                        </td>
+                                        <td class="h-px w-72 whitespace-nowrap">
+                                            <div class="px-6 py-3">
+                                                <span
+                                                    class="block text-sm font-semibold text-gray-800 dark:text-gray-200">{{ $tax->country->country }}</span>
                                             </div>
                                         </td>
                                         <td class="h-px w-px whitespace-nowrap">

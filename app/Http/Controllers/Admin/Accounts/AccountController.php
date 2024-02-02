@@ -17,4 +17,16 @@ class AccountController extends Controller
         ]);
     }
 
+    public function create(): View
+    {
+        return view('admin.accounts.create');
+    }
+
+    public function edit(User $user): View
+    {
+        return view('admin.accounts.edit', [
+            'user' => $user
+        ]);
+    }
+
 }

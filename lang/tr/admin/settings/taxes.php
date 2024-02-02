@@ -9,6 +9,7 @@ return [
     'table.status' => 'Durum',
     'table.title' => 'Vergi Dilimi Adı',
     'table.value' => 'Değer',
+    'table.location' => 'Etkin Bölge',
     'table.edit' => 'Düzenle',
 
     'create.page.title' => 'Yeni Vergi Dilimi',
