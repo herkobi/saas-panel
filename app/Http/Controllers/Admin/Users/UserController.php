@@ -43,7 +43,7 @@ class UserController extends Controller
             'email_verified_at' => now(),
         ]);
 
-        return Redirect::route('panel.users')->with('success', __('admin/users/user.store.success'));
+        return Redirect::route('panel.users')->with('success', __('admin/users/users.store.success'));
     }
 
     public function edit(Admin $admin): View|RedirectResponse
@@ -68,6 +68,6 @@ class UserController extends Controller
             'username' => $request->username,
         ]);
 
-        return Redirect::route('panel.users')->with('success', __('admin/users/user.update.success'));
+        return Redirect::route('panel.users')->with('success', __('admin/users/users.update.success'));
     }
 }

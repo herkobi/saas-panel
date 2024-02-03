@@ -24,6 +24,8 @@ return [
     'form.title' => 'Görev',
     'form.email' => 'E-posta Adresi',
     'form.username' => 'Kullanıcı Adı',
+    'form.password' => 'Şifre',
+    'form.password.text' => 'Şifre Oluşturunuz',
 
     'form.submit' => 'Kullanıcı Ekle',
     'form.update' => 'Bilgileri Güncelle',
