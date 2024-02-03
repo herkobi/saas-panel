@@ -13,6 +13,7 @@ return [
     'table.edit' => 'Düzenle',
 
     'edit.page.title' => 'Kullanıcı Bilgilerini Düzenle',
+    'create.page.title' => 'Yeni Kullanıcı Ekle',
     'personal.title' => 'Kişisel Bilgiler',
     'personal.text' => 'Lütfen tüm alanları doldurunuz',
     'account.title' => 'Hesap Bilgileri',
@@ -20,8 +21,10 @@ return [
 
     'form.name' => 'Ad',
     'form.surname' => 'Soyad',
+    'form.title' => 'Görev',
     'form.email' => 'E-posta Adresi',
     'form.username' => 'Kullanıcı Adı',
+
     'form.submit' => 'Kullanıcı Ekle',
     'form.update' => 'Bilgileri Güncelle',
 

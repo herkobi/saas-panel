@@ -46,7 +46,7 @@ class UserController extends Controller
         return Redirect::route('panel.users')->with('success', __('admin/users/user.store.success'));
     }
 
-    public function edit(Admin $admin): View
+    public function edit(Admin $admin): View|RedirectResponse
     {
         if(Auth::user()->id == $admin->id) {
             return Redirect::route('panel.profile.edit');
