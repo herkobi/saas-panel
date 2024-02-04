@@ -19,7 +19,7 @@ class PlanFeatureController extends Controller
         $features = Feature::where('status', Status::ACTIVE)->get();
         $attached_features = FeaturePlan::where('plan_id', $plan->id)->get();
 
-        return view('admin.plans.plan_feature.index', [
+        return view('admin.plans.planfeature', [
             'plan' => $plan,
             'features' => $features,
             'attached_features' => $attached_features
@@ -54,14 +54,14 @@ class PlanFeatureController extends Controller
                 $plan->features()->attach($currentFeature, ['charges' => $currentQuota] );
             }
 
-            return Redirect::route('panel.plans.list')->with('success', __('admin/plans/plans.feaures.attached.to.plan'));
+            return Redirect::route('panel.plans.plans')->with('success', __('admin/plans/plans.feaures.attached.to.plan'));
         }
 
     }
 
     public function history(Plan $plan) : View
     {
-        return view('admin.plans.plan_feature.history', [
+        return view('admin.plans.history', [
             'plan' => $plan
         ]);
     }

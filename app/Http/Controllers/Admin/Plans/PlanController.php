@@ -19,7 +19,7 @@ class PlanController extends Controller
     public function index() : View
     {
         $plans = Plan::all();
-        return view('admin.plans.plans.index', [
+        return view('admin.plans.index', [
             'plans' => $plans
         ]);
     }
@@ -27,7 +27,7 @@ class PlanController extends Controller
     public function create() : View
     {
         $currencies = Currency::pluck('title', 'id')->toArray();
-        return view('admin.plans.plans.create', [
+        return view('admin.plans.create', [
             'currencies' => $currencies
         ]);
     }
@@ -46,13 +46,13 @@ class PlanController extends Controller
             'grace_days' => $request->price == 0 ? 0 : $request->grace_days,
         ]);
 
-        return Redirect::route('panel.plans.list')->with('success', __('admin/plans/plan.store.success'));
+        return Redirect::route('panel.plans.plans')->with('success', __('admin/plans/plans.store.success'));
     }
 
     public function edit(Plan $plan): View
     {
         $currencies = Currency::pluck('title', 'id')->toArray();
-        return view('admin.plans.plans.edit', [
+        return view('admin.plans.edit', [
             'plan' => $plan,
             'currencies' => $currencies
         ]);
@@ -71,7 +71,7 @@ class PlanController extends Controller
 
         $plan->save();
 
-        return Redirect::route('panel.plans.list')->with('success', __('admin/plans/plans.update.success'));
+        return Redirect::route('panel.plans.plans')->with('success', __('admin/plans/plans.update.success'));
 
     }
 
@@ -81,13 +81,13 @@ class PlanController extends Controller
         $plan->update(['status' => $status]);
 
         $plan->delete();
-        return Redirect::route('panel.plans.list')->with('success', __('admin/plans/plans.plan.delete.success.text'));
+        return Redirect::route('panel.plans.plans')->with('success', __('admin/plans/plans.delete.success'));
     }
 
     public function deleted() : View
     {
         $plans = Plan::onlyTrashed()->get();
-        return view('admin.plans.plans.deleted', [
+        return view('admin.plans.deleted', [
             'plans' => $plans
         ]);
     }
@@ -101,6 +101,6 @@ class PlanController extends Controller
     public function forcedelete(Request $request): RedirectResponse
     {
         Plan::withTrashed()->where('id', $request->planId)->forceDelete();
-        return Redirect::route('panel.plans.plan.deleted')->with('success', __('admin/plans/plans.feature.restored'));
+        return Redirect::route('panel.plans.plan.deleted')->with('success', __('admin/plans/plans.feature.forcedelete'));
     }
 }

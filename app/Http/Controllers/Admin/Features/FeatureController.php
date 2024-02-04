@@ -18,14 +18,14 @@ class FeatureController extends Controller
     public function index() : View
     {
         $features = Feature::all();
-        return view('admin.plans.features.index', [
+        return view('admin.features.index', [
             'features' => $features
         ]);
     }
 
     public function create() : View
     {
-        return view('admin.plans.features.create');
+        return view('admin.features.create');
     }
 
     public function store(FeatureCreateRequest $request) : RedirectResponse
@@ -41,17 +41,17 @@ class FeatureController extends Controller
             'periodicity_type' => $request->periodicity_type,
         ]);
 
-        return Redirect::route('panel.plans.features')->with('success', __('admin/plans/plan.features.store.success'));
+        return Redirect::route('panel.plans.features')->with('success', __('admin/plans/features.store.success'));
 
     }
 
     public function edit(Feature $feature): View
     {
         if($feature->trashed()) {
-            return Redirect::back()->with('error', __('admin/plans/features.doesnt.edit.featured.item'));
+            return Redirect::back()->with('error', __('admin/plans/features.doesnt.edit'));
         }
 
-        return view('admin.plans.features.edit', [
+        return view('admin.features.edit', [
             'feature' => $feature
         ]);
     }
@@ -69,7 +69,7 @@ class FeatureController extends Controller
 
         $feature->save();
 
-        return Redirect::route('panel.plans.features')->with('success', __('admin/settings/features.update.success'));
+        return Redirect::route('panel.plans.features')->with('success', __('admin/features/features.update.success'));
     }
 
     public function destroy(Feature $feature): RedirectResponse
@@ -78,13 +78,13 @@ class FeatureController extends Controller
         $feature->update(['status' => $status]);
 
         $feature->delete();
-        return Redirect::route('panel.plans.features')->with('success', __('admin/plans/features.feaure.delete.success.text'));
+        return Redirect::route('panel.plans.features')->with('success', __('admin/features/features.delete.success'));
     }
 
     public function deleted() : View
     {
         $features = Feature::onlyTrashed()->get();
-        return view('admin.plans.features.deleted', [
+        return view('admin.features.deleted', [
             'features' => $features
         ]);
     }
@@ -92,12 +92,12 @@ class FeatureController extends Controller
     public function restore(Feature $feature): RedirectResponse
     {
         Feature::withTrashed()->where('id', $feature->id)->restore();
-        return Redirect::route('panel.plans.features.deleted')->with('success', __('admin/plans/features.feature.restored'));
+        return Redirect::route('panel.plans.features.deleted')->with('success', __('admin/features/features.feature.restored'));
     }
 
     public function forcedelete(Request $request): RedirectResponse
     {
         Feature::withTrashed()->where('id', $request->featureId)->forceDelete();
-        return Redirect::route('panel.plans.features.deleted')->with('success', __('admin/plans/features.feature.restored'));
+        return Redirect::route('panel.plans.features.deleted')->with('success', __('admin/features/features.feature.forcedelete'));
     }
 }

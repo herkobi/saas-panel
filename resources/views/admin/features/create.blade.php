@@ -1,7 +1,7 @@
 <x-admin-app-layout>
     <div class="grid grid-cols-12 gap-7">
         <div class="col-span-3">
-            @include('admin.orders.partials.navigation')
+            @include('admin.plans.partials.navigation')
         </div>
         <div class="col-span-9">
             <div class="flex flex-col overflow-x-auto">
