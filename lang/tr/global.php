@@ -9,6 +9,11 @@ return[
     'ACTIVE' => 'Etkin',
     'PASSIVE' => 'Devre Dışı',
 
+    'user.active' => 'Etkin',
+    'user.passive' => 'Pasif',
+    'user.banned' => 'Banlanmış',
+    'user.deleted' => 'Silinmiş',
+
     'results' => 'sonuç',
     'prev' => 'Önceki',
     'next' => 'Sonraki',

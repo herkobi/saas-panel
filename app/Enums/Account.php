@@ -17,10 +17,10 @@ enum Account: int
     public static function title($title): string
     {
         return match ($title) {
-            self::ACTIVE => __('admin/global.admin.active'),
-            self::PASSIVE => __('admin/global.admin.passive'),
-            self::BANNED => __('admin/global.admin.banned'),
-            self::DELETED => __('admin/global.admin.passive'),
+            self::ACTIVE => __('global.user.active'),
+            self::PASSIVE => __('global.user.passive'),
+            self::BANNED => __('global.user.banned'),
+            self::DELETED => __('global.user.deleted'),
         };
     }
 

@@ -21,6 +21,11 @@ use App\Http\Controllers\Admin\Gateways\{
     BacController,
     PaytrController,
 };
+use App\Http\Controllers\Admin\Plans\{
+    PlanController,
+    PlanFeatureController
+};
+use App\Http\Controllers\Admin\Features\FeatureController;
 use App\Http\Controllers\Admin\Users\{
     UserController,
 };
@@ -124,6 +129,52 @@ Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('pan
         Route::post('/user/edit/update/{admin}', 'update')->name('user.edit.update');
         Route::get('/user/detail/{admin}', 'detail')->name('user.detail');
         Route::get('/user/detail/auth/{admin}', 'auth')->name('user.auth.detail');
+    });
+
+    /**
+     * Plan Yönetimi
+     */
+    Route::prefix('plans')->name('plans.')->group(function () {
+
+        /**
+         * Planlar
+         */
+        Route::controller(PlanController::class)->group(function(){
+            Route::get('/plans', 'index')->name('plans');
+            Route::get('/plan/edit/{plan}', 'edit')->name('plan.edit');
+            Route::post('/plan/update/{plan}', 'update')->name('plan.update');
+            Route::get('/plan/create', 'create')->name('plan.create');
+            Route::post('/plan/create/store', 'store')->name('plan.create.store');
+            Route::post('/plan/delete/{plan}', 'destroy')->name('plan.edit.delete');
+            Route::get('/plan/deleted', 'deleted')->name('plan.deleted');
+            Route::post('/plan/restore/{plan}', 'restore')->name('plan.restore')->withTrashed();
+            Route::post('/plan/forcedelete', 'forcedelete')->name('plan.forcedelete');
+        });
+
+        /**
+         * Plan Özellik İlişkisi
+         */
+        Route::controller(PlanFeatureController::class)->group(function(){
+            Route::get('/add-feature/{plan}', 'index')->name('add.plan.to.feature');
+            Route::post('/attach-feature/{plan}', 'update')->name('attach.feature.to plan');
+            Route::get('/history/{plan}', 'history')->name('plan.history');
+
+        });
+
+        /**
+         * Plan Özellikleri
+         */
+        Route::controller(FeatureController::class)->group(function(){
+            Route::get('/features/all', 'index')->name('features');
+            Route::get('/feature/create', 'create')->name('feature.create');
+            Route::post('/feature/create/store', 'store')->name('feature.create.store');
+            Route::get('/feature/edit/{feature}', 'edit')->name('feature.edit');
+            Route::post('/feature/update/{feature}', 'update')->name('feature.edit.update');
+            Route::post('/feature/delete/{feature}', 'destroy')->name('feature.edit.delete');
+            Route::get('/features/deleted', 'deleted')->name('features.deleted');
+            Route::post('features/restore/{feature}', 'restore')->name('feature.restore')->withTrashed();
+            Route::post('features/forcedelete', 'forcedelete')->name('feature.forcedelete');
+        });
     });
 
     /**
