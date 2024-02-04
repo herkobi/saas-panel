@@ -127,6 +127,13 @@ Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('pan
     });
 
     /**
+     * Ödemeler
+     */
+    Route::controller(OrderController::class)->group(function(){
+        Route::get('/orders', 'index')->name('orders');
+    });
+
+    /**
      * Ödeme Yöntemleri
      */
     Route::prefix('gateways')->name('gateways.')->group(function() {

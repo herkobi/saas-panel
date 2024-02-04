@@ -48,7 +48,7 @@
                                         <div class="flex items-center gap-x-2">
                                             <span
                                                 class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                {{ __('admin/accounts/accounts.table.title') }}
+                                                {{ __('admin/accounts/accounts.table.info') }}
                                             </span>
                                         </div>
                                     </th>
@@ -56,7 +56,7 @@
                                         <div class="flex items-center gap-x-2">
                                             <span
                                                 class="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                                                {{ __('admin/accounts/accounts.table.value') }}
+                                                {{ __('admin/accounts/accounts.table.package') }}
                                             </span>
                                         </div>
                                     </th>
@@ -72,14 +72,14 @@
                                         <td class="h-px w-72 whitespace-nowrap">
                                             <div class="px-6 py-3">
                                                 <span
-                                                    class="block text-sm font-semibold text-gray-800 dark:text-gray-200">{{ $account->title }}</span>
-                                                <span class="block text-sm text-gray-500">{{ $account->desc }}</span>
+                                                    class="block text-sm font-semibold text-gray-800 dark:text-gray-200">{{ $account->name }}</span>
+                                                <span class="block text-sm text-gray-500">{{ $account->email }}</span>
                                             </div>
                                         </td>
                                         <td class="h-px w-72 whitespace-nowrap">
                                             <div class="px-6 py-3">
                                                 <span
-                                                    class="block text-sm font-semibold text-gray-800 dark:text-gray-200">%{{ $account->value }}</span>
+                                                    class="block text-sm font-semibold text-gray-800 dark:text-gray-200">{{ $account->value }}</span>
                                             </div>
                                         </td>
                                         <td class="h-px w-px whitespace-nowrap">
