@@ -15,7 +15,7 @@
                     <div class="lg:col-span-2">
                         <div class="relative mb-4">
                             <x-label for="status" class="block font-medium text-gray-700 col-span-3"
-                                :value="__('admin/settings/currencies.form.status')" />
+                                :value="__('admin/users/users.form.status')" />
                             <div class="col-span-9">
                                 <div id="status" class="flex justify-start">
                                     @foreach (AdminStatus::values() as $key => $value)

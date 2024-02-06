@@ -19,6 +19,7 @@ return [
     'account.title' => 'Hesap Bilgileri',
     'account.text' => 'Lütfen tüm alanları doldurunuz',
 
+    'form.status' => 'Durum',
     'form.name' => 'Ad',
     'form.surname' => 'Soyad',
     'form.title' => 'Görev',
