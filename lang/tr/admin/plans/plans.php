@@ -2,33 +2,37 @@
 
 return [
 
-    'page.title' => 'Panel Kullanıcıları',
-    'page.text' => 'Kayıtlı Panel Kullanıcıları',
+    'page.title' => 'Planlar',
+    'page.text' => 'Kayıtlı Planlar',
+    'plan.title' => 'Plan Bilgileri',
+    'plan.text' => 'Plana Ait Genel Bilgiler',
+
+    'period_day' => 'Günlük',
+    'period_week' => 'Haftalık',
+    'period_month' => 'Aylık',
+    'period_year' => 'Yıllık',
 
     'add.button' => 'Yeni Ekle',
     'table.status' => 'Durum',
-    'table.info' => 'Ad Soyad',
-    'table.title' => 'Görev',
+    'table.title' => 'Plan Adı',
     'table.name' => 'Ad Soyad',
     'table.edit' => 'Düzenle',
 
-    'edit.page.title' => 'Kullanıcı Bilgilerini Düzenle',
-    'create.page.title' => 'Yeni Kullanıcı Ekle',
+    'edit.page.title' => 'Plan Bilgilerini Düzenle',
+    'create.page.title' => 'Yeni Plan Ekle',
     'personal.title' => 'Kişisel Bilgiler',
     'personal.text' => 'Lütfen tüm alanları doldurunuz',
     'account.title' => 'Hesap Bilgileri',
     'account.text' => 'Lütfen tüm alanları doldurunuz',
 
     'form.status' => 'Durum',
-    'form.name' => 'Ad',
-    'form.surname' => 'Soyad',
-    'form.title' => 'Görev',
-    'form.email' => 'E-posta Adresi',
-    'form.username' => 'Kullanıcı Adı',
-    'form.password' => 'Şifre',
-    'form.password.text' => 'Şifre Oluşturun',
+    'form.title' => 'Plan Adı',
+    'form.price' => 'Ücreti',
+    'form.currency_id' => 'Para Birimi',
+    'form.periodicity' => 'Ödeme Döngüsü',
+    'form.periodicity_type' => 'Döngü',
 
-    'form.submit' => 'Kullanıcı Ekle',
+    'form.submit' => 'Plan Ekle',
     'form.update' => 'Bilgileri Güncelle',
 
     'status' => [
@@ -76,6 +80,6 @@ return [
     /**
      * Form Requests
      */
-    'store.success' => 'Kullanıcı başarılı bir şekilde kayıt edildi',
-    'update.success' => 'Kullanıcı bilgileri başarılı bir şekilde güncellendi',
+    'store.success' => 'Plan başarılı bir şekilde kayıt edildi',
+    'update.success' => 'Plan bilgileri başarılı bir şekilde güncellendi',
 ];

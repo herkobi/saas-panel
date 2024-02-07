@@ -27,8 +27,15 @@ class PlanController extends Controller
     public function create() : View
     {
         $currencies = Currency::pluck('title', 'id')->toArray();
+        $periods = [
+            'Day' => __('admin/plans/plans.period_day'),
+            'Week' => __('admin/plans/plans.period_week'),
+            'Month' =>  __('admin/plans/plans.period_month'),
+            'Year' => __('admin/plans/plans.period_year')
+        ];
         return view('admin.plans.create', [
-            'currencies' => $currencies
+            'currencies' => $currencies,
+            'periods' => $periods
         ]);
     }
 

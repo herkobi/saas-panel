@@ -186,6 +186,7 @@ return [
         'Status' => App\Enums\Status::class,
         'AdminStatus' => App\Enums\Admin::class,
         'AccountStatus' => App\Enums\Account::class,
+        'Period' => App\Enums\Period::class,
     ])->toArray(),
 
 ];
