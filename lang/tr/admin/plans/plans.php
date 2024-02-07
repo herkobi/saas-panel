@@ -7,10 +7,10 @@ return [
     'plan.title' => 'Plan Bilgileri',
     'plan.text' => 'Plana Ait Genel Bilgiler',
 
-    'period_day' => 'Günlük',
-    'period_week' => 'Haftalık',
-    'period_month' => 'Aylık',
-    'period_year' => 'Yıllık',
+    'Day' => 'Gün',
+    'Week' => 'Hafta',
+    'Month' => 'Ay',
+    'Year' => 'Yıl',
 
     'add.button' => 'Yeni Ekle',
     'table.status' => 'Durum',
@@ -31,6 +31,7 @@ return [
     'form.currency_id' => 'Para Birimi',
     'form.periodicity' => 'Ödeme Döngüsü',
     'form.periodicity_type' => 'Döngü',
+    'form.grace_days' => 'Ödeme Beklenecek Ek Gün',
 
     'form.submit' => 'Plan Ekle',
     'form.update' => 'Bilgileri Güncelle',

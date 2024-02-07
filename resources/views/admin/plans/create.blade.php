@@ -64,10 +64,10 @@
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round"
-                                            class="lucide lucide-square-user-round">
-                                            <path d="M18 21a6 6 0 0 0-12 0" />
-                                            <circle cx="12" cy="11" r="4" />
-                                            <rect width="18" height="18" x="3" y="3" rx="2" />
+                                            class="lucide lucide-circle-dollar-sign">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+                                            <path d="M12 18V6" />
                                         </svg>
                                     </div>
                                     <x-input type="text" id="price" name="price"
@@ -87,10 +87,12 @@
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round"
-                                            class="lucide lucide-square-user">
-                                            <rect width="18" height="18" x="3" y="3" rx="2" />
-                                            <circle cx="12" cy="10" r="3" />
-                                            <path d="M7 21v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" />
+                                            class="lucide lucide-receipt-text">
+                                            <path
+                                                d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z" />
+                                            <path d="M14 8H8" />
+                                            <path d="M16 12H8" />
+                                            <path d="M13 16H8" />
                                         </svg>
                                     </div>
                                     <x-select class="ps-11 block w-full" name="currency_id" id="currency_id"
@@ -110,10 +112,11 @@
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                            class="lucide lucide-square-user-round">
-                                            <path d="M18 21a6 6 0 0 0-12 0" />
-                                            <circle cx="12" cy="11" r="4" />
-                                            <rect width="18" height="18" x="3" y="3" rx="2" />
+                                            class="lucide lucide-repeat-2">
+                                            <path d="m2 9 3-3 3 3" />
+                                            <path d="M13 18H7a2 2 0 0 1-2-2V6" />
+                                            <path d="m22 15-3 3-3-3" />
+                                            <path d="M11 6h6a2 2 0 0 1 2 2v10" />
                                         </svg>
                                     </div>
                                     <x-input type="text" id="periodicity" name="periodicity"
@@ -123,7 +126,7 @@
                                 </div>
                                 <x-input-error :messages="$errors->get('periodicity')" class="mt-2" />
                             </div>
-                            <div class="md:col-span-6">
+                            <div class="md:col-span-6 mb-4">
                                 <x-label for="periodicity_type" class="block font-medium text-sm text-gray-700"
                                     :value="__('admin/plans/plans.form.periodicity_type')" />
                                 <div class="relative">
@@ -133,16 +136,52 @@
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                            class="lucide lucide-square-user">
-                                            <rect width="18" height="18" x="3" y="3" rx="2" />
-                                            <circle cx="12" cy="10" r="3" />
-                                            <path d="M7 21v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2" />
+                                            class="lucide lucide-gantt-chart">
+                                            <path d="M8 6h10" />
+                                            <path d="M6 12h9" />
+                                            <path d="M11 18h7" />
                                         </svg>
                                     </div>
-                                    <x-select class="ps-11 block w-full" name="periodicity_type"
-                                        id="periodicity_type" :options="$periods" :selectedValue="null" />
+                                    <select
+                                        class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 ps-11"
+                                        name="periodicity_type" id="periodicity_type">
+                                        <option selected>{{ __('global.selected') }}
+                                        </option>
+                                        @foreach (Period::values() as $key => $value)
+                                            <option value="{{ $value }}">
+                                                {{ __('admin/plans/plans.' . $value) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <x-input-error :messages="$errors->get('periodicity_type')" class="mt-2" />
+                            </div>
+                            <div class="md:col-span-6">
+                                <x-label for="grace_days" class="block font-medium text-sm text-gray-700"
+                                    :value="__('admin/plans/plans.form.grace_days')" />
+                                <div class="relative">
+                                    <div
+                                        class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4">
+                                        <svg class="flex-shrink-0 h-4 w-4 text-gray-600"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-calendar-plus-2">
+                                            <path d="M8 2v4" />
+                                            <path d="M16 2v4" />
+                                            <rect width="18" height="18" x="3" y="4" rx="2" />
+                                            <path d="M3 10h18" />
+                                            <path d="M10 16h4" />
+                                            <path d="M12 14v4" />
+                                        </svg>
+                                    </div>
+                                    <x-input type="number" id="grace_days" name="grace_days" min="0"
+                                        step="1"
+                                        class="py-2 px-4 ps-11 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+                                        placeholder="{{ __('admin/plans/plans.form.grace_days') }}" :value="old('grace_days')"
+                                        required autocomplete="grace_days" />
+                                </div>
+                                <x-input-error :messages="$errors->get('grace_days')" class="mt-2" />
                             </div>
                         </div>
                     </div>
