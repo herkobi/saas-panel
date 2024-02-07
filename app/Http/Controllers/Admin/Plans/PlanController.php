@@ -27,15 +27,8 @@ class PlanController extends Controller
     public function create() : View
     {
         $currencies = Currency::pluck('title', 'id')->toArray();
-        $periods = [
-            'Day' => __('admin/plans/plans.period_day'),
-            'Week' => __('admin/plans/plans.period_week'),
-            'Month' =>  __('admin/plans/plans.period_month'),
-            'Year' => __('admin/plans/plans.period_year')
-        ];
         return view('admin.plans.create', [
-            'currencies' => $currencies,
-            'periods' => $periods
+            'currencies' => $currencies
         ]);
     }
 
@@ -67,16 +60,16 @@ class PlanController extends Controller
 
     public function update(PlanUpdateRequest $request, Plan $plan): RedirectResponse
     {
-        $plan->status = $request->status;
-        $plan->title = $request->title;
-        $plan->name = Str::slug($request->title, '-');
-        $plan->price = $request->price;
-        $plan->currency_id = $request->currency_id;
-        $plan->periodicity = $request->price == 0 ? null : $request->periodicity;
-        $plan->periodicity_type = $request->price == 0 ? null : $request->periodicity_type;
-        $plan->grace_days = $request->price == 0 ? 0 : $request->grace_days;
-
-        $plan->save();
+        $plan->update([
+            'status' => $request->status,
+            'title' => $request->title,
+            'name' => Str::slug($request->title, '-'),
+            'price' => $request->price,
+            'currency_id' => $request->currency_id,
+            'periodicity' => $request->price == 0 ? null : $request->periodicity,
+            'periodicity_type' => $request->price == 0 ? null : $request->periodicity_type,
+            'grace_days' => $request->price == 0 ? 0 : $request->grace_days
+        ]);
 
         return Redirect::route('panel.plans.plans')->with('success', __('admin/plans/plans.update.success'));
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Plans;
 
+use App\Enums\Period;
 use App\Enums\Status;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -27,6 +28,11 @@ class PlanCreateRequest extends FormRequest
         return [
             'status' => ['required', 'integer', new Enum(Status::class)],
             'title' => ['required', 'string', 'max:255', Rule::unique('plans', 'title')],
+            'price' => ['required', 'integer'],
+            'currency_id' => ['required', 'integer', 'exists:currencies,id'],
+            'periodicity_type' => ['required', 'integer', new Enum(Period::class)],
+            'periodicity' => ['required', 'integer'],
+            'grace_days' => ['integer'],
         ];
     }
 

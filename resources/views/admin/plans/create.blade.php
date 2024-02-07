@@ -119,7 +119,8 @@
                                             <path d="M11 6h6a2 2 0 0 1 2 2v10" />
                                         </svg>
                                     </div>
-                                    <x-input type="text" id="periodicity" name="periodicity"
+                                    <x-input type="number" id="periodicity" name="periodicity" min="0"
+                                        step="1"
                                         class="py-2 px-4 ps-11 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
                                         placeholder="{{ __('admin/plans/plans.form.periodicity') }}" :value="old('periodicity')"
                                         required autocomplete="periodicity" />
@@ -182,67 +183,6 @@
                                         required autocomplete="grace_days" />
                                 </div>
                                 <x-input-error :messages="$errors->get('grace_days')" class="mt-2" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid gap-4 gap-y-2 text-sm grid-cols-3">
-                    <div class="relative md:col-start-2 md:col-span-2">
-                        <hr class="mt-6 mb-10">
-                    </div>
-                </div>
-                <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
-                    <div class="text-gray-900 mb-4">
-                        <p class="font-medium text-lg">{{ __('admin/plans/plans.account.title') }}</p>
-                        <p class="text-sm text-gray-600">{{ __('admin/plans/plans.account.text') }}</p>
-                    </div>
-                    <div class="lg:col-span-2">
-                        <div class="grid gap-4 gap-y-2 text-sm grid-cols-12 mb-4">
-                            <div class="md:col-span-6">
-                                <x-label for="email" class="block font-medium text-sm text-gray-700"
-                                    :value="__('admin/plans/plans.form.email')" />
-                                <div class="relative">
-                                    <div
-                                        class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4">
-                                        <svg class="flex-shrink-0 h-4 w-4 text-gray-600"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                            class="lucide lucide-mail-plus">
-                                            <path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h8" />
-                                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-                                            <path d="M19 16v6" />
-                                            <path d="M16 19h6" />
-                                        </svg>
-                                    </div>
-                                    <x-input type="email" id="email" name="email"
-                                        class="py-2 px-4 ps-11 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
-                                        placeholder="{{ __('admin/plans/plans.form.email') }}" :value="old('email')"
-                                        required autocomplete="email" />
-                                </div>
-                                <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                            </div>
-                            <div class="md:col-span-6">
-                                <x-label for="username" class="block font-medium text-sm text-gray-700"
-                                    :value="__('admin/plans/plans.form.username')" />
-                                <div class="relative">
-                                    <div
-                                        class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4">
-                                        <svg class="flex-shrink-0 h-4 w-4 text-gray-600"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                            class="lucide lucide-check-check">
-                                            <path d="M18 6 7 17l-5-5" />
-                                            <path d="m22 10-7.5 7.5L13 16" />
-                                        </svg>
-                                    </div>
-                                    <x-input type="text" id="username" name="username"
-                                        class="py-2 px-4 ps-11 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
-                                        placeholder="{{ __('admin/plans/plans.form.username') }}" :value="old('username')"
-                                        required autocomplete="username" />
-                                </div>
-                                <x-input-error :messages="$errors->get('username')" class="mt-2" />
                             </div>
                         </div>
                     </div>

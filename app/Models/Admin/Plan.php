@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use App\Enums\Period;
 use App\Enums\Status;
 use LucasDotVin\Soulbscription\Models\Plan as MainPlan;
 
@@ -30,7 +31,8 @@ class Plan extends MainPlan
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
-        'status' => Status::class
+        'status' => Status::class,
+        'periodicity' => Period::class,
     ];
 
     /**
