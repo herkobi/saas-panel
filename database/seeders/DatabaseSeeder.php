@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Enums\Period;
 use App\Enums\Status;
 use App\Models\Admin\Admin;
 use App\Models\Admin\Country;
@@ -11,11 +12,13 @@ use App\Models\Admin\Currency;
 use App\Models\Admin\Gateway;
 use App\Models\Admin\Page;
 use App\Models\Admin\Payment;
+use App\Models\Admin\Plan;
 use App\Models\Admin\Setting;
 use App\Models\Admin\State;
 use App\Models\User\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use LucasDotVin\Soulbscription\Enums\PeriodicityType;
 
 class DatabaseSeeder extends Seeder
 {
@@ -69,6 +72,28 @@ class DatabaseSeeder extends Seeder
                 'text' => '',
             ]);
         }
+
+        $free = Plan::create([
+            'status'           => Status::ACTIVE,
+            'title'            => 'Ücretsiz Plan',
+            'name'             => 'ucretsiz-plan',
+            'price'            => 0,
+            'currency_id'      => 1,
+            'periodicity_type' => null,
+            'periodicity'      => null,
+            'grace_days'       => 0,
+        ]);
+
+        $standart = Plan::create([
+            'status'           => Status::ACTIVE,
+            'title'            => 'Standart Plan',
+            'name'             => 'standart-plan',
+            'price'            => 50,
+            'currency_id'      => 1,
+            'periodicity_type' => Period::Month,
+            'periodicity'      => 1,
+            'grace_days'       => 7,
+        ]);
 
     }
 }

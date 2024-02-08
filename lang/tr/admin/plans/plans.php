@@ -10,7 +10,10 @@ return [
     'add.button' => 'Yeni Ekle',
     'table.status' => 'Durum',
     'table.title' => 'Plan Adı',
-    'table.name' => 'Ad Soyad',
+    'table.usage' => 'Plan Döngüsü',
+    'table.price' => 'Fiyatı',
+    'table.free' => 'Ücretsiz',
+    'table.period' => 'Her :interval :unit bir ödemeli',
     'table.edit' => 'Düzenle',
 
     'edit.page.title' => 'Plan Bilgilerini Düzenle',

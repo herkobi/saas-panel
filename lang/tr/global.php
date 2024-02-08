@@ -26,4 +26,9 @@ return[
     'period_Week' => 'Hafta',
     'period_Month' => 'Ay',
     'period_Year' => 'Yıl',
+
+    'period_ek_Day' => 'Günde',
+    'period_ek_Week' => 'Haftada',
+    'period_ek_Month' => 'Ayda',
+    'period_ek_Year' => 'Yılda',
 ];

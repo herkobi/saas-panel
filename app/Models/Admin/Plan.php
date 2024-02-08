@@ -32,7 +32,7 @@ class Plan extends MainPlan
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
         'status' => Status::class,
-        'periodicity' => Period::class,
+        'periodicity_type' => Period::class,
     ];
 
     /**
