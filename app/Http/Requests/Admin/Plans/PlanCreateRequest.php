@@ -28,11 +28,12 @@ class PlanCreateRequest extends FormRequest
         return [
             'status' => ['required', 'integer', new Enum(Status::class)],
             'title' => ['required', 'string', 'max:255', Rule::unique('plans', 'title')],
+            'name' => [Rule::unique('plans', 'name')],
             'price' => ['required', 'integer'],
             'currency_id' => ['required', 'integer', 'exists:currencies,id'],
             'periodicity_type' => ['required', 'integer', new Enum(Period::class)],
             'periodicity' => ['required', 'integer'],
-            'grace_days' => ['integer'],
+            'grace_days' => ['nullable', 'integer'],
         ];
     }
 
@@ -45,19 +46,53 @@ class PlanCreateRequest extends FormRequest
     {
         return [
 
-            /**
+/**
              * Status Messages
              */
-            'status.required' => __('admin/plans/plan.status.required'),
-            'status.integer' => __('admin/plans/plan.status.integer'),
+            'status.required' => __('admin/plans/plans.status.required'),
 
             /**
              * Title Messages
              */
-            'title.required' => __('admin/plans/plan.title.required'),
-            'title.string' => __('admin/plans/plan.title.string'),
-            'title.max:255' => __('admin/plans/plan.title.max255'),
+            'title.required' => __('admin/plans/plans.title.required'),
+            'title.string' => __('admin/plans/plans.title.string'),
+            'title.max' => __('admin/plans/plans.title.max'),
             'title.unique' => __('admin/setting/contract.title.unique'),
+
+            /**
+             * Name Messages
+             */
+            'name.unique' => __('admin/setting/contract.name.unique'),
+
+            /**
+             * Price Messages
+             */
+            'price.required' => __('admin/plans/plans.price.required'),
+            'price.integer' => __('admin/plans/plans.price.integer'),
+
+            /**
+             * Currency ID Messages
+             */
+            'currency_id.required' => __('admin/plans/plans.currency_id.required'),
+            'currency_id.integer' => __('admin/plans/plans.currency_id.integer'),
+            'currency_id.exists' => __('admin/plans/plans.currency_id.exists'),
+
+            /**
+             * Period Count Messages
+             */
+            'periodicity.required' => __('admin/plans/plans.periodicity.required'),
+            'periodicity.integer' => __('admin/plans/plans.periodicity.integer'),
+
+            /**
+             * Period Type Messages
+             */
+            'periodicity_type.required' => __('admin/plans/plans.periodicity_type.required'),
+            'periodicity_type.integer' => __('admin/plans/plans.periodicity_type.integer'),
+
+            /**
+             * Grace Days Messages
+             */
+            'grace_days.integer' => __('admin/plans/plans.grace_days.integer'),
         ];
     }
 }

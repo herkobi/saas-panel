@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Features;
 
+use App\Enums\Period;
 use App\Enums\Status;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -28,10 +29,10 @@ class FeatureCreateRequest extends FormRequest
             'status' => ['required', new Enum(Status::class)],
             'title' => ['required', 'string', 'max:255', Rule::unique('features', 'title')],
             'name' => [Rule::unique('features', 'name')],
-            'consumable' => ['required', 'in:0,1'],
-            'quota' => ['in:0,1'],
-            'postpaid' => ['in:0,1'],
-            'periodicity' => ['nullable', 'required_if:consumable,true', 'integer'],
+            'consumable' => ['required', 'in:0,1', 'integer'],
+            'quota' => ['required','in:0,1', 'integer'],
+            'postpaid' => ['required','in:0,1', 'integer'],
+            'periodicity' => ['nullable', 'required_if:consumable,true',  new Enum(Period::class)],
             'periodicity_type' => ['nullable', 'required_if:consumable,true', 'in:Day,Week,Month,Year'], // Örneğin, gün, hafta, ay
         ];
     }
@@ -48,14 +49,14 @@ class FeatureCreateRequest extends FormRequest
             /**
              * Status Messages
              */
-            'status.required' => __('admin/plans/plan.status.required'),
+            'status.required' => __('admin/features/features.status.required'),
 
             /**
              * Title Messages
              */
-            'title.required' => __('admin/plans/plan.title.required'),
-            'title.string' => __('admin/plans/plan.title.string'),
-            'title.max:255' => __('admin/plans/plan.title.max255'),
+            'title.required' => __('admin/features/features.title.required'),
+            'title.string' => __('admin/features/features.title.string'),
+            'title.max' => __('admin/features/features.title.max'),
             'title.unique' => __('admin/setting/contract.title.unique'),
 
             /**
@@ -66,32 +67,35 @@ class FeatureCreateRequest extends FormRequest
             /**
              * Consumable Messages
              */
-            'consumable.required' => __('admin/plans/plan.consumable.required'),
-            'consumable.in' => __('admin/plans/plan.consumable.in'),
+            'consumable.required' => __('admin/features/features.consumable.required'),
+            'consumable.in' => __('admin/features/features.consumable.in'),
+            'consumable.integer' => __('admin/features/features.consumable.integer'),
 
             /**
              * Quota Messages
              */
-            'quota.in' => __('admin/plans/plan.quota.in'),
+            'quota.required' => __('admin/features/features.quota.required'),
+            'quota.in' => __('admin/features/features.quota.in'),
+            'quota.integer' => __('admin/features/features.quota.integer'),
 
             /**
              * Postpaid Messages
              */
-            'postpaid.in' => __('admin/plans/plan.postpaid.in'),
+            'postpaid.required' => __('admin/features/features.postpaid.required'),
+            'postpaid.in' => __('admin/features/features.postpaid.in'),
+            'postpaid.integer' => __('admin/features/features.postpaid.integer'),
 
             /**
              * Period Count Messages
              */
-            'periodicity.nullable' => __('admin/plans/plan.periodicity.nullable'),
-            'periodicity.required_if:consumable,true' => __('admin/plans/plan.periodicity.required_if'),
-            'periodicity.integer' => __('admin/plans/plan.periodicity.integer'),
+            'periodicity.required_if' => __('admin/features/features.periodicity.required_if'),
+            'periodicity.integer' => __('admin/features/features.periodicity.integer'),
 
             /**
              * Period Type Messages
              */
-            'periodicity_type.nullable' => __('admin/plans/plan.periodicity_type.nullable'),
-            'periodicity_type.required_if:consumable,true' => __('admin/plans/plan.periodicity_type.required_if'),
-            'periodicity_type.in:day,week,month,year' => __('admin/plans/plan.periodicity_type.in'),
+            'periodicity_type.required_if' => __('admin/features/features.periodicity_type.required_if'),
+            'periodicity_type.in' => __('admin/features/features.periodicity_type.in'),
 
         ];
     }

@@ -17,10 +17,10 @@ enum Period: int
     public static function title($title): string
     {
         return match ($title) {
-            self::Day => __('global.period_day'),
-            self::Week => __('global.period_week'),
-            self::Month => __('global.period_month'),
-            self::Year => __('global.period_year'),
+            self::Day => __('global.period_Day'),
+            self::Week => __('global.period_Week'),
+            self::Month => __('global.period_Month'),
+            self::Year => __('global.period_Year'),
         };
     }
 

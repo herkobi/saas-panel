@@ -19,4 +19,11 @@ return[
     'next' => 'Sonraki',
 
     'selected' => 'Lütfen seçiniz',
+    'yes' => 'Evet',
+    'no' => 'Hayır',
+
+    'period_Day' => 'Gün',
+    'period_Week' => 'Hafta',
+    'period_Month' => 'Ay',
+    'period_Year' => 'Yıl',
 ];

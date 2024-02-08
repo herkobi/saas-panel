@@ -7,11 +7,6 @@ return [
     'plan.title' => 'Plan Bilgileri',
     'plan.text' => 'Plana Ait Genel Bilgiler',
 
-    'Day' => 'Gün',
-    'Week' => 'Hafta',
-    'Month' => 'Ay',
-    'Year' => 'Yıl',
-
     'add.button' => 'Yeni Ekle',
     'table.status' => 'Durum',
     'table.title' => 'Plan Adı',

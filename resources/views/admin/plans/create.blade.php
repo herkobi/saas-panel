@@ -150,7 +150,7 @@
                                         </option>
                                         @foreach (Period::values() as $key => $value)
                                             <option value="{{ $value }}">
-                                                {{ __('admin/plans/plans.' . $value) }}
+                                                {{ __('global.period_' . $value) }}
                                             </option>
                                         @endforeach
                                     </select>
