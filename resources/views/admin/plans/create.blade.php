@@ -5,7 +5,7 @@
         </div>
         <div class="col-span-9">
             <h1 class="mb-8 text-xl	font-medium	border-b pb-2">{{ __('admin/plans/plans.create.page.title') }}</h1>
-            <form action="{{ route('panel.user.create.store') }}" class="form" method="post">
+            <form action="{{ route('panel.plans.plan.create.store') }}" class="form" method="post">
                 @csrf
                 <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                     <div class="text-gray-900 mb-4">
