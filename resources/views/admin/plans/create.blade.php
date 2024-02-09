@@ -149,7 +149,7 @@
                                         <option selected>{{ __('global.selected') }}
                                         </option>
                                         @foreach (Period::values() as $key => $value)
-                                            <option value="{{ $value }}">
+                                            <option value="{{ $key }}">
                                                 {{ __('global.period_' . $value) }}
                                             </option>
                                         @endforeach

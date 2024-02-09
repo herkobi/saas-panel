@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use App\Enums\Period;
 use App\Enums\Status;
 use LucasDotVin\Soulbscription\Models\Feature as MainFeature;
 
@@ -30,6 +31,7 @@ class Feature extends MainFeature
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'status' => Status::class,
+        'periodicity_type' => Period::class,
     ];
 
 }
