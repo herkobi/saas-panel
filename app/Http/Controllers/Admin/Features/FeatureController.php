@@ -37,8 +37,8 @@ class FeatureController extends Controller
             'consumable' => $request->consumable,
             'quota' => $request->quota,
             'postpaid' => $request->postpaid,
-            'periodicity' => $request->periodicity,
-            'periodicity_type' => $request->periodicity_type,
+            'periodicity' => $request->consumable == 0 ? null : $request->periodicity,
+            'periodicity_type' => $request->consumable == 0 ? null : $request->periodicity_type,
         ]);
 
         return Redirect::route('panel.plans.features')->with('success', __('admin/plans/features.store.success'));
@@ -58,16 +58,16 @@ class FeatureController extends Controller
 
     public function update(FeatureUpdateRequest $request, Feature $feature): RedirectResponse
     {
-        $feature->status = $request->status;
-        $feature->title = $request->title;
-        $feature->name = Str::slug($request->title, '-');
-        $feature->consumable = $request->consumable;
-        $feature->quota = $request->quota;
-        $feature->postpaid = $request->postpaid;
-        $feature->periodicity = $request->periodicity;
-        $feature->periodicity_type = $request->periodicity_type;
-
-        $feature->save();
+        $feature->update([
+            'status' => $request->status,
+            'title' => $request->title,
+            'name' => Str::slug($request->title, '-'),
+            'consumable' => $request->consumable,
+            'quota' => $request->quota,
+            'postpaid' => $request->postpaid,
+            'periodicity' => $request->consumable == 0 ? null : $request->periodicity,
+            'periodicity_type' => $request->consumable == 0 ? null : $request->periodicity_type,
+        ]);
 
         return Redirect::route('panel.plans.features')->with('success', __('admin/features/features.update.success'));
     }

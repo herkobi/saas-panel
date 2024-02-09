@@ -10,6 +10,8 @@ return [
     'add.button' => 'Yeni Ekle',
     'table.status' => 'Durum',
     'table.title' => 'Özellik Adı',
+    'table.usage' => 'Kullanım',
+    'table.consumable' => 'Limit',
     'table.edit' => 'Düzenle',
 
     'edit.page.title' => 'Özellik Bilgilerini Düzenle',

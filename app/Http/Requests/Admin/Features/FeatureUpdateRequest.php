@@ -32,8 +32,8 @@ class FeatureUpdateRequest extends FormRequest
             'consumable' => ['required', 'in:0,1', 'integer'],
             'quota' => ['required','in:0,1', 'integer'],
             'postpaid' => ['required','in:0,1', 'integer'],
-            'periodicity' => ['nullable', 'required_if:consumable,true', 'integer'],
-            'periodicity_type' => ['nullable', 'required_if:consumable,true', new Enum(Period::class)], // Örneğin, gün, hafta, ay
+            'periodicity' => ['nullable', 'required_if:consumable,1', 'integer'],
+            'periodicity_type' => ['nullable', 'required_if:consumable,1', new Enum(Period::class)], // Örneğin, gün, hafta, ay
         ];
     }
 
