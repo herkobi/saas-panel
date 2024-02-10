@@ -12,6 +12,7 @@ return [
     'table.title' => 'Özellik Adı',
     'table.usage' => 'Kullanım',
     'table.consumable' => 'Limit',
+    'table.period' => 'Her :interval :unit bir yenilenir',
     'table.edit' => 'Düzenle',
 
     'edit.page.title' => 'Özellik Bilgilerini Düzenle',

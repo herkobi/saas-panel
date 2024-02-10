@@ -110,14 +110,19 @@
                                             </div>
                                         </td>
                                         <td class="h-px w-72 whitespace-nowrap">
-                                            <div class="px-6 py-3">
-                                                {{ $feature->periodicity }}
+                                            <div class="px-6 py-3 text-sm">
+                                                {{ __('admin/features/features.table.period', [
+                                                    'interval' => $feature->periodicity,
+                                                    'unit' => __('global.period_ek_' . $feature->periodicity_type->name),
+                                                ]) }}
                                             </div>
                                         </td>
                                         <td class="h-px w-72 whitespace-nowrap">
                                             <div class="px-6 py-3">
                                                 <span
-                                                    class="block text-sm font-semibold text-gray-800 dark:text-gray-200">aa</span>
+                                                    class="block text-sm font-semibold text-gray-800 dark:text-gray-200">
+                                                    {{ $feature->consumable == 1 ? __('admin/global.yes') : __('global.no') }}
+                                                </span>
                                             </div>
                                         </td>
                                         <td class="h-px w-px whitespace-nowrap">
