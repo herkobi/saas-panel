@@ -28,12 +28,21 @@ class FeatureCreateRequest extends FormRequest
         return [
             'status' => ['required', new Enum(Status::class)],
             'title' => ['required', 'string', 'max:255', Rule::unique('features', 'title')],
-            'name' => [Rule::unique('features', 'name')],
+            'name' => ['required', 'string', Rule::unique('features', 'name')],
             'consumable' => ['required', 'in:0,1', 'integer'],
-            'quota' => ['required','in:0,1', 'integer'],
-            'postpaid' => ['required','in:0,1', 'integer'],
-            'periodicity' => ['nullable', 'required_if:consumable,1', 'integer'],
-            'periodicity_type' => ['nullable', 'required_if:consumable,1', new Enum(Period::class)], // Örneğin, gün, hafta, ay
+            'quota' => ['required', 'in:0,1', 'integer'],
+            'postpaid' => ['required', 'in:0,1', 'integer'],
+            'periodicity' => [
+                'nullable',
+                'required_if:consumable,1',
+                'integer',
+                'min:1',
+            ],
+            'periodicity_type' => [
+                'nullable',
+                'required_if:consumable,1',
+                new Enum(Period::class),
+            ],
         ];
     }
 
