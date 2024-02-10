@@ -14,7 +14,10 @@ return [
     'table.price' => 'Fiyatı',
     'table.free' => 'Ücretsiz',
     'table.period' => 'Her :interval :unit bir ödemeli',
+
     'table.edit' => 'Düzenle',
+    'table.restore' => 'Geri Al',
+    'table.destroy' => 'Tamamen Sil',
 
     'edit.page.title' => 'Plan Bilgilerini Düzenle',
     'create.page.title' => 'Yeni Plan Ekle',
@@ -33,6 +36,12 @@ return [
 
     'form.submit' => 'Plan Ekle',
     'form.update' => 'Bilgileri Güncelle',
+    'form.delete' => 'Planı Sil',
+
+    'confirm.title' => 'Planı Sil',
+    'confirm.text' => 'Bu işlem geri alınamaz. Lütfen silme işleminden önce gerekli kontrolleri yaptığınızdan emin olunuz.',
+    'confirm.cancel' => 'İptal Et',
+    'confirm.submit' => 'Evet, Sil',
 
     'status' => [
         'required' => 'Lütfen durum seçiniz',
@@ -81,4 +90,6 @@ return [
      */
     'store.success' => 'Plan başarılı bir şekilde kayıt edildi',
     'update.success' => 'Plan bilgileri başarılı bir şekilde güncellendi',
+    'delete.success' => 'Plan başarılı bir şekilde silindi',
+    'destroy.error' => 'Kayıt silinemedi. Lütfen ilgili kayıtları kontrol ediniz',
 ];

@@ -13,7 +13,10 @@ return [
     'table.usage' => 'Kullanım',
     'table.consumable' => 'Limit',
     'table.period' => 'Her :interval :unit bir yenilenir',
+
     'table.edit' => 'Düzenle',
+    'table.restore' => 'Geri Al',
+    'table.destroy' => 'Tamamen Sil',
 
     'edit.page.title' => 'Özellik Bilgilerini Düzenle',
     'create.page.title' => 'Yeni Özellik Ekle',
@@ -28,6 +31,12 @@ return [
 
     'form.submit' => 'Özellik Ekle',
     'form.update' => 'Bilgileri Güncelle',
+    'form.delete' => 'Özelliği Sil',
+
+    'confirm.title' => 'Plan Özelliğini Sil',
+    'confirm.text' => 'Bu işlem geri alınamaz. Lütfen silme işleminden önce gerekli kontrolleri yaptığınızdan emin olunuz.',
+    'confirm.cancel' => 'İptal Et',
+    'confirm.submit' => 'Evet, Sil',
 
     'status' => [
         'required' => 'Lütfen durum seçiniz',
@@ -76,4 +85,6 @@ return [
      */
     'store.success' => 'Özellik başarılı bir şekilde kayıt edildi',
     'update.success' => 'Özellik bilgileri başarılı bir şekilde güncellendi',
+    'delete.success' => 'Özellik başarılı bir şekilde silindi',
+    'destroy.error' => 'Kayıt silinemedi. Lütfen ilgili kayıtları kontrol ediniz',
 ];

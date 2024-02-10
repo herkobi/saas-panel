@@ -145,7 +145,7 @@ Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('pan
             Route::post('/plan/update/{plan}', 'update')->name('plan.update');
             Route::get('/plan/create', 'create')->name('plan.create');
             Route::post('/plan/create/store', 'store')->name('plan.create.store');
-            Route::post('/plan/delete/{plan}', 'destroy')->name('plan.edit.delete');
+            Route::post('/plan/delete/{plan}', 'destroy')->name('plan.destroy');
             Route::get('/plans/deleted', 'deleted')->name('plan.deleted');
             Route::post('/plan/restore/{plan}', 'restore')->name('plan.restore')->withTrashed();
             Route::post('/plan/forcedelete', 'forcedelete')->name('plan.forcedelete');
@@ -170,7 +170,7 @@ Route::middleware(['auth:admin', 'auth.session', 'admin.verified'])->prefix('pan
             Route::post('/feature/create/store', 'store')->name('feature.create.store');
             Route::get('/feature/edit/{feature}', 'edit')->name('feature.edit');
             Route::post('/feature/update/{feature}', 'update')->name('feature.update');
-            Route::post('/feature/delete/{feature}', 'destroy')->name('feature.delete');
+            Route::post('/feature/delete/{feature}', 'destroy')->name('feature.destroy');
             Route::get('/features/deleted', 'deleted')->name('feature.deleted');
             Route::post('features/restore/{feature}', 'restore')->name('feature.restore')->withTrashed();
             Route::post('features/forcedelete', 'forcedelete')->name('feature.forcedelete');

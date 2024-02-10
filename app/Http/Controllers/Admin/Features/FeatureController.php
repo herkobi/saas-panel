@@ -74,6 +74,10 @@ class FeatureController extends Controller
 
     public function destroy(Feature $feature): RedirectResponse
     {
+        if($feature->plans()->count() > 0) {
+            return Redirect::route('panel.plans.features')->with('info', __('admin/features/features.delete.info'));
+        }
+
         $status = Status::PASSIVE;
         $feature->update(['status' => $status]);
 
@@ -83,7 +87,7 @@ class FeatureController extends Controller
 
     public function deleted() : View
     {
-        $features = Feature::onlyTrashed()->get();
+        $features = Feature::onlyTrashed()->count() > 0 ? Feature::onlyTrashed()->get() : null;
         return view('admin.features.deleted', [
             'features' => $features
         ]);
@@ -92,12 +96,12 @@ class FeatureController extends Controller
     public function restore(Feature $feature): RedirectResponse
     {
         Feature::withTrashed()->where('id', $feature->id)->restore();
-        return Redirect::route('panel.plans.features.deleted')->with('success', __('admin/features/features.feature.restored'));
+        return Redirect::route('panel.plans.feature.deleted')->with('success', __('admin/features/features.feature.restored'));
     }
 
     public function forcedelete(Request $request): RedirectResponse
     {
         Feature::withTrashed()->where('id', $request->featureId)->forceDelete();
-        return Redirect::route('panel.plans.features.deleted')->with('success', __('admin/features/features.feature.forcedelete'));
+        return Redirect::route('panel.plans.feature.deleted')->with('success', __('admin/features/features.feature.forcedelete'));
     }
 }

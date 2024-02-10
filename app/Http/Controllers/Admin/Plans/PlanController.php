@@ -77,6 +77,10 @@ class PlanController extends Controller
 
     public function destroy(Plan $plan): RedirectResponse
     {
+        if($plan->subscriptions()->count() > 0) {
+            return Redirect::route('panel.plans.plans')->with('info', __('admin/plans/plans.delete.info'));
+        }
+
         $status = Status::PASSIVE;
         $plan->update(['status' => $status]);
 
@@ -86,7 +90,7 @@ class PlanController extends Controller
 
     public function deleted() : View
     {
-        $plans = Plan::onlyTrashed()->get();
+        $plans = Plan::onlyTrashed()->count() > 0 ? Plan::onlyTrashed()->get() : null;
         return view('admin.plans.deleted', [
             'plans' => $plans
         ]);
@@ -95,12 +99,12 @@ class PlanController extends Controller
     public function restore(Plan $plan): RedirectResponse
     {
         Plan::withTrashed()->where('id', $plan->id)->restore();
-        return Redirect::route('panel.plans.plan.deleted')->with('success', __('admin/plans/plans.feature.restored'));
+        return Redirect::route('panel.plans.plan.deleted')->with('success', __('admin/plans/plans.restored'));
     }
 
     public function forcedelete(Request $request): RedirectResponse
     {
         Plan::withTrashed()->where('id', $request->planId)->forceDelete();
-        return Redirect::route('panel.plans.plan.deleted')->with('success', __('admin/plans/plans.feature.forcedelete'));
+        return Redirect::route('panel.plans.plan.deleted')->with('success', __('admin/plans/plans.forcedelete'));
     }
 }
