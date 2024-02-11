@@ -105,7 +105,7 @@
                                         <td class="h-px w-72 whitespace-nowrap">
                                             <div class="px-6 py-3">
                                                 <span
-                                                    class="block text-sm font-semibold text-gray-800 dark:text-gray-200">{{ $user->title }}</span>
+                                                    class="block text-sm font-semibold text-gray-800 dark:text-gray-200">{{ $user->plans()->title }}</span>
                                             </div>
                                         </td>
                                         <td class="h-px w-px whitespace-nowrap">
