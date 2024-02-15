@@ -3,6 +3,7 @@
 namespace App\Models\User;
 
 use App\Enums\Account;
+use App\Models\Admin\Plan;
 use App\Notifications\UserResetPasswordNotification;
 use App\Notifications\UserVerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -10,10 +11,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use LucasDotVin\Soulbscription\Models\Concerns\HasSubscriptions;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasSubscriptions;
 
     /**
      * The table associated with the model.
@@ -74,10 +76,10 @@ class User extends Authenticatable implements MustVerifyEmail
      * Kullanıcı Üye Olduğunda
      * Ücretsiz Plana eklenir.
      */
-    // protected static function booted()
-    // {
-    //     static::created(function ($user) {
-    //         $user->subscribeTo(Plan::where('name', 'standart-plan')->first());
-    //     });
-    // }
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            $user->subscribeTo(Plan::where('name', 'ucretsiz-plan')->first());
+        });
+    }
 }

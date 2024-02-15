@@ -5,6 +5,8 @@ namespace App\Models\Admin;
 use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Currency extends Model
 {
@@ -36,9 +38,18 @@ class Currency extends Model
     ];
 
     /**
+     * Plan
+     */
+    public function plan(): HasOne
+    {
+        return $this->hasOne(Plan::class, 'currency_id');
+    }
+
+    /**
      * Used Gateways.
     */
-    public function gateways() {
+    public function gateways(): HasMany
+    {
         return $this->hasMany(Gateway::class, 'currency_id');
     }
 

@@ -27,7 +27,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create();
         Admin::factory()->create();
         Country::factory()->create();
         Currency::factory()->create();
@@ -94,6 +93,8 @@ class DatabaseSeeder extends Seeder
             'periodicity'      => 1,
             'grace_days'       => 7,
         ]);
+
+        User::factory()->create();
 
     }
 }

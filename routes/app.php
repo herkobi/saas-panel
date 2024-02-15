@@ -11,7 +11,7 @@ use App\Http\Controllers\User\Auth\{
     RegisteredUserController,
     VerifyEmailController,
 };
-
+use App\Http\Controllers\User\Plans\PlanController;
 use App\Http\Controllers\User\Profile\{
     ProfileController,
 };
@@ -80,6 +80,13 @@ Route::middleware(['auth:web', 'auth.session', 'user.verified'])->prefix('app')-
     Route::get('dashboard', function () {
         return view('user.dashboard');
     })->name('dashboard');
+
+    /**
+     * Plan Yönetimi
+     */
+    Route::controller(PlanController::class)->group(function () {
+        Route::get('/plan', 'index')->name('plan');
+    });
 
     /**
      * Hesap Yönetimi
