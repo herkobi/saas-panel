@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Accounts\AccountsController;
+use App\Http\Controllers\Admin\Plans\PlanController;
 use App\Http\Controllers\Admin\Profile\ProfileController;
 use App\Http\Controllers\Admin\Settings\{
     PagesController,
@@ -44,6 +45,15 @@ Route::middleware(['auth', 'auth.session', 'verified', 'adminpanel', 'accountsta
         Route::get('/accounts/draft', 'draft')->name('accounts.draft');
         Route::get('/accounts/passive', 'passive')->name('accounts.passive');
         Route::get('/accounts/deleted', 'deleted')->name('accounts.deleted');
+    });
+
+    Route::controller(PlanController::class)->group( function () {
+        Route::get('/plans', 'index')->name('plans');
+        Route::get('/plan/create', 'create')->name('plan.create');
+        Route::post('/plan/store', 'store')->name('plan.store');
+        Route::get('/plan/edit/{plan}', 'edit')->name('plan.edit');
+        Route::post('/plan/update/{plan}', 'update')->name('plan.update');
+        Route::delete('/plan/delete/{plan}', 'destroy')->name('plan.delete');
     });
 
     Route::prefix('tools')->name('tools.')->group( function() {
