@@ -14,7 +14,7 @@ class PlanService
         $this->repository = $repository;
     }
 
-    public function getAllPlans(): Collection
+    public function getAllPlans(): array
     {
         return $this->repository->getAllPlans();
     }

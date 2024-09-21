@@ -118,6 +118,12 @@ h4 {
     background-color: var(--bs-secondary-bg);
 }
 
+.btn-sm,
+.btn-group-sm>.btn {
+    --bs-btn-padding-x: 0.35rem;
+    --bs-btn-font-size: 0.80rem;
+}
+
 .badge {
     --bs-badge-font-size: 0.7em !important;
     --bs-badge-font-weight: 500 !important;

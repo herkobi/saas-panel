@@ -10,7 +10,7 @@ class PlanRepository extends BaseRepository
 {
     protected $model = Plan::class;
 
-    public function getAllPlans(): Collection
+    public function getAllPlans(): array
     {
         return PlanCraft::plans();
     }
