@@ -23,10 +23,7 @@ class PlanController extends Controller
 
     public function index(): View
     {
-        $plans = $this->planService->getAllPlans();
-        return view('admin.plans.index', [
-            'plans' => $plans
-        ]);
+        return view('admin.plans.index');
     }
 
     public function create(): View

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4192c05f561f0381db47fd38a8e16b3f",
+    "content-hash": "6c8b5db576389e74c008bfc544cfe5e1",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2122,6 +2122,75 @@
             "time": "2024-01-28T23:22:08+00:00"
         },
         {
+            "name": "lucasdotvin/laravel-soulbscription",
+            "version": "4.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lucasdotvin/laravel-soulbscription.git",
+                "reference": "c31adf3744075cd9960d67a74be4bb874a338df9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lucasdotvin/laravel-soulbscription/zipball/c31adf3744075cd9960d67a74be4bb874a338df9",
+                "reference": "c31adf3744075cd9960d67a74be4bb874a338df9",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^8.0|^8.1|^8.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.22|^7.0|^8.0|^9.0",
+                "phpunit/phpunit": "^9.5|^10.0",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "LucasDotVin\\Soulbscription\\SoulbscriptionServiceProvider"
+                    ],
+                    "aliases": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "LucasDotVin\\Soulbscription\\": "src",
+                    "LucasDotVin\\Soulbscription\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lucas Vinicius",
+                    "email": "lucasvinicius211@yahoo.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A straightforward interface to handle subscriptions and features consumption.",
+            "homepage": "https://github.com/lucasdotvin/laravel-soulbscription",
+            "keywords": [
+                "laravel",
+                "laravel-soulbscription",
+                "lucasdotvin",
+                "subscriptions"
+            ],
+            "support": {
+                "issues": "https://github.com/lucasdotvin/laravel-soulbscription/issues",
+                "source": "https://github.com/lucasdotvin/laravel-soulbscription/tree/4.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/lucasdotvin",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-04-08T03:49:14+00:00"
+        },
+        {
             "name": "mobiledetect/mobiledetectlib",
             "version": "2.8.45",
             "source": {
@@ -3656,102 +3725,6 @@
                 "source": "https://github.com/rap2hpoutre/laravel-log-viewer/tree/v2.4.0"
             },
             "time": "2024-03-20T08:49:53+00:00"
-        },
-        {
-            "name": "realrashid/plan-craft",
-            "version": "v1.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/realrashid/plan-craft.git",
-                "reference": "5887371b8af20fb72eadef311c1945732a1b23e7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/realrashid/plan-craft/zipball/5887371b8af20fb72eadef311c1945732a1b23e7",
-                "reference": "5887371b8af20fb72eadef311c1945732a1b23e7",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": "^8.0 | ^9.0 | ^10.0 | ^11.0",
-                "php": "^8.1|^8.2"
-            },
-            "require-dev": {
-                "laravel/pint": "^1.0",
-                "mockery/mockery": "^1.6",
-                "nunomaduro/collision": "^8.1.1||^7.10.0",
-                "orchestra/testbench": "^6.0.0||^7.0.0||^8.20||^9.0.0",
-                "pestphp/pest": "^2.34",
-                "pestphp/pest-plugin-arch": "^2.7",
-                "pestphp/pest-plugin-laravel": "^2.3"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "RealRashid\\PlanCraft\\PlanCraftServiceProvider"
-                    ],
-                    "aliases": {
-                        "PlanCraft": "RealRashid\\PlanCraft\\Facades\\PlanCraft"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "RealRashid\\PlanCraft\\": "src/",
-                    "RealRashid\\PlanCraft\\Database\\Factories\\": "database/factories/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Rashid Ali",
-                    "email": "realrashid05@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Transforming Laravel Plans Management. Break free from conventional database storage constraints.",
-            "homepage": "https://github.com/realrashid/plan-craft",
-            "keywords": [
-                "Plan-craft",
-                "laravel",
-                "management",
-                "plans",
-                "realrashid",
-                "saas",
-                "subscriptions"
-            ],
-            "support": {
-                "docs": "https://realrashid.github.io/plan-craft/",
-                "email": "realrashid05@gmail.com",
-                "issues": "https://github.com/realrashid/plan-craft/issues",
-                "source": "https://github.com/realrashid/plan-craft"
-            },
-            "funding": [
-                {
-                    "url": "https://www.buymeacoffee.com/realrashid",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/realrashid",
-                    "type": "github"
-                },
-                {
-                    "url": "https://issuehunt.io/r/realrashid",
-                    "type": "issuehunt"
-                },
-                {
-                    "url": "https://ko-fi.com/realrashid",
-                    "type": "ko_fi"
-                },
-                {
-                    "url": "https://www.patreon.com/realrashid",
-                    "type": "patreon"
-                }
-            ],
-            "time": "2024-05-24T20:25:40+00:00"
         },
         {
             "name": "symfony/clock",

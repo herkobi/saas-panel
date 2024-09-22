@@ -11,11 +11,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use RealRashid\PlanCraft\Trait\HasPlan;
+use LucasDotVin\Soulbscription\Models\Concerns\HasSubscriptions;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, HasUuids, HasPlan, HasDefaultPagination, TwoFactorAuthenticatable;
+    use HasFactory, Notifiable, HasUuids, HasSubscriptions, HasDefaultPagination, TwoFactorAuthenticatable;
 
     protected $table = 'users';
 

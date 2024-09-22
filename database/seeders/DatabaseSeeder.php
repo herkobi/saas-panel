@@ -2,9 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Enums\Status;
-use App\Models\Page;
-use App\Models\Setting;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\UserMeta;

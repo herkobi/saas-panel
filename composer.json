@@ -10,8 +10,8 @@
         "laravel/fortify": "^1.24",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
-        "rap2hpoutre/laravel-log-viewer": "^2.4",
-        "realrashid/plan-craft": "^1.1"
+        "lucasdotvin/laravel-soulbscription": "^4.2",
+        "rap2hpoutre/laravel-log-viewer": "^2.4"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

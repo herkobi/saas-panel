@@ -61,6 +61,56 @@
                             </div>
                         </div>
                     </form>
+                    <form action="{{ route('panel.feature.store') }}" method="POST">
+                        @csrf
+                        <div class="container mt-4">
+                            <h2>Feature Form</h2>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="quota" class="form-label">Quota</label>
+                                    <input type="number" class="form-control" id="quota" name="quota">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="periodicity_type" class="form-label">Periodicity Type</label>
+                                    <select class="form-select" id="periodicity_type" name="periodicity_type">
+                                        <option value="day">Day</option>
+                                        <option value="week">Week</option>
+                                        <option value="month">Month</option>
+                                        <option value="year">Year</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="periodicity" class="form-label">Periodicity</label>
+                                    <input type="number" class="form-control" id="periodicity" name="periodicity">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="consumable" name="consumable">
+                                        <label class="form-check-label" for="consumable">
+                                            Consumable
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="postpaid" name="postpaid">
+                                        <label class="form-check-label" for="postpaid">
+                                            Postpaid
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
