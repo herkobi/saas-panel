@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Plans;
 
 use App\Http\Controllers\Controller;
+use App\Services\Admin\Feature\FeatureService;
 use App\Services\Admin\Plan\PlanService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -10,11 +11,14 @@ use Illuminate\View\View;
 class PlanController extends Controller
 {
     protected $planService;
+    protected $featureService;
 
     public function __construct(
-        PlanService $planService
+        PlanService $planService,
+        FeatureService $featureService,
     ) {
         $this->planService = $planService;
+        $this->featureService = $featureService;
     }
 
     public function index(): View
@@ -27,6 +31,9 @@ class PlanController extends Controller
 
     public function create(): View
     {
-        return view('admin.plans.create');
+        $features = $this->featureService->getAllFeatures();
+        return view('admin.plans.create', [
+            'features' => $features
+        ]);
     }
 }
