@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Models\Feature;
+use LucasDotVin\Soulbscription\Models\Feature;
 
-class FeatureRepository extends BaseRepository
+class FeatureRepository
 {
     protected $model = Feature::class;
 }

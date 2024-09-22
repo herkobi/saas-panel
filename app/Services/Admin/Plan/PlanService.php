@@ -3,7 +3,6 @@
 namespace App\Services\Admin\Plan;
 
 use App\Repositories\PlanRepository;
-use Illuminate\Database\Eloquent\Collection;
 
 class PlanService
 {

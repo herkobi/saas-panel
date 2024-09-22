@@ -2,6 +2,10 @@
 
 namespace App\Repositories;
 
-class PlanRepository extends BaseRepository
+use LucasDotVin\Soulbscription\Models\Plan;
+
+class PlanRepository
 {
+    protected $model = Plan::class;
+
 }

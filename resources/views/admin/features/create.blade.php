@@ -33,13 +33,27 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label class="col-lg-2 col-md-3 col-form-label required">Özellik Açıklaması</label>
+                                <label class="col-lg-2 col-md-3 col-form-label required">Limit Tanımla</label>
                                 <div class="col-lg-10 col-md-9">
-                                    <input type="text" name="desc"
-                                        class="form-control @error('desc') is-invalid @enderror" value="{{ old('desc') }}"
-                                        placeholder="Özellik Açıklaması" required>
-                                    <small class="form-hint">Lütfen özellik ile ilgili kısa açıklama giriniz.</small>
-                                    @error('desc')
+                                    <input type="text" name="quota"
+                                        class="form-control @error('quota') is-invalid @enderror"
+                                        value="{{ old('quota') }}" placeholder="Özellik Açıklaması" required>
+                                    <small class="form-hint">Eğer kullanım limiti belirteceksiniz buraya değeri giriniz.
+                                        Örnek: 1GB alan, 500 istek gibi. Sadece rakam giriniz.</small>
+                                    @error('quota')
+                                        <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label class="col-lg-2 col-md-3 col-form-label required">Yenileme Döneme</label>
+                                <div class="col-lg-10 col-md-9">
+                                    <input type="text" name="quota"
+                                        class="form-control @error('quota') is-invalid @enderror"
+                                        value="{{ old('quota') }}" placeholder="Özellik Açıklaması" required>
+                                    <small class="form-hint">Eğer kullanım limiti belirteceksiniz buraya değeri giriniz.
+                                        Örnek: 1GB alan, 500 istek gibi. Sadece rakam giriniz.</small>
+                                    @error('quota')
                                         <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -61,58 +75,76 @@
                             </div>
                         </div>
                     </form>
-                    <form action="{{ route('panel.feature.store') }}" method="POST">
+                    <form id="featureForm" action="{{ route('panel.feature.store') }}" method="POST">
                         @csrf
-                        <div class="container mt-4">
-                            <h2>Feature Form</h2>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="quota" class="form-label">Quota</label>
-                                    <input type="number" class="form-control" id="quota" name="quota">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="periodicity_type" class="form-label">Periodicity Type</label>
-                                    <select class="form-select" id="periodicity_type" name="periodicity_type">
-                                        <option value="day">Day</option>
-                                        <option value="week">Week</option>
-                                        <option value="month">Month</option>
-                                        <option value="year">Year</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="periodicity" class="form-label">Periodicity</label>
-                                    <input type="number" class="form-control" id="periodicity" name="periodicity">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="consumable" name="consumable">
-                                        <label class="form-check-label" for="consumable">
-                                            Consumable
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="postpaid" name="postpaid">
-                                        <label class="form-check-label" for="postpaid">
-                                            Postpaid
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Özellik Adı</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
                         </div>
+
+                        <div class="mb-3 custom-control custom-switch">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="consumable"
+                                    name="consumable">
+                                <label class="form-check-label" for="flexSwitchCheckDefault">Kullanımı Takip Et</label>
+                            </div>
+                        </div>
+
+                        <div id="consumableOptions" style="display: none;">
+                            <div class="mb-3">
+                                <label for="quota" class="form-label">Kota</label>
+                                <input type="number" class="form-control" id="quota" name="quota">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="periodicity_type" class="form-label">Yenilenme Sıklığı Türü</label>
+                                <select class="form-select" id="periodicity_type" name="periodicity_type">
+                                    <option value="">Bir tür seçin</option>
+                                    <option value="day">Gün</option>
+                                    <option value="week">Hafta</option>
+                                    <option value="month">Ay</option>
+                                    <option value="year">Yıl</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="periodicity" class="form-label">Yenilenme Sıklığı</label>
+                                <input type="number" class="form-control" id="periodicity" name="periodicity">
+                            </div>
+
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="postpaid" name="postpaid">
+                                <label class="form-check-label" for="postpaid">Bu özellik sonradan ödemeli mi?</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Özellik Oluştur</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        document.getElementById('consumable').addEventListener('change', function() {
+            var consumableOptions = document.getElementById('consumableOptions');
+            consumableOptions.style.display = this.checked ? 'block' : 'none';
+
+            var inputs = consumableOptions.getElementsByTagName('input');
+            var selects = consumableOptions.getElementsByTagName('select');
+
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].required = this.checked;
+            }
+
+            for (var i = 0; i < selects.length; i++) {
+                selects[i].required = this.checked;
+            }
+
+            document.querySelector('.switch-label-off').style.display = this.checked ? 'none' : 'inline';
+            document.querySelector('.switch-label-on').style.display = this.checked ? 'inline' : 'none';
+        });
+    </script>
 @endsection
