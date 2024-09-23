@@ -384,32 +384,6 @@ h4 {
     border-radius: 1rem;
 }
 
-.custom-switch {
-    padding-left: 2.25rem;
-}
-
-.custom-control-label {
-    padding-top: 0.25rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-}
-
-.custom-switch .custom-control-label::before {
-    left: -2.25rem;
-}
-
-.custom-switch .custom-control-label::after {
-    left: calc(-2.25rem + 2px);
-}
-
-.switch-label {
-    position: absolute;
-    top: 0.25rem;
-    right: -3rem;
-    width: 3rem;
-    text-align: left;
-}
-
 @media screen and (min-width: 462px) {
     .sidebar .dropdown .dropdown-menu {
         left: 20px;
