@@ -4,7 +4,7 @@ namespace App\Actions\Admin\Feature;
 
 use App\Services\Admin\Feature\FeatureService;
 use App\Events\Admin\Features\Delete as Event;
-use App\Models\Feature;
+use LucasDotVin\Soulbscription\Models\Feature;
 use App\Traits\AuthUser;
 
 class Delete

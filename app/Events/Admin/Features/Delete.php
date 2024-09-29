@@ -4,7 +4,7 @@ namespace App\Events\Admin\Features;
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Feature;
+use LucasDotVin\Soulbscription\Models\Feature;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 class Delete

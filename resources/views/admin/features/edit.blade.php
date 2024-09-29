@@ -14,7 +14,7 @@
                 <div class="card h-100 border-0 mb-5">
                     <div class="card-header border-0 bg-white p-0 mb-3">
                         <div class="d-flex align-items-center justify-content-between w-100 border-bottom pb-2">
-                            <h1 class="card-title">Yeni Özellik Ekle</h1>
+                            <h1 class="card-title">Özellik Bilgileri Güncelle</h1>
                         </div>
                     </div>
                     <form action="{{ route('panel.feature.update', $feature->id) }}" method="POST">
@@ -23,44 +23,117 @@
                             <div class="mb-3 row">
                                 <label class="col-lg-2 col-md-3 col-form-label required">Özellik Adı</label>
                                 <div class="col-lg-10 col-md-9">
-                                    <input type="text" name="title"
-                                        class="form-control @error('title') is-invalid @enderror"
-                                        value="{{ old('title', $feature->title) }}" placeholder="Özellik Adı" required>
+                                    <input type="text" id="name" name="name"
+                                        class="form-control @error('name') is-invalid @enderror"
+                                        value="{{ old('name', $feature->name) }}" placeholder="Özellik Adı" required>
                                     <small class="form-hint">Lütfen özellik adını giriniz.</small>
-                                    @error('title')
-                                        <span class="invalid-feedback" role="alert">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <label class="col-lg-2 col-md-3 col-form-label required">Özellik Açıklaması</label>
-                                <div class="col-lg-10 col-md-9">
-                                    <input type="text" name="desc"
-                                        class="form-control @error('desc') is-invalid @enderror"
-                                        value="{{ old('desc', $feature->desc) }}" placeholder="Özellik Açıklaması" required>
-                                    <small class="form-hint">Lütfen özellik ile ilgili kısa açıklama giriniz.</small>
-                                    @error('desc')
+                                    @error('name')
                                         <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <div class="col-lg-10 col-md-9 offset-lg-2 offset-md-3">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1">
-                                            </path>
-                                            <path
-                                                d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z">
-                                            </path>
-                                            <path d="M16 5l3 3"></path>
-                                        </svg>
-                                        Özellik Güncelle
-                                    </button>
+                                    <div class="mb-3 row">
+                                        <div class="col-lg-4">
+                                            <div class="custom-control custom-switch">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch"
+                                                        id="consumable" name="consumable"
+                                                        {{ $feature->consumable == true ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="consumableCheck">Kullanımı
+                                                        Takip Et</label>
+                                                </div>
+                                                <span class="form-hint small">Kullanımı farklı periyotlarla sınırlandırmak
+                                                    isterseniz seçiniz. Günde 3 kayıt, saatlik 20 işlem vb. gibi</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="custom-control custom-switch">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch"
+                                                        id="quota" name="quota"
+                                                        {{ $feature->quota == true ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="quota">Dosya Kotası
+                                                        Tanımla</label>
+                                                </div>
+                                                <span class="form-hint small">Belirli bir kullanım alanı tanımlamak
+                                                    isterseniz seçiniz.</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="custom-control custom-switch">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch"
+                                                        id="postpaid" name="postpaid"
+                                                        {{ $feature->quota == true ? 'postpaid' : '' }}>
+                                                    <label class="form-check-label" for="postpaid">Sonradan
+                                                        Ödemeli</label>
+                                                </div>
+                                                <span class="form-hint small">Kullanım sonrasında ödeme yapılacaksa
+                                                    işaretleyiniz.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="consumableOptions" style="display: none;">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="periodicity_type" class="form-label">Yenilenme Sıklığı
+                                                        Türü</label>
+                                                    <select class="form-select" id="periodicity_type"
+                                                        name="periodicity_type">
+                                                        <option>Bir tür seçin</option>
+                                                        <option value="PeriodicityType::Day"
+                                                            {{ $feature->periodicity_type == PeriodicityType::Day ? 'selected' : '' }}>
+                                                            Gün</option>
+                                                        <option value="PeriodicityType::Week"
+                                                            {{ $feature->periodicity_type == PeriodicityType::Week ? 'selected' : '' }}>
+                                                            Hafta</option>
+                                                        <option value="PeriodicityType::Month"
+                                                            {{ $feature->periodicity_type == PeriodicityType::Month ? 'selected' : '' }}>
+                                                            Ay</option>
+                                                        <option value="PeriodicityType::Year"
+                                                            {{ $feature->periodicity_type == PeriodicityType::Year ? 'selected' : '' }}>
+                                                            Yıl</option>
+                                                    </select>
+                                                    @error('periodicity_type')
+                                                        <span class="invalid-feedback"
+                                                            role="alert">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6">
+                                                <div class="mb-3">
+                                                    <label for="periodicity" class="form-label">Yenilenme Sıklığı</label>
+                                                    <input type="number" class="form-control" id="periodicity"
+                                                        name="periodicity"
+                                                        value="{{ old('periodicity', $feature->periodicity) }}">
+                                                    <span class="form-hint small">Yenileme sıklığını giriniz. İşlemin kaç
+                                                        dönemde bir tekrar kullanılabilir olacağını belirtiniz.</span>
+                                                    @error('periodicity')
+                                                        <span class="invalid-feedback"
+                                                            role="alert">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-lg-12">
+                                            <button type="submit" class="btn btn-success btn-sm w-100">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-checks">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M7 12l5 5l10 -10" />
+                                                    <path d="M2 12l5 5m5 -5l5 -5" />
+                                                </svg>
+                                                Özellik Bilgilerini Güncelle
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -69,4 +142,52 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        // Elementleri seçme
+        const consumableCheckbox = document.getElementById('consumable');
+        const quotaCheckbox = document.getElementById('quota');
+        const postpaidCheckbox = document.getElementById('postpaid');
+        const consumableOptions = document.getElementById('consumableOptions');
+
+        // Yardımcı fonksiyonlar
+        function setElementsRequired(container, isRequired) {
+            const inputs = container.getElementsByTagName('input');
+            const selects = container.getElementsByTagName('select');
+
+            [...inputs, ...selects].forEach(element => {
+                element.required = isRequired;
+            });
+        }
+
+        function toggleVisibility(element, isVisible) {
+            element.style.display = isVisible ? 'block' : 'none';
+        }
+
+        function toggleDisabled(checkbox, isDisabled) {
+            checkbox.disabled = isDisabled;
+        }
+
+        // Consumable checkbox event listener'ı
+        consumableCheckbox.addEventListener('change', function() {
+            toggleVisibility(consumableOptions, this.checked);
+            setElementsRequired(consumableOptions, this.checked);
+
+            // quotaCheck ve postpaid switchlerini etkinleştir/devre dışı bırak
+            toggleDisabled(quotaCheckbox, !this.checked);
+            toggleDisabled(postpaidCheckbox, !this.checked);
+
+            // Eğer consumable kapatılırsa, diğer checkboxları da kapat
+            if (!this.checked) {
+                quotaCheckbox.checked = false;
+                postpaidCheckbox.checked = false;
+            }
+        });
+
+        // İlk yükleme için durumu ayarla
+        toggleDisabled(quotaCheckbox, !consumableCheckbox.checked);
+        toggleDisabled(postpaidCheckbox, !consumableCheckbox.checked);
+    </script>
 @endsection

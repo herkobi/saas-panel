@@ -15,8 +15,12 @@ class FeatureCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255', Rule::unique('features', 'title')],
-            'desc' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', Rule::unique('features', 'name')],
+            'consumable' => ['nullable', 'boolean'],
+            'periodicity_type' => ['nullable','required_if:consumable,true'],
+            'periodicity' => ['nullable','required_if:consumable,true', 'numeric', 'min:1'],
+            'quota' => ['nullable', 'boolean'],
+            'postpaid' => ['nullable', 'boolean'],
         ];
     }
 
@@ -28,13 +32,12 @@ class FeatureCreateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'title.required' => 'Lütfen özellik adını giriniz',
-            'title.string' => 'Lütfen geçerli bir özellik adı giriniz',
-            'title.max' => 'Lütfen daha kısa bir özellik adı giriniz',
-            'title.unique' => 'Girmiş olduğunuz isimde bir özellik bulunmaktadır. Lütfen farklı bir isim giriniz.',
-            'desc.required' => 'Lütfen açıklama giriniz',
-            'desc.string' => 'Lütfen geçerli bir açıklama giriniz',
-            'desc.max' => 'Lütfen daha kısa bir açıklama giriniz.'
+            'name.required' => 'Lütfen özellik adını giriniz',
+            'name.string' => 'Lütfen geçerli bir özellik adı giriniz',
+            'name.max' => 'Lütfen daha kısa bir özellik adı giriniz',
+            'name.unique' => 'Girmiş olduğunuz isimde bir özellik bulunmaktadır. Lütfen farklı bir isim giriniz.',
+            'periodicity_type.required_if' => 'Tüketilebilir özellikler için yenilenme sıklığı türünü seçmeniz gerekir.',
+            'periodicity.required_if' => 'Tüketilebilir özellikler için yenilenme sıklığını belirtmelisiniz.',
         ];
     }
 }

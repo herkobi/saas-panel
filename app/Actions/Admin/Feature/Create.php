@@ -2,10 +2,10 @@
 
 namespace App\Actions\Admin\Feature;
 
-use App\Models\Feature;
 use App\Services\Admin\Feature\FeatureService;
 use App\Events\Admin\Features\Create as Event;
 use App\Traits\AuthUser;
+use LucasDotVin\Soulbscription\Models\Feature;
 
 class Create
 {
