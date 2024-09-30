@@ -34,7 +34,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs(['panel.plans', 'panel.plans.*', 'panel.plan.*']) ? 'active' : '' }}"
+                <a class="nav-link {{ request()->routeIs(['panel.plans', 'panel.plans.*', 'panel.plan.*', 'panel.features', 'panel.feature.*']) ? 'active' : '' }}"
                     href="{{ route('panel.plans') }}" data-bs-toggle="tooltip" data-bs-placement="right"
                     data-bs-title="Planlar">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
