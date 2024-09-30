@@ -16,11 +16,11 @@ class FeatureCreateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255', Rule::unique('features', 'name')],
-            'consumable' => ['nullable', 'boolean'],
+            'consumable' => ['sometimes', 'boolean'],
             'periodicity_type' => ['nullable','required_if:consumable,true'],
             'periodicity' => ['nullable','required_if:consumable,true', 'numeric', 'min:1'],
-            'quota' => ['nullable', 'boolean'],
-            'postpaid' => ['nullable', 'boolean'],
+            'quota' => ['sometimes', 'boolean'],
+            'postpaid' => ['sometimes', 'boolean'],
         ];
     }
 

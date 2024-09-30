@@ -39,10 +39,10 @@
                                             <div class="custom-control custom-switch">
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
-                                                        id="consumable" name="consumable"
-                                                        {{ $feature->consumable == true ? 'checked' : '' }}>
-                                                    <label class="form-check-label" for="consumableCheck">Kullanımı
-                                                        Takip Et</label>
+                                                        id="consumable" name="consumable" value="1"
+                                                        {{ old('consumable', $feature->consumable) ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="consumableCheck">Kullanımı Takip
+                                                        Et</label>
                                                 </div>
                                                 <span class="form-hint small">Kullanımı farklı periyotlarla sınırlandırmak
                                                     isterseniz seçiniz. Günde 3 kayıt, saatlik 20 işlem vb. gibi</span>
@@ -52,8 +52,8 @@
                                             <div class="custom-control custom-switch">
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
-                                                        id="quota" name="quota"
-                                                        {{ $feature->quota == true ? 'checked' : '' }}>
+                                                        id="quota" name="quota" value="1"
+                                                        {{ old('quota', $feature->quota) ? 'checked' : '' }}>
                                                     <label class="form-check-label" for="quota">Dosya Kotası
                                                         Tanımla</label>
                                                 </div>
@@ -65,17 +65,17 @@
                                             <div class="custom-control custom-switch">
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
-                                                        id="postpaid" name="postpaid"
-                                                        {{ $feature->quota == true ? 'postpaid' : '' }}>
-                                                    <label class="form-check-label" for="postpaid">Sonradan
-                                                        Ödemeli</label>
+                                                        id="postpaid" name="postpaid" value="1"
+                                                        {{ old('postpaid', $feature->postpaid) ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="postpaid">Sonradan Ödemeli</label>
                                                 </div>
                                                 <span class="form-hint small">Kullanım sonrasında ödeme yapılacaksa
                                                     işaretleyiniz.</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="consumableOptions" style="display: none;">
+                                    <div id="consumableOptions"
+                                        style="{{ old('consumable', $feature->consumable) ? 'display: block;' : 'display: none;' }}">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="mb-3">
@@ -85,16 +85,16 @@
                                                         name="periodicity_type">
                                                         <option>Bir tür seçin</option>
                                                         <option value="PeriodicityType::Day"
-                                                            {{ $feature->periodicity_type == PeriodicityType::Day ? 'selected' : '' }}>
+                                                            {{ old('periodicity_type', $feature->periodicity_type) == 'PeriodicityType::Day' ? 'selected' : '' }}>
                                                             Gün</option>
                                                         <option value="PeriodicityType::Week"
-                                                            {{ $feature->periodicity_type == PeriodicityType::Week ? 'selected' : '' }}>
+                                                            {{ old('periodicity_type', $feature->periodicity_type) == 'PeriodicityType::Week' ? 'selected' : '' }}>
                                                             Hafta</option>
                                                         <option value="PeriodicityType::Month"
-                                                            {{ $feature->periodicity_type == PeriodicityType::Month ? 'selected' : '' }}>
+                                                            {{ old('periodicity_type', $feature->periodicity_type) == 'PeriodicityType::Month' ? 'selected' : '' }}>
                                                             Ay</option>
                                                         <option value="PeriodicityType::Year"
-                                                            {{ $feature->periodicity_type == PeriodicityType::Year ? 'selected' : '' }}>
+                                                            {{ old('periodicity_type', $feature->periodicity_type) == 'PeriodicityType::Year' ? 'selected' : '' }}>
                                                             Yıl</option>
                                                     </select>
                                                     @error('periodicity_type')
@@ -120,7 +120,7 @@
                                         </div>
                                     </div>
                                     <div class="row mb-3">
-                                        <div class="col-lg-12">
+                                        <div class="col-lg-6">
                                             <button type="submit" class="btn btn-success btn-sm w-100">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -130,8 +130,26 @@
                                                     <path d="M7 12l5 5l10 -10" />
                                                     <path d="M2 12l5 5m5 -5l5 -5" />
                                                 </svg>
-                                                Özellik Bilgilerini Güncelle
+                                                Özelliği Güncelle
                                             </button>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="float-end">
+                                                <button type="button" class="btn btn-sm btn-outline-danger px-3"
+                                                    data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M4 7l16 0" />
+                                                        <path d="M10 11l0 6" />
+                                                        <path d="M14 11l0 6" />
+                                                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                                    </svg>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -139,6 +157,29 @@
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ route('panel.feature.delete', $feature->id) }}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="deleteModalLabel">Dikkat!</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <strong>{{ $feature->name }}</strong> isimli özelliği silmek üzeresiniz. Bu işlem geri alınamaz.
+                        Emin misiniz?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">İptal
+                            Et</button>
+                        <button type="submit" class="btn btn-sm btn-danger">Evet, Özelliği Sil</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

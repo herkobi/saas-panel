@@ -39,7 +39,7 @@
                                             <div class="custom-control custom-switch">
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
-                                                        id="consumable" name="consumable">
+                                                        id="consumable" name="consumable" value="1">
                                                     <label class="form-check-label" for="consumableCheck">Kullanımı
                                                         Takip Et</label>
                                                 </div>
@@ -51,7 +51,7 @@
                                             <div class="custom-control custom-switch">
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
-                                                        id="quota" name="quota">
+                                                        id="quota" name="quota" value="1">
                                                     <label class="form-check-label" for="quota">Dosya Kotası
                                                         Tanımla</label>
                                                 </div>
@@ -63,7 +63,7 @@
                                             <div class="custom-control custom-switch">
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
-                                                        id="postpaid" name="postpaid">
+                                                        id="postpaid" name="postpaid" value="1">
                                                     <label class="form-check-label" for="postpaid">Sonradan
                                                         Ödemeli</label>
                                                 </div>

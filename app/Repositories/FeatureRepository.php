@@ -34,17 +34,22 @@ class FeatureRepository
     public function updateFeature(string $id, array $data): Feature
     {
         $feature = $this->getById($id);
+        $consumable = $data['consumable'] ?? false;
+        $periodicity = $consumable ? ($data['periodicity'] ?? null) : null;
+        $periodicity_type = $consumable ? ($data['periodicity_type'] ?? null) : null;
+
         $feature->update([
-            'consumable'       => $data['consumable'],
+            'consumable'       => $consumable,
             'name'             => $data['name'],
-            'periodicity'      => $data['periodicity'],
-            'periodicity_type' => $data['periodicity_type'],
-            'quota'            => $data['quota'],
-            'postpaid'         => $data['postpaid'],
+            'periodicity'      => $periodicity,
+            'periodicity_type' => $periodicity_type,
+            'quota'            => $data['quota'] ?? false,
+            'postpaid'         => $data['postpaid'] ?? false,
         ]);
 
         return $feature;
     }
+
 
     public function deleteFeature(string $id): bool|null
     {
