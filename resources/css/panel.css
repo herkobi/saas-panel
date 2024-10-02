@@ -385,6 +385,10 @@ h4 {
 }
 
 @media screen and (min-width: 462px) {
+    .mw-160 {
+        max-width: 160px;
+    }
+
     .sidebar .dropdown .dropdown-menu {
         left: 20px;
     }

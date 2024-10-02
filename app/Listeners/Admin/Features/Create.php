@@ -27,7 +27,7 @@ class Create
             $event->createdBy,
             $event->feature,
             [
-                'feature_title' => $event->feature->title,
+                'feature_title' => $event->feature,
             ]
         );
 
@@ -38,7 +38,7 @@ class Create
                 $event->createdBy,
                 $event->feature,
                 [
-                    'feature_title' => $event->feature->title,
+                    'feature_title' => $event->feature,
                 ]
             ),
         ]);
