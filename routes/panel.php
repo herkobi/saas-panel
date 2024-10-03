@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Accounts\AccountsController;
 use App\Http\Controllers\Admin\Feature\FeatureController;
-use App\Http\Controllers\Admin\Plans\PlanController;
+use App\Http\Controllers\Admin\Plan\PlanController;
 use App\Http\Controllers\Admin\Profile\ProfileController;
 use App\Http\Controllers\Admin\Settings\{
     PagesController,
