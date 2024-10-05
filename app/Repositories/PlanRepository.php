@@ -21,14 +21,29 @@ class PlanRepository
 
     public function createPlan(array $data): Plan
     {
-        return Plan::create([
-            'consumable'       => $data['consumable'] ?? false,
-            'name'             => $data['name'],
-            'periodicity'      => $data['periodicity'] ?? null,
+        $plan = Plan::create([
+            'name' => $data['name'],
+            'description' => $data['desc'] ?? null,
             'periodicity_type' => $data['periodicity_type'] ?? null,
-            'quota'            => $data['quota'] ?? false,
-            'postpaid'         => $data['postpaid'] ?? false,
+            'periodicity' => $data['periodicity'] ?? null,
+            'price' => $data['price'] ?? 0,
+            'grace_days' => $data['grace_days'] ?? 0,
         ]);
+
+        if (isset($data['features']) && is_array($data['features'])) {
+            foreach ($data['features'] as $featureId => $featureData) {
+                $pivotData = [];
+                if (isset($featureData['limit']) && $featureData['limit'] !== null) {
+                    $pivotData['charges'] = $featureData['limit'];
+                } elseif (isset($featureData['quota']) && $featureData['quota'] !== null) {
+                    $pivotData['charges'] = $featureData['quota'];
+                }
+
+                $plan->features()->attach($featureId, $pivotData);
+            }
+        }
+
+        return $plan;
     }
 
     public function updatePlan(string $id, array $data): Plan

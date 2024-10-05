@@ -15,9 +15,10 @@ class PlanCreateRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'title' => ['required', 'string', Rule::unique('plans', 'title')],
+            'name' => ['required', 'string', Rule::unique('plans', 'name')],
             'desc' => ['nullable', 'string'],
             'free' => ['sometimes', 'boolean'],
+            'grace_days' => ['integer', 'min:0'],
         ];
 
         if (!$this->boolean('free')) {
@@ -28,32 +29,39 @@ class PlanCreateRequest extends FormRequest
             ]);
         }
 
-        $rules['grace_days'] = ['integer', 'min:0'];
-
-        // Feature'lar için dinamik kurallar
-        $features = $this->input('features', []);
-        foreach ($features as $featureId => $featureData) {
-            if (isset($featureData['selected']) && $featureData['selected']) {
-                // Eğer özellik tüketilebilir (consumable) ise, limit gereklidir
-                if (isset($featureData['consumable']) && $featureData['consumable']) {
-                    $rules["features.{$featureId}.limit"] = ['required', 'integer', 'min:0'];
-                }
-
-                // Eğer özellik kota içeriyorsa, quota gereklidir
-                if (isset($featureData['quota']) && $featureData['quota']) {
-                    $rules["features.{$featureId}.quota"] = ['required', 'integer', 'min:0'];
-                }
-            }
+        foreach ($this->get('feature', []) as $featureId => $value) {
+            $rules["limit_$featureId"] = ['sometimes', 'integer', 'min:0'];
+            $rules["quota_$featureId"] = ['sometimes', 'integer', 'min:0'];
         }
 
         return $rules;
     }
 
+    public function validated($key = null, $default = null)
+    {
+        $validated = parent::validated($key, $default);
+
+        $featureData = [];
+        foreach ($this->get('feature', []) as $featureId => $value) {
+            if ($value) {
+                $featureData[$featureId] = [
+                    'selected' => true,
+                    'limit' => $this->input("limit_$featureId"),
+                    'quota' => $this->input("quota_$featureId"),
+                ];
+            }
+        }
+
+        $validated['features'] = $featureData;
+
+        return $validated;
+    }
+
     public function messages()
     {
         return [
-            'title.required' => 'Plan adı zorunludur.',
-            'title.unique' => 'Bu plan adı zaten kullanılmaktadır.',
+            'name.required' => 'Plan adı zorunludur.',
+            'name.unique' => 'Bu plan adı zaten kullanılmaktadır.',
             'periodicity_type.required' => 'Plan döngüsü seçilmelidir.',
             'periodicity.required' => 'Döngü zamanı girilmelidir.',
             'price.required' => 'Plan ücreti girilmelidir.',
