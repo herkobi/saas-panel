@@ -35,8 +35,6 @@ class PlanRepository
                 $pivotData = [];
                 if (isset($featureData['limit']) && $featureData['limit'] !== null) {
                     $pivotData['charges'] = $featureData['limit'];
-                } elseif (isset($featureData['quota']) && $featureData['quota'] !== null) {
-                    $pivotData['charges'] = $featureData['quota'];
                 }
 
                 $plan->features()->attach($featureId, $pivotData);

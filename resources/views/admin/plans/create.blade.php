@@ -99,7 +99,8 @@
                                                 <div class="col-lg-4">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox"
-                                                            value="{{ $feature->id }}" id="feature_{{ $feature->id }}">
+                                                            name="feature[{{ $feature->id }}]" value="{{ $feature->id }}"
+                                                            id="feature_{{ $feature->id }}">
                                                         <label class="form-check-label" for="feature_{{ $feature->id }}">
                                                             <span class="fw-medium">{{ $feature->name }}</span>
                                                             <ul>
@@ -118,18 +119,14 @@
                                                 </div>
                                                 @if ($feature->consumable == true)
                                                     <div class="col-lg-4">
-                                                        <label class="col-form-label pt-0">Kullanım Miktarı</label>
-                                                        <input type="text" name="limit_{{ $feature->id }}"
+                                                        @if ($feature->quota == true)
+                                                            <label class="col-form-label pt-0">Dosya Alanı</label>
+                                                        @else
+                                                            <label class="col-form-label pt-0">Kullanım Miktarı</label>
+                                                        @endif
+                                                        <input type="text" name="feature[{{ $feature->id }}][limit]"
                                                             id="limit_{{ $feature->id }}"
                                                             class="form-control form-control-sm rounded-0 limit" disabled>
-                                                    </div>
-                                                @endif
-                                                @if ($feature->quota == true)
-                                                    <div class="col-lg-4">
-                                                        <label class="col-form-label pt-0">Dosya Kotası Var</label>
-                                                        <input type="text" name="quota_{{ $feature->id }}"
-                                                            id="quota_{{ $feature->id }}"
-                                                            class="form-control form-control-sm rounded-0 quota" disabled>
                                                     </div>
                                                 @endif
                                             </div>
@@ -181,7 +178,6 @@
                 checkbox.addEventListener('change', function() {
                     const featureId = this.id.split('_')[1];
                     const limitInput = this.closest('.row').querySelector('.limit');
-                    const quotaInput = this.closest('.row').querySelector('.quota');
 
                     if (limitInput) {
                         limitInput.disabled = !this.checked;

@@ -31,7 +31,6 @@ class PlanCreateRequest extends FormRequest
 
         foreach ($this->get('feature', []) as $featureId => $value) {
             $rules["limit_$featureId"] = ['sometimes', 'integer', 'min:0'];
-            $rules["quota_$featureId"] = ['sometimes', 'integer', 'min:0'];
         }
 
         return $rules;
@@ -45,9 +44,7 @@ class PlanCreateRequest extends FormRequest
         foreach ($this->get('feature', []) as $featureId => $value) {
             if ($value) {
                 $featureData[$featureId] = [
-                    'selected' => true,
-                    'limit' => $this->input("limit_$featureId"),
-                    'quota' => $this->input("quota_$featureId"),
+                    'limit' => $this->input("feature.{$featureId}.limit"),
                 ];
             }
         }
@@ -69,11 +66,8 @@ class PlanCreateRequest extends FormRequest
             'grace_days.integer' => 'Deneme süresi tam sayı olmalıdır.',
             'grace_days.min' => 'Deneme süresi 0 veya daha büyük olmalıdır.',
             'features.*.limit.required' => 'Kullanım limiti olan özellikler için limit değeri girilmelidir.',
-            'features.*.quota.required' => 'Kota olan özellikler için kota değeri girilmelidir.',
             'features.*.limit.integer' => 'Limit değeri tam sayı olmalıdır.',
-            'features.*.quota.integer' => 'Kota değeri tam sayı olmalıdır.',
             'features.*.limit.min' => 'Limit değeri 0 veya daha büyük olmalıdır.',
-            'features.*.quota.min' => 'Kota değeri 0 veya daha büyük olmalıdır.',
         ];
     }
 
