@@ -16,7 +16,7 @@ return new class () extends Migration {
             $table->id();
             $table->decimal('charges')->nullable();
             $table->foreignIdFor(\LucasDotVin\Soulbscription\Models\Feature::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(\LucasDotVin\Soulbscription\Models\Plan::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\Plan::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
