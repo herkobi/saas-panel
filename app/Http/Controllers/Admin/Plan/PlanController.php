@@ -65,8 +65,10 @@ class PlanController extends Controller
     public function edit($id): View
     {
         $plan = $this->planService->getPlanById($id);
+        $features = $this->featuresService->getAllFeatures();
         return view('admin.plans.edit', [
-            'plan' => $plan
+            'plan' => $plan,
+            'features' => $features
         ]);
     }
 
@@ -74,15 +76,15 @@ class PlanController extends Controller
     {
         $updated = $this->updatePlan->execute($id, $request->validated());
         return $updated
-                ? Redirect::route('panel.plans')->with('success', 'Özellik başarılı bir şekilde güncellendi.')
-                : Redirect::back()->with('error', 'Özellik güncellenirken bir hata oluştu. Lütfen tekrar deneyiniz.');
+                ? Redirect::route('panel.plans')->with('success', 'Plan başarılı bir şekilde güncellendi.')
+                : Redirect::back()->with('error', 'Plan güncellenirken bir hata oluştu. Lütfen tekrar deneyiniz.');
     }
 
     public function destroy($id): RedirectResponse
     {
         $deleted = $this->deletePlan->execute($id);
         return $deleted
-                ? Redirect::route('panel.plans')->with('success', 'Özellik başarılı bir şekilde silindi.')
-                : Redirect::back()->with('error', 'Özellik silinirken bir hata oluştu. Lütfen tekrar deneyiniz.');
+                ? Redirect::route('panel.plans')->with('success', 'Plan başarılı bir şekilde silindi.')
+                : Redirect::back()->with('error', 'Plan silinirken bir hata oluştu. Lütfen tekrar deneyiniz.');
     }
 }

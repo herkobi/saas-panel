@@ -47,18 +47,36 @@ class PlanRepository
     public function updatePlan(string $id, array $data): Plan
     {
         $plan = $this->getById($id);
-        $consumable = $data['consumable'] ?? false;
-        $periodicity = $consumable ? ($data['periodicity'] ?? null) : null;
-        $periodicity_type = $consumable ? ($data['periodicity_type'] ?? null) : null;
-
         $plan->update([
-            'consumable'       => $consumable,
-            'name'             => $data['name'],
-            'periodicity'      => $periodicity,
-            'periodicity_type' => $periodicity_type,
-            'quota'            => $data['quota'] ?? false,
-            'postpaid'         => $data['postpaid'] ?? false,
+            'name' => $data['name'],
+            'description' => $data['desc'] ?? null,
+            'periodicity_type' => $data['periodicity_type'] ?? null,
+            'periodicity' => $data['periodicity'] ?? null,
+            'price' => $data['price'] ?? 0,
+            'grace_days' => $data['grace_days'] ?? 0,
         ]);
+
+        $currentFeatures = $plan->features()->pluck('charges', 'features.id')->toArray();
+        $newFeatures = $data['features'] ?? [];
+
+        foreach ($newFeatures as $featureId => $featureData) {
+            $limit = $featureData['limit'] ?? null;
+
+            if (!isset($currentFeatures[$featureId])) {
+                // Yeni feature ekleniyor
+                $plan->features()->attach($featureId, ['charges' => $limit]);
+            } elseif ($currentFeatures[$featureId] != $limit) {
+                // Mevcut feature güncelleniyor
+                $plan->features()->updateExistingPivot($featureId, ['charges' => $limit]);
+            }
+
+            unset($currentFeatures[$featureId]);
+        }
+
+        // Kalan feature'lar kaldırılıyor
+        if (!empty($currentFeatures)) {
+            $plan->features()->detach(array_keys($currentFeatures));
+        }
 
         return $plan;
     }

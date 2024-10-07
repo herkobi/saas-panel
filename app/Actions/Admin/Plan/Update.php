@@ -22,9 +22,9 @@ class Update
     public function execute(string $id, array $data): Plan
     {
         $oldPlan = $this->planService->getPlanById($id);
-        $feature = $this->planService->updatePlan($id, $data);
+        $plan = $this->planService->updatePlan($id, $data);
         $newPlan = $this->planService->getPlanById($id);
-        event(new Event($feature, $this->user, $oldPlan, $newPlan));
-        return $feature;
+        event(new Event($plan, $this->user, $oldPlan, $newPlan));
+        return $plan;
     }
 }
