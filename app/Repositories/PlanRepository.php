@@ -62,18 +62,15 @@ class PlanRepository
         foreach ($newFeatures as $featureId => $featureData) {
             $limit = $featureData['limit'] ?? null;
 
-            if (!isset($currentFeatures[$featureId])) {
-                // Yeni feature ekleniyor
+            if (!isset($currentFeatures[$featureId])) { 
                 $plan->features()->attach($featureId, ['charges' => $limit]);
             } elseif ($currentFeatures[$featureId] != $limit) {
-                // Mevcut feature güncelleniyor
                 $plan->features()->updateExistingPivot($featureId, ['charges' => $limit]);
             }
 
             unset($currentFeatures[$featureId]);
         }
 
-        // Kalan feature'lar kaldırılıyor
         if (!empty($currentFeatures)) {
             $plan->features()->detach(array_keys($currentFeatures));
         }
@@ -81,10 +78,10 @@ class PlanRepository
         return $plan;
     }
 
-
     public function deletePlan(string $id): bool|null
     {
         $plan = $this->getById($id);
+        $plan->features()->detach();
         return $plan->delete();
     }
 
