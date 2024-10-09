@@ -30,6 +30,14 @@ class SettingsController extends Controller
         ]);
     }
 
+    public function system(): View
+    {
+        $settings = $this->settingService->all();
+        return view('admin.settings.system.system', [
+            'settings' => $settings
+        ]);
+    }
+
     public function update(SettingsUpdateRequest $request): RedirectResponse
     {
         $updated = $this->updateSettingsAction->execute($request->validated());

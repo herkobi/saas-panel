@@ -90,6 +90,8 @@ Route::middleware(['auth', 'auth.session', 'verified', 'adminpanel', 'accountsta
         Route::controller(SettingsController::class)->group( function() {
             Route::get('/general', 'index')->name('general');
             Route::post('/general/update', 'update')->name('general.update');
+            Route::get('/system', 'system')->name('system');
+            Route::post('/system/update', 'update')->name('system.update');
         });
 
         Route::controller(PagesController::class)->group( function() {

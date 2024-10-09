@@ -54,6 +54,7 @@ class FeatureRepository
     public function deleteFeature(string $id): bool|null
     {
         $feature = $this->getById($id);
+        $feature->plans()->detach();
         return $feature->delete();
     }
 }

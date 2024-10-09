@@ -6,6 +6,12 @@
         </a>
     </li>
     <li class="nav-item" role="presentation">
+        <a href="{{ route('panel.settings.system') }}"
+            class="nav-link {{ request()->routeIs('panel.settings.system') ? 'active' : '' }}">
+            <span>Sistem Ayarları</span>
+        </a>
+    </li>
+    <li class="nav-item" role="presentation">
         <a href="{{ route('panel.settings.users') }}"
             class="nav-link {{ request()->routeIs(['panel.settings.users', 'panel.settings.user.*']) ? 'active' : '' }}">
             <span>Yönetici Hesapları</span>
