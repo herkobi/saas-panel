@@ -13,6 +13,8 @@ class Currency extends Model
 {
     use HasFactory, HasUuids, Sluggable, HasDefaultPagination;
 
+    protected $table = "currencies";
+
     protected $fillable = [
         'status',
         'title',

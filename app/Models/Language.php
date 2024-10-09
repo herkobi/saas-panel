@@ -13,6 +13,8 @@ class Language extends Model
 {
     use HasFactory, HasUuids, Sluggable, HasDefaultPagination;
 
+    protected $table = "languages";
+
     protected $fillable = [
         'status',
         'title',
