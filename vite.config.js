@@ -9,11 +9,9 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/css/front.scss',
-                'resources/css/auth.scss',
                 'resources/css/app.scss',
                 'resources/css/panel.scss',
                 'resources/js/front.js',
-                'resources/js/auth.js',
                 'resources/js/app.js',
                 'resources/js/panel.js'
             ],
