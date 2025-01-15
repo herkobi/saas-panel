@@ -19,7 +19,7 @@ class Update
         $this->initializeAuthUser();
     }
 
-    public function execute(string $id, array $data): Plan
+    public function execute(int $id, array $data): Plan
     {
         $oldPlan = $this->planService->getPlanById($id);
         $plan = $this->planService->updatePlan($id, $data);

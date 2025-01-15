@@ -4,17 +4,15 @@ namespace App\Repositories;
 
 use App\Enums\AccountStatus;
 use App\Enums\UserType;
-use App\Models\InvoiceDetail;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 
 class AccountRepository extends BaseRepository
 {
     protected $model = User::class;
-    protected $invoiceDetailModel = InvoiceDetail::class;
 
-/**
+    /**
      * Son 30 gün içinde üye olan aktif normal kullanıcıların listesini döndürür.
      *
      * @return \Illuminate\Database\Eloquent\Collection

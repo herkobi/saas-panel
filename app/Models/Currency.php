@@ -8,6 +8,7 @@ use App\Enums\Status;
 use App\Traits\HasDefaultPagination;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Currency extends Model
 {
@@ -17,9 +18,13 @@ class Currency extends Model
 
     protected $fillable = [
         'status',
-        'title',
-        'slug',
-        'content'
+        'name',
+        'symbol',
+        'symbol_position',
+        'thousands_separator',
+        'decimal_separator',
+        'decimal_digits',
+        'iso_code'
     ];
 
     protected function casts(): array
@@ -31,9 +36,13 @@ class Currency extends Model
         ];
     }
 
-    public function setTitleAttribute($value)
+    public function bacs(): HasMany
     {
-        $this->attributes['title'] = $value;
-        $this->attributes['slug'] = $this->generateSlug($value);
+        return $this->hasMany(Bacs::class);
+    }
+
+    public function plans(): HasMany
+    {
+        return $this->hasMany(Plan::class);
     }
 }

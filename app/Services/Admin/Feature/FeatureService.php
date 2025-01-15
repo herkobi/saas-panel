@@ -20,9 +20,14 @@ class FeatureService
         return $this->repository->getAll();
     }
 
-    public function getFeatureById(string $id): Feature
+    public function getFeaturesForPlans(): Collection
     {
-        return $this->repository->getById($id);
+        return $this->repository->getFeaturesForPlans();
+    }
+
+    public function getFeatureById(int $id, bool $withTrashed = false): Feature
+    {
+        return $this->repository->getById($id, $withTrashed);
     }
 
     public function createFeature(array $data): Feature
@@ -30,13 +35,23 @@ class FeatureService
         return $this->repository->createFeature($data);
     }
 
-    public function updateFeature(string $id, array $data): Feature
+    public function updateFeature(int $id, array $data): Feature
     {
         return $this->repository->updateFeature($id, $data);
     }
 
-    public function deleteFeature(string $id): void
+    public function deleteFeature(int $id): void
     {
         $this->repository->deleteFeature($id);
+    }
+
+    public function restoreFeature(int $id): void
+    {
+        $this->repository->restoreFeature($id);
+    }
+
+    public function forceDelete(int $id): void
+    {
+        $this->repository->forceDelete($id);
     }
 }

@@ -15,6 +15,7 @@ class PlanUpdateRequest extends FormRequest
     public function rules()
     {
         $rules = [
+            'base' => ['nullable', 'exists:tenants,id'],
             'name' => ['required', 'string', Rule::unique('plans', 'name')->ignore($this->plan, 'id')],
             'desc' => ['nullable', 'string'],
             'free' => ['sometimes', 'boolean'],
@@ -26,6 +27,7 @@ class PlanUpdateRequest extends FormRequest
                 'periodicity_type' => ['required', 'string'],
                 'periodicity' => ['required', 'integer', 'min:1'],
                 'price' => ['required', 'numeric', 'min:0'],
+                'currency_id' => ['required', 'exists:currencies,id'],
             ]);
         }
 
@@ -57,12 +59,15 @@ class PlanUpdateRequest extends FormRequest
     public function messages()
     {
         return [
+            'base.exists' => 'Geçerli bir hesap seçiniz',
             'name.required' => 'Plan adı zorunludur.',
             'name.unique' => 'Bu plan adı zaten kullanılmaktadır.',
             'periodicity_type.required' => 'Plan döngüsü seçilmelidir.',
             'periodicity.required' => 'Döngü zamanı girilmelidir.',
             'price.required' => 'Plan ücreti girilmelidir.',
             'price.min' => 'Plan ücreti 0 veya daha büyük olmalıdır.',
+            'currency_id.required' => 'Para birimi seçilmelidir.',
+            'currency_id.exists' => 'Geçersiz para birimi.',
             'grace_days.integer' => 'Deneme süresi tam sayı olmalıdır.',
             'grace_days.min' => 'Deneme süresi 0 veya daha büyük olmalıdır.',
             'features.*.limit.required' => 'Kullanım limiti olan özellikler için limit değeri girilmelidir.',

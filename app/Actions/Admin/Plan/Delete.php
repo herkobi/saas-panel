@@ -19,11 +19,11 @@ class Delete
         $this->initializeAuthUser();
     }
 
-    public function execute(string $id): Plan
+    public function execute(int $id): Plan
     {
-        $feature = $this->planService->getPlanById($id);
+        $plan = $this->planService->getPlanById($id);
         $this->planService->deletePlan($id);
-        event(new Event($feature, $this->user));
-        return $feature;
+        event(new Event($plan, $this->user));
+        return $plan;
     }
 }

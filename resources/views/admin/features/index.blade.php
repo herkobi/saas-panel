@@ -3,18 +3,32 @@
     @include('admin.include.header', [
         'title' => 'Planlar',
     ])
-    <div class="page-content flex-grow-1 d-flex flex-column shadow-sm">
-        <div class="row flex-grow-1">
-            <div class="col-20 col-lg-3 col-md-3">
-                <div class="page-menu rounded-2">
-                    @include('admin.plans.include.navigation')
+    @include('admin.plans.include.navigation')
+    <div class="page-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    @include('admin.plans.include.sidebar')
                 </div>
-            </div>
-            <div class="col-80 col-lg-9 col-md-9">
-                <div class="card h-100 border-0 mb-5">
-                    <div class="card-header border-0 bg-white p-0 mb-3">
-                        <div class="d-flex align-items-center justify-content-between w-100 border-bottom pb-2">
-                            <h1 class="card-title">Özellikler</h1>
+                <div class="col-lg-9">
+                    <div class="row align-items-center mb-2">
+                        <div class="col-lg-6">
+                            <h2 class="mb-0">Özellikler</h2>
+                        </div>
+                        <div class="col-lg-6">
+                            <ul class="nav justify-content-end">
+                                <li class="nav-item">
+                                    <a href="{{ route('panel.feature.create') }}" class="btn" title="Yeni Özellik">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2">
+                                            </path>
+                                        </svg>
+                                        Özellik Ekle
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -23,12 +37,12 @@
                                 <tr>
                                     <th class="w-20">Özellik Adı</th>
                                     <th class="w-20">Kullanımı Takip Et</th>
-                                    <th class="w-20">Kotayı Takip Et</th>
+                                    <th class="w-20">Dosya Kotası Tanımlı</th>
                                     <th class="w-20">Kullandıkça Öde</th>
                                     <th class="w-20"></th>
                                 </tr>
                             </thead>
-                            <tbody class="table-group-divider">
+                            <tbody>
                                 @foreach ($features as $feature)
                                     <tr>
                                         <td>{{ $feature->name }}</td>
@@ -39,12 +53,12 @@
                                                     <span class="fw-medium">Yenilenme Süresi:</span>
                                                     {{ $feature->periodicity }}
                                                     {{ $feature->periodicity_type == 'PeriodicityType::Day'
-                                                        ? 'Gün'
+                                                        ? ' / Gün'
                                                         : ($feature->periodicity_type == 'PeriodicityType::Week'
-                                                            ? 'Hafta'
+                                                            ? ' / Hafta'
                                                             : ($feature->periodicity_type == 'PeriodicityType::Month'
-                                                                ? 'Ay'
-                                                                : 'Yıl')) }}
+                                                                ? ' / Ay'
+                                                                : ' / Yıl')) }}
                                                 </div>
                                             @else
                                                 <div class="d-block">Hayır</div>
@@ -53,10 +67,31 @@
                                         <td>{{ $feature->quota == true ? 'Evet' : 'Hayır' }}</td>
                                         <td>{{ $feature->postpaid == true ? 'Evet' : 'Hayır' }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('panel.feature.edit', $feature->id) }}"
-                                                class="btn btn-outline-primary btn-sm">
-                                                Düzenle
-                                            </a>
+                                            @if ($feature->deleted_at)
+                                                <div class="btn-group">
+                                                    <form action="{{ route('panel.feature.restore', $feature->id) }}"
+                                                        method="POST" class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-sm">
+                                                            Geri Getir
+                                                        </button>
+                                                    </form>
+                                                    <form action="{{ route('panel.feature.force-delete', $feature->id) }}"
+                                                        method="POST" class="d-inline ms-1">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-sm"
+                                                            onclick="return confirm('Bu planı kalıcı olarak silmek istediğinize emin misiniz?')">
+                                                            Tamamen Sil
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            @else
+                                                <a href="{{ route('panel.feature.edit', $feature->id) }}"
+                                                    class="btn btn-sm">
+                                                    Düzenle
+                                                </a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

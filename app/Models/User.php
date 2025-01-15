@@ -8,6 +8,10 @@ use App\Traits\HasDefaultPagination;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -15,7 +19,7 @@ use LucasDotVin\Soulbscription\Models\Concerns\HasSubscriptions;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, HasUuids, HasSubscriptions, HasDefaultPagination, TwoFactorAuthenticatable;
+    use HasFactory, Notifiable, HasUuids, HasDefaultPagination, TwoFactorAuthenticatable, HasSubscriptions;
 
     protected $table = 'users';
 
@@ -26,19 +30,19 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'type',
+        'tenant_id',
+        'is_tenant_owner',
         'status',
         'name',
         'surname',
         'email',
         'email_verified_at',
         'password',
-        'terms',
         'last_login_at',
         'last_login_ip',
         'agent',
         'created_by',
-        'created_by_name',
-        'terms'
+        'created_by_name'
     ];
 
     /**
@@ -67,22 +71,57 @@ class User extends Authenticatable implements MustVerifyEmail
             'status' => AccountStatus::class,
             'type' => UserType::class,
             'agent' => 'array',
-            'terms' => 'boolean'
+            'is_tenant_owner' => 'boolean',
         ];
     }
 
-    public function meta()
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
+    }
+
+    public function isTenantOwner(): bool
+    {
+        return $this->is_tenant_owner;
+    }
+
+    public function meta(): HasOne
     {
         return $this->hasOne(UserMeta::class);
     }
 
-    public function authlogs()
+    public function account(): HasOne
+    {
+        return $this->hasOne(UserAccount::class);
+    }
+
+    public function accountGroup(): BelongsTo
+    {
+        return $this->belongsTo(AccountGroup::class, 'group_id');
+    }
+
+    public function authlogs(): HasMany
     {
         return $this->hasMany(Authlog::class);
     }
 
-    public function activities()
+    public function activities(): HasMany
     {
         return $this->hasMany(Activity::class, 'user_id');
+    }
+
+    public function agreements(): BelongsToMany
+    {
+        return $this->belongsToMany(Agreement::class, 'agreement_user')
+            ->using(AgreementUser::class)
+            ->withPivot(['agreement_version_id', 'accepted_at', 'ip_address', 'user_agent'])
+            ->withTimestamps();
+    }
+
+    public function hasAcceptedVersion(AgreementVersion $version): bool
+    {
+        return $this->agreements()
+            ->wherePivot('agreement_version_id', $version->id)
+            ->exists();
     }
 }

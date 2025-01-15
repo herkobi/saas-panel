@@ -20,9 +20,29 @@ class PlanService
         return $this->repository->getAll();
     }
 
-    public function getPlanById(string $id): Plan
+    public function getMainPlans(): Collection
     {
-        return $this->repository->getById($id);
+        return $this->repository->getMainPlans();
+    }
+
+    public function getTenantPlans(): Collection
+    {
+        return $this->repository->getTenantPlans();
+    }
+
+    public function getBasePlans(string $id): Collection
+    {
+        return $this->repository->getBasePlans($id);
+    }
+
+    public function getFrontPlans(): Collection
+    {
+        return $this->repository->getFrontPlans();
+    }
+
+    public function getPlanById(int $id, bool $withTrashed = false): Plan
+    {
+        return $this->repository->getById($id, $withTrashed);
     }
 
     public function createPlan(array $data): Plan
@@ -30,14 +50,24 @@ class PlanService
         return $this->repository->createPlan($data);
     }
 
-    public function updatePlan(string $id, array $data): Plan
+    public function updatePlan(int $id, array $data): Plan
     {
         return $this->repository->updatePlan($id, $data);
     }
 
-    public function deletePlan(string $id): void
+    public function deletePlan(int $id): void
     {
         $this->repository->deletePlan($id);
+    }
+
+    public function restorePlan(int $id): void
+    {
+        $this->repository->restorePlan($id);
+    }
+
+    public function forceDelete(int $id): void
+    {
+        $this->repository->forceDelete($id);
     }
 
 }

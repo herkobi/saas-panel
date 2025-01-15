@@ -19,7 +19,7 @@ class Update
         $this->initializeAuthUser();
     }
 
-    public function execute(string $id, array $data): Feature
+    public function execute(int $id, array $data): Feature
     {
         $oldFeature = $this->featureService->getFeatureById($id);
         $feature = $this->featureService->updateFeature($id, $data);

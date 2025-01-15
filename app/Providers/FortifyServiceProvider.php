@@ -6,7 +6,11 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Enums\Status;
+use App\Enums\UserType;
 use App\Http\Responses\LoginResponse;
+use App\Models\Agreement;
+use App\Services\Admin\Plan\PlanService;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 use Laravel\Fortify\Contracts\TwoFactorLoginResponse as TwoFactorLoginResponseContract;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -36,8 +40,25 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.login');
         });
 
-        Fortify::registerView(function () {
-            return view('auth.register');
+        Fortify::registerView(function (Request $request) {
+            // Sözleşmeler
+            $registerAgreements = Agreement::where('user_type', UserType::USER)
+                ->where('show_on_register', true)
+                ->where('status', Status::ACTIVE)
+                ->get();
+
+            // Plan kontrolü
+            $plan = null;
+            if ($request->has('plan')) {
+                $planService = app(PlanService::class);
+                $plan = $planService->getPlanById($request->plan);
+                session(['selected_plan' => $plan->id]);
+            }
+
+            return view('auth.register', [
+                'registerAgreements' => $registerAgreements,
+                'plan' => $plan
+            ]);
         });
 
         Fortify::requestPasswordResetLinkView(function () {

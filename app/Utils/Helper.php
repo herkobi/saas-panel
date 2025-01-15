@@ -97,4 +97,39 @@ class Helper
         }
     }
 
+    /**
+     * Public klasörü altındaki dosyalara erişim sağlar.
+     *
+     * @param string|null $path Dosya yolu (örn: 'brands/image.png')
+     * @param string|null $default Varsayılan dosya yolu
+     * @return string Dosyanın tam URL'i
+     *
+     * Kullanım örnekleri:
+     * get_image('brands/image.png')
+     * get_image('products/image.jpg', 'defaults/no-product.jpg')
+     */
+    static public function getImage(?string $path, ?string $default = null): string
+    {
+        if (empty($path)) {
+            return asset($default ?? 'defaults/no-image.png');
+        }
+
+        // Cache key oluştur
+        $cacheKey = 'image_path_' . md5($path);
+
+        return Cache::remember($cacheKey, now()->addDay(), function() use ($path, $default) {
+            // Storage'dan gelen yolu kontrol et
+            if (Storage::disk('public')->exists(str_replace('storage/', '', $path))) {
+                return asset($path);
+            }
+
+            // Public klasöründe direkt kontrol et
+            if (file_exists(public_path($path))) {
+                return asset($path);
+            }
+
+            return asset($default ?? 'defaults/no-image.png');
+        });
+    }
+
 }

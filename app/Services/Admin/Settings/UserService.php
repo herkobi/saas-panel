@@ -71,11 +71,6 @@ class UserService
         return $this->repository->checkEmail($id, $data);
     }
 
-    public function changePassword(string $id, array $data): User
-    {
-        return $this->repository->updatePassword($id, $data);
-    }
-
     public function resetPassword(string $id, array $data): array
     {
         return $this->repository->resetPassword($id, $data);

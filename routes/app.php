@@ -1,28 +1,46 @@
 <?php
 
 use App\Http\Controllers\User\DashboardController;
-use App\Http\Controllers\User\Account\AccountController;
-use App\Http\Controllers\User\Profile\ProfileController;
+use App\Http\Controllers\User\Account\Account\AccountController;
+use App\Http\Controllers\User\Account\Invoices\InvoiceController;
+use App\Http\Controllers\User\Account\Payments\PaymentsController;
+use App\Http\Controllers\User\Account\Plans\PlansController;
+use App\Http\Controllers\User\Account\Profile\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'auth.session', 'verified', 'userpanel', 'accountstatus'])->prefix('app')->name('app.')->group(function () {
+Route::middleware(['auth', 'auth.session', 'verified', 'resolve.tenant', 'check.tenant', 'panel:user', 'system.settings', 'userstatus', 'tenant.status', 'subscription.check'])->prefix('app')->name('app.')->group(function () {
 
     Route::controller(DashboardController::class)->group(function () {
         Route::get('/', 'index')->name('home');
         Route::get('/passive', 'passive')->name('passive');
+        Route::get('/sign', 'sign')->name('agreement.sign');
+        Route::post('/accept-agreement', 'accept')->name('agreement.accept');
+        Route::get('/states', 'getStates')->name('country.states');
+        Route::get('/taxes', 'getTaxes')->name('taxes');
     });
 
     Route::controller(AccountController::class)->group( function() {
-        Route::get('/account/plans', 'index')->name('account.plans');
-        Route::get('/account/payments', 'payments')->name('account.payments');
-        Route::get('/account/invoices', 'invoices')->name('account.invoices');
+        Route::get('/account', 'index')->name('account');
+        Route::post('/account/update', 'update')->name('account.update');
+        Route::post('/account/update-ajax', 'updateAjax')->name('account.updateAjax');
+    });
 
-        Route::get('/account/invoice-detail', 'invoicedetail')->name('account.invoicedetail');
-        Route::get('/account/invoice-detail/edit/{detail}', 'editInvoiceDetail')->name('account.invoicedetail.edit');
-        Route::post('/account/invoice-detail/update/{detail}', 'updateInvoiceDetail')->name('account.invoicedetail.update');
-        Route::get('/account/invoice-detail/create', 'newInvoiceDetail')->name('account.invoicedetail.create');
-        Route::post('/account/invoice-detail/store', 'storeInvoiceDetail')->name('account.invoicedetail.store');
-        Route::delete('/account/invoice-detail/delete/{detail}', 'deleteInvoiceDetail')->name('account.invoicedetail.delete');
+    Route::controller(PlansController::class)->group( function() {
+        Route::get('/account/plans', 'index')->name('account.plans');
+    });
+
+    Route::controller(PaymentsController::class)->group( function() {
+        Route::get('/account/payments', 'index')->name('account.payments');
+        Route::get('/account/payment/create/plan/{plan}', 'create')->name('account.payment.create');
+        Route::post('/account/payment/store', 'store')->name('account.payment.store');
+        Route::get('/account/payment/{code}', 'show')->name('account.payment.show');
+
+        Route::get('/account/payment/bacs-success/{code}', 'bacsSuccess')->name('account.payment.bacs-success');
+        Route::post('/account/payment/{code}/upload', 'uploadDocument')->name('account.payment.upload');
+    });
+
+    Route::controller(InvoiceController::class)->group( function() {
+        Route::get('/account/invoices', 'index')->name('account.invoices');
     });
 
     Route::controller(ProfileController::class)->group( function() {

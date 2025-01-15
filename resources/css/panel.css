@@ -85,15 +85,21 @@ a {
     transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
     transition-timing-function: cubic-bezier(.4, 0, .2, 1);
     transition-duration: .15s;
-    line-height: 1.15;
-    font-size: 14px;
-    letter-spacing: .02em;
+    font-size: 13px;
     font-weight: 400;
 }
 
 .btn:hover {
     background-color: #383838;
     color: #fff;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+}
+
+.btn-danger {
+    background-color: #dc3545;
 }
 
 .btn-group-sm>.btn,
@@ -133,6 +139,10 @@ a {
     border-color: transparent;
 }
 
+.card {
+    --bs-card-cap-bg: #f7f5f5;
+}
+
 .badge {
     --bs-badge-font-weight: 400;
 }
@@ -166,6 +176,10 @@ a {
 
 .input-group-text.disabled {
     background-color: var(--bs-secondary-bg);
+}
+
+.invalid-feedback {
+    display: block;
 }
 
 .pointer {
@@ -233,6 +247,10 @@ a {
     width: 90% !important;
 }
 
+.bottom-10 {
+    bottom: 10% !important;
+}
+
 /** Sidebar
 -----------------------------*/
 .sidebar {
@@ -240,12 +258,45 @@ a {
     max-width: 230px;
     background-color: #f7f5f5;
     min-height: 100vh;
-    transition: .3s;
+    transition: 0.3s;
     position: fixed;
     bottom: 0;
     top: 0;
     border-right: 1px solid #e3ebf6;
     z-index: 1001;
+    overflow-y: auto;
+    padding-bottom: 40px;
+
+    /* Scrollbar styling for Webkit browsers (Chrome, Safari, newer Edge) */
+    &::-webkit-scrollbar {
+        width: 3px;
+        /* Width of the scrollbar */
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        /* Color of the track (background) */
+        border-radius: 6px;
+        /* Rounded corners for the track */
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        /* Color of the scroll thumb */
+        border-radius: 6px;
+        /* Rounded corners for the thumb */
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+        /* Darker color when hovering */
+    }
+
+    /* Scrollbar styling for Firefox */
+    scrollbar-width: thin;
+    /* "thin" or "auto" */
+    scrollbar-color: #c1c1c1 #f1f1f1;
+    /* thumb and track color */
 }
 
 ul.menu {
@@ -266,7 +317,7 @@ ul.menu li {
 ul.menu li a {
     color: rgba(55, 53, 47, 0.75);
     font-weight: 500;
-    padding: 4px 10px;
+    padding: 3px 10px;
     float: left;
     width: 100%;
 }
@@ -346,7 +397,7 @@ ul.menu li a:hover {
     width: 360px;
     position: absolute;
     left: 10%;
-    bottom: 20%;
+    bottom: 15%;
     padding: 15px;
 }
 
@@ -363,6 +414,30 @@ ul.menu li a:hover {
 .auth-form img {
     max-width: 220px;
     width: 220px;
+}
+
+.nav-tabs .nav-link {
+    padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x) !important;
+}
+
+.page-link {
+    box-shadow: none !important;
+}
+
+.menu-divider {
+    margin-top: .35rem;
+    margin-bottom: .35rem;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-top-color: #aaa;
+}
+
+.tire {
+    display: inline-block;
+    width: 16px;
+    text-align: center;
+    font-size: 14px;
+    color: #675dff;
 }
 
 @media screen and (max-width: 520px) {

@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Mail\NewUserEmail;
 use App\Repositories\UserRepository;
 use App\Repositories\AuthLogsRepository;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Mail;
 
 class ProfileService

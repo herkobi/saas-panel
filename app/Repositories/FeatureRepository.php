@@ -11,12 +11,23 @@ class FeatureRepository
 
     public function getAll(): Collection
     {
-        return Feature::all();
+        return Feature::withTrashed()->get();
     }
 
-    public function getById(string $id): Feature
+    public function getFeaturesForPlans(): Collection
     {
-        return Feature::findOrFail($id);
+        return Feature::withoutTrashed()->get();
+    }
+
+    public function getById(int $id, bool $withTrashed = false): Feature
+    {
+        $query = Feature::query();
+
+        if ($withTrashed) {
+            $query->withTrashed();
+        }
+
+        return $query->findOrFail($id);
     }
 
     public function createFeature(array $data): Feature
@@ -50,11 +61,21 @@ class FeatureRepository
         return $feature;
     }
 
-
     public function deleteFeature(string $id): bool|null
     {
         $feature = $this->getById($id);
         $feature->plans()->detach();
         return $feature->delete();
+    }
+    public function restoreFeature(int $id): bool|null
+    {
+        $plan = $this->getById($id, true);
+        return $plan->restore();
+    }
+
+    public function forceDelete(int $id): bool|null
+    {
+        $plan = $this->getById($id, true);
+        return $plan->forceDelete();
     }
 }

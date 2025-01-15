@@ -13,9 +13,7 @@
 </head>
 
 <body>
-    <div class="position-relative w-100 h-100">
-        @yield('content')
-    </div>
+    @yield('content')
     @yield('js')
 </body>
 

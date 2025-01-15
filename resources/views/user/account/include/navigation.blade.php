@@ -1,65 +1,33 @@
-<ul class="nav navtab-bg nav-pills flex-column" role="tablist">
-    <li class="nav-item" role="presentation">
-        <a href="{{ route('app.account.plans') }}"
-            class="nav-link {{ request()->routeIs('app.account.plans') ? 'active' : '' }}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-user-plus m-n4">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
-                <path d="M16 19h6" />
-                <path d="M19 16v6" />
-                <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
-            </svg>
-            <span>Paketler</span>
-        </a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a href="{{ route('app.account.payments') }}"
-            class="nav-link {{ request()->routeIs('app.account.payments') ? 'active' : '' }}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-credit-card-pay m-n4">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 19h-6a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v4.5" />
-                <path d="M3 10h18" />
-                <path d="M16 19h6" />
-                <path d="M19 16l3 3l-3 3" />
-                <path d="M7.005 15h.005" />
-                <path d="M11 15h2" />
-            </svg>
-            <span>Ödemeler</span>
-        </a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a href="{{ route('app.account.invoices') }}"
-            class="nav-link {{ request()->routeIs('app.account.invoices') ? 'active' : '' }}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-invoice m-n4">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                <path
-                    d="M19 12v7a1.78 1.78 0 0 1 -3.1 1.4a1.65 1.65 0 0 0 -2.6 0a1.65 1.65 0 0 1 -2.6 0a1.65 1.65 0 0 0 -2.6 0a1.78 1.78 0 0 1 -3.1 -1.4v-14a2 2 0 0 1 2 -2h7l5 5v4.25" />
-            </svg>
-            <span>Faturalar</span>
-        </a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a href="{{ route('app.account.invoicedetail') }}"
-            class="nav-link {{ request()->routeIs(['app.account.invoicedetail', 'app.account.invoicedetail.*']) ? 'active' : '' }}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-address-book m-n4">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M20 6v12a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2z" />
-                <path d="M10 16h6" />
-                <path d="M13 11m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                <path d="M4 8h3" />
-                <path d="M4 12h3" />
-                <path d="M4 16h3" />
-            </svg>
-            <span>Fatura Bilgileri</span>
-        </a>
-    </li>
-</ul>
+<div class="page-menu border-bottom mb-3">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="nav justify-content-start">
+                    <li class="nav-item {{ request()->routeIs('app.account.*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('app.account.plans') }}" title="Sistem Ayarları">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                class="bi bi-person-vcard" viewBox="0 0 20 20">
+                                <path
+                                    d="M5 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4m4-2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5M9 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 9 8m1 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5" />
+                                <path
+                                    d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8.96q.04-.245.04-.5C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1 1 0 0 1 1 12z" />
+                            </svg>
+                            Hesabım
+                        </a>
+                    </li>
+                    <li class="nav-item {{ request()->routeIs(['app.profile', 'app.profile.*']) ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('app.profile') }}" title="Ödeme Yöntemleri">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                class="bi bi-person" viewBox="0 0 20 20">
+                                <path
+                                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z">
+                                </path>
+                            </svg>
+                            Profil Bilgilerim
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

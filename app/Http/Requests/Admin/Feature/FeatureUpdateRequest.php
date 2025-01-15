@@ -12,32 +12,43 @@ class FeatureUpdateRequest extends FormRequest
         return true;
     }
 
-    public function rules(): array
+    protected function prepareForValidation()
     {
-        return [
-            'name' => ['required', 'string', 'max:255', Rule::unique('features', 'name')->ignore($this->feature, 'id')],
-            'consumable' => ['sometimes', 'boolean'],
-            'periodicity_type' => ['nullable','required_if:consumable,true'],
-            'periodicity' => ['nullable','required_if:consumable,true', 'numeric', 'min:1'],
-            'quota' => ['sometimes', 'boolean'],
-            'postpaid' => ['sometimes', 'boolean'],
-        ];
+        $this->merge([
+            'consumable' => $this->boolean('consumable'),
+            'quota' => $this->boolean('quota'),
+            'postpaid' => $this->boolean('postpaid'),
+            'periodicity_type' => $this->boolean('has_periodic') ? $this->periodicity_type : null,
+            'periodicity' => $this->boolean('has_periodic') ? $this->periodicity : null
+        ]);
     }
 
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array<string, string>
-     */
+    public function rules(): array
+    {
+        $rules = [
+            'name' => ['required', 'string', 'max:255'],
+            'consumable' => ['sometimes', 'boolean'],
+            'quota' => ['sometimes', 'boolean'],
+            'postpaid' => ['sometimes', 'boolean']
+        ];
+
+        if ($this->boolean('consumable') && $this->boolean('has_periodic')) {
+            $rules['periodicity_type'] = ['required', 'string'];
+            $rules['periodicity'] = ['required', 'integer', 'min:1'];
+        }
+
+        return $rules;
+    }
+
     public function messages(): array
     {
         return [
             'name.required' => 'Lütfen özellik adını giriniz',
             'name.string' => 'Lütfen geçerli bir özellik adı giriniz',
             'name.max' => 'Lütfen daha kısa bir özellik adı giriniz',
-            'name.unique' => 'Girmiş olduğunuz isimde bir özellik bulunmaktadır. Lütfen farklı bir isim giriniz.',
-            'periodicity_type.required_if' => 'Tüketilebilir özellikler için yenilenme sıklığı türünü seçmeniz gerekir.',
-            'periodicity.required_if' => 'Tüketilebilir özellikler için yenilenme sıklığını belirtmelisiniz.',
+            'periodicity_type.required' => 'Periyodik yenileme için periyot türü seçmelisiniz',
+            'periodicity.required' => 'Periyodik yenileme için periyot değeri girmelisiniz',
+            'periodicity.min' => 'Periyot değeri en az 1 olmalıdır',
         ];
     }
 }

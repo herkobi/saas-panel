@@ -3,170 +3,173 @@
     @include('admin.include.header', [
         'title' => 'Ayarlar',
     ])
-    <div class="page-content flex-grow-1 d-flex flex-column shadow-sm">
-        <div class="row flex-grow-1">
-            <div class="col-20 col-lg-3 col-md-3">
-                <div class="page-menu rounded-2">
-                    @include('admin.settings.include.navigation')
+    @include('admin.settings.include.navigation')
+    <div class="page-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    @include('admin.settings.system.include.sidebar')
                 </div>
-            </div>
-            <div class="col-80 col-lg-9 col-md-9">
-                <div class="card h-100 border-0 mb-5">
-                    <div class="card-header border-0 bg-white p-0 mb-3">
-                        <div class="d-flex align-items-center justify-content-between w-100 border-bottom pb-2">
-                            <h1 class="card-title">Sistem Ayarları</h1>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <form method="POST" action="{{ route('panel.settings.system.update') }}">
-                                @csrf
-                                <div class="col-lg-9 col-md-8">
+                <div class="col-lg-9">
+                    <div class="page-form">
+                        <h3 class="form-title border-bottom mb-3 pb-3">Sistem Ayarları</h3>
+                        <form action="{{ route('panel.settings.system.update') }}" method="POST">
+                            @csrf
+                            <div class="row mb-3">
+                                <label class="col-form-label col-lg-2 col-md-3 fw-medium">Tanımlamalar</label>
+                                <div class="col-lg-10 col-md-9">
                                     <div class="row mb-3">
-                                        <label class="col-3 col-form-label">Tanımlamalar</label>
-                                        <div class="col">
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <label class="col-3 col-form-label required">Arayüz Dili</label>
-                                                    <div class="col">
-                                                        <select class="form-select" name="language">
-                                                            <option>Lütfen Seçiniz</option>
-                                                            @foreach ($languages as $language)
-                                                                <option value="{{ $language->code }}"
-                                                                    {{ $language->code == config('panel.language') ? 'selected' : '' }}>
-                                                                    {{ $language->title }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <small class="form-hint">Sistem genel arayüz dilini seçiniz</small>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="col-form-label required">Konum</label>
-                                                    <div class="col">
-                                                        <select class="form-select" name="location">
-                                                            <option>Lütfen Seçiniz</option>
-                                                            @foreach ($locations as $location)
-                                                                <option value="{{ $location->code }}"
-                                                                    {{ $location->code == config('panel.location') ? 'selected' : '' }}>
-                                                                    {{ $location->title }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <small class="form-hint">Sistem içerisinde kullanılacak genel konumu
-                                                        belirtiniz</small>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <label class="col-3 col-form-label required">Para Birimi</label>
-                                                    <div class="col">
-                                                        <select class="form-select" name="currency">
-                                                            <option>Lütfen Seçiniz</option>
-                                                            @foreach ($currencies as $currency)
-                                                                <option value="{{ $currency->code }}"
-                                                                    {{ $currency->code == config('panel.currency') ? 'selected' : '' }}>
-                                                                    {{ $currency->title }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <small class="form-hint">Sistem genelinde kullanılacak para birimini
-                                                        seçiniz</small>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="col-form-label required">Vergi Oranı</label>
-                                                    <div class="col">
-                                                        <select class="form-select" name="tax">
-                                                            <option>Lütfen Seçiniz</option>
-                                                            @foreach ($taxes as $tax)
-                                                                <option value="{{ $tax->code }}"
-                                                                    {{ $tax->code == config('panel.tax') ? 'selected' : '' }}>
-                                                                    {{ $tax->title }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <small class="form-hint">Sistem genelinde kullanılacak vergi bilgisini
-                                                        seçiniz</small>
-                                                </div>
-                                            </div>
+                                        <div class="col-lg-6 mb-1">
+                                            <label for="language" class="col-form-label">Arayüz Dili</label>
+                                            <select class="form-select" name="language">
+                                                <option>Lütfen Seçiniz</option>
+                                                @foreach ($languages as $language)
+                                                    <option value="{{ $language->code }}"
+                                                        {{ $language->code == Setting::get('language') ? 'selected' : '' }}>
+                                                        {{ $language->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span class="form-hint small">Sistem genel arayüz dilini seçiniz</span>
+                                            @error('language')
+                                                <div class="invalid-feedback" role="alert">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-lg-6 mb-1">
+                                            <label for="location" class="col-form-label">Konum</label>
+                                            <select id="location" class="form-select" name="location">
+                                                <option>Lütfen Seçiniz</option>
+                                                @foreach ($countries as $country)
+                                                    <option value="{{ $country->code }}"
+                                                        {{ $country->code == Setting::get('location') ? 'selected' : '' }}>
+                                                        {{ $country->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span class="form-hint small">Sistem içerisinde kullanılacak genel
+                                                konumu belirtiniz</span>
+                                            @error('location')
+                                                <div class="invalid-feedback" role="alert">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
-                                    <div class="mb-3 row">
-                                        <label class="col-3 col-form-label">Tarih/Saat Ayarları</label>
-                                        <div class="col">
-                                            <div class="row mb-3">
-                                                <div class="col-md-12">
-                                                    <label class="col-form-label required">Zaman Dilimi</label>
-                                                    <div class="col">
-                                                        <select class="form-select" name="timezone">
-                                                            <option>Lütfen Seçiniz</option>
-                                                            @foreach (Helper::getTimeZoneList() as $timezone => $timezone_gmt_diff)
-                                                                <option value="{{ $timezone }}"
-                                                                    {{ $timezone === old('timezone', config('panel.timezone')) ? 'selected' : '' }}>
-                                                                    {{ $timezone_gmt_diff }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    <small class="form-hint">Sistem genelinde kullanılacak zaman dilimini
-                                                        seçiniz</small>
-                                                </div>
-                                            </div>
-                                            <div class="row g-4 mb-3">
-                                                <div class="col-md-6">
-                                                    <label class="col-form-label border-bottom mb-2 required">Tarih
-                                                        Formatı</label>
-                                                    <small class="form-hint mb-2">Sistem genelinde kullanılacak tarih
-                                                        formatını
-                                                        seçiniz</small>
-                                                    <div class="col">
-                                                        @foreach (Helper::dateformats() as $format)
-                                                            <label class="form-check">
-                                                                <input type="radio" name="dateformat"
-                                                                    class="form-check-input"
-                                                                    {{ $format == config('panel.dateformat') ? 'checked' : '' }}
-                                                                    value="{{ $format }}">
-                                                                <span
-                                                                    class="form-check-label">{{ Carbon::now()->format($format) }}</span>
-                                                            </label>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="col-form-label border-bottom mb-2 required">Saat
-                                                        Formatı</label>
-                                                    <small class="form-hint mb-2">Sistem genelinde kullanılacak saat
-                                                        formatını
-                                                        seçiniz</small>
-                                                    <div class="col">
-                                                        @foreach (Helper::timeformats() as $format)
-                                                            <label class="form-check">
-                                                                <input type="radio" name="timeformat"
-                                                                    class="form-check-input"
-                                                                    {{ $format == config('panel.timeformat') ? 'checked' : '' }}
-                                                                    value="{{ $format }}">
-                                                                <span
-                                                                    class="form-check-label">{{ Carbon::now()->format($format) }}</span>
-                                                            </label>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="row mb-3">
+                                        <div class="col-lg-6 mb-1">
+                                            <label for="currency" class="col-form-label">Para Birimi</label>
+                                            <select id="currency" class="form-select" name="currency">
+                                                <option>Lütfen Seçiniz</option>
+                                                @foreach ($currencies as $currency)
+                                                    <option value="{{ $currency->iso_code }}"
+                                                        {{ $currency->iso_code == Setting::get('currency') ? 'selected' : '' }}>
+                                                        {{ $currency->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span class="form-hint small">Sistem genelinde kullanılacak para
+                                                birimini seçiniz</span>
+                                            @error('currency')
+                                                <div class="invalid-feedback" role="alert">{{ $message }}</div>
+                                            @enderror
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-10 offset-lg-2 col-md-9 offset-md-3">
-                                            <button type="submit" id="updateButton"
-                                                class="btn btn-primary">Güncelle</button>
+                                        <div class="col-lg-6 mb-1">
+                                            <label for="tax" class="col-form-label">Vergi Oranı</label>
+                                            <select id="tax" class="form-select" name="tax">
+                                                <option>Lütfen Seçiniz</option>
+                                                @foreach ($taxes as $tax)
+                                                    <option value="{{ $tax->code }}"
+                                                        {{ $tax->code == Setting::get('tax') ? 'selected' : '' }}>
+                                                        @if ($tax->regions->first()->state)
+                                                            {{ $tax->regions->first()->country->name . ' - ' . $tax->regions->first()->state->name }}
+                                                            -
+                                                        @else
+                                                            {{ $tax->regions->first()->country->name }} -
+                                                        @endif
+                                                        {{ $tax->code . ' %' . $tax->value }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <span class="form-hint small">Sistem genelinde kullanılacak vergi
+                                                bilgisini seçiniz</span>
+                                            @error('tax')
+                                                <div class="invalid-feedback" role="alert">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
-                            </form>
-                            <div class="col-lg-3 col-md-4"></div>
-                        </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-form-label col-lg-2 col-md-3 fw-medium">Tarih/Saat
+                                    Ayarları</label>
+                                <div class="col-lg-10 col-md-9">
+                                    <div class="row mb-3">
+                                        <div class="col-lg-12 mb-1">
+                                            <label for="timezone" class="col-form-label">Zaman Dilimi</label>
+                                            <select id="timezone" class="form-select" name="timezone">
+                                                <option>Lütfen Seçiniz</option>
+                                                @foreach (Helper::getTimeZoneList() as $timezone => $timezone_gmt_diff)
+                                                    <option value="{{ $timezone }}"
+                                                        {{ $timezone === old('timezone', Setting::get('timezone')) ? 'selected' : '' }}>
+                                                        {{ $timezone_gmt_diff }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <span class="form-hint small">Sistem genelinde kullanılacak zaman
+                                                dilimini seçiniz</span>
+                                            @error('timezone')
+                                                <div class="invalid-feedback" role="alert">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label class="col-form-label border-bottom mb-1 d-block">Tarih
+                                                Formatı</label>
+                                            <span class="form-hint small d-block mb-3">Sistem genelinde kullanılacak
+                                                tarih formatını seçiniz</span>
+                                            <div class="col">
+                                                @foreach (Helper::dateformats() as $format)
+                                                    <label class="form-check">
+                                                        <input type="radio" name="dateformat" class="form-check-input"
+                                                            {{ $format == Setting::get('dateformat') ? 'checked' : '' }}
+                                                            value="{{ $format }}">
+                                                        <span
+                                                            class="form-check-label">{{ Carbon::now()->format($format) }}</span>
+                                                    </label>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="col-form-label border-bottom mb-1 d-block">Saat
+                                                Formatı</label>
+                                            <span class="form-hint small d-block mb-3">Sistem genelinde kullanılacak
+                                                saat formatını seçiniz</span>
+                                            <div class="col">
+                                                @foreach (Helper::timeformats() as $format)
+                                                    <label class="form-check">
+                                                        <input type="radio" name="timeformat" class="form-check-input"
+                                                            {{ $format == Setting::get('timeformat') ? 'checked' : '' }}
+                                                            value="{{ $format }}">
+                                                        <span
+                                                            class="form-check-label">{{ Carbon::now()->format($format) }}</span>
+                                                    </label>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-5">
+                                <div class="col-lg-10 col-mg-9 offset-lg-2 offset-md-3">
+                                    <button type="submit" class="btn rounded-1 px-5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            fill="currentColor" class="bi bi-floppy" viewBox="0 0 20 20">
+                                            <path d="M11 2H9v3h2z"></path>
+                                            <path
+                                                d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z">
+                                            </path>
+                                        </svg>
+                                        GÜNCELLE
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

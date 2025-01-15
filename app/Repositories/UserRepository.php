@@ -3,16 +3,18 @@
 namespace App\Repositories;
 
 use App\Enums\AccountStatus;
+use App\Enums\Status;
 use App\Enums\UserType;
+use App\Models\Agreement;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -75,6 +77,25 @@ class UserRepository extends BaseRepository
                 'user_folder' => $folderName
             ]);
 
+            // Yönetici sözleşmelerini imzala
+            $agreements = Agreement::where('user_type', UserType::ADMIN)
+                ->where('status', Status::ACTIVE)
+                ->where('show_on_register', true)
+                ->get();
+
+            foreach ($agreements as $agreement) {
+                $latestVersion = $agreement->latestVersion();
+                if ($latestVersion) {
+                    $user->agreements()->attach($agreement->id, [
+                        'id' => Str::uuid(),
+                        'agreement_version_id' => $latestVersion->id,
+                        'accepted_at' => now(),
+                        'ip_address' => request()->ip(),
+                        'user_agent' => request()->userAgent()
+                    ]);
+                }
+            }
+
             return $user;
         });
     }
@@ -88,7 +109,6 @@ class UserRepository extends BaseRepository
                 'name' => $data['name'],
                 'surname' => $data['surname'],
                 'email' => $data['email'],
-                'terms' => 1,
                 'password' => Hash::make($data['password']),
                 'email_verified_at' => isset($data['verifyemail']) ? Carbon::now()->toDateTimeString() : null,
                 'created_by' => Auth::id(),
@@ -105,6 +125,40 @@ class UserRepository extends BaseRepository
                 'title' => $data['title'] ?? null,
                 'user_folder' => $folderName
             ]);
+
+            $user->account()->create([
+                'invoiceName' => $user->name . ' ' . $user->surname,
+                'taxOffice' => null,
+                'taxNumber' => null,
+                'address' => null,
+                'zipCode' => null,
+                'state' => null,
+                'city' => null,
+                'country' => null,
+                'mersis' => null,
+                'phone' => null,
+                'email' => $user->email,
+                'kep' => null,
+            ]);
+
+            // Kullanıcı sözleşmelerini imzala
+            $agreements = Agreement::where('user_type', UserType::USER)
+                ->where('status', Status::ACTIVE)
+                ->where('show_on_register', true)
+                ->get();
+
+            foreach ($agreements as $agreement) {
+                $latestVersion = $agreement->latestVersion();
+                if ($latestVersion) {
+                    $user->agreements()->attach($agreement->id, [
+                        'id' => Str::uuid(),
+                        'agreement_version_id' => $latestVersion->id,
+                        'accepted_at' => now(),
+                        'ip_address' => request()->ip(),
+                        'user_agent' => request()->userAgent()
+                    ]);
+                }
+            }
 
             return $user;
         });
@@ -181,20 +235,35 @@ class UserRepository extends BaseRepository
         return $user;
     }
 
-    public function updatePassword(string $id, array $data): User|Model
-    {
-        $user = $this->getById($id);
-        $user->update([
-            'password' => Hash::make($data['password'])
-        ]);
-
-        return $user;
-    }
-
     public function resetPassword(string $id, array $data): array
     {
         $user = $this->getById($id);
         $status = Password::sendResetLink(['email' => $data["email"]]);
         return ['status' => $status, 'user' => $user];
+    }
+
+    public function updatePassword(string $id, array $data): User|Model
+    {
+        $user = $this->getById($id);
+
+        // Eski şifre kontrolü
+        if (!Hash::check($data['old_password'], $user->password)) {
+            throw ValidationException::withMessages([
+                'old_password' => 'Mevcut şifreniz doğru değil.'
+            ]);
+        }
+
+        // Yeni şifre eski şifre ile aynı olmamalı
+        if (Hash::check($data['password'], $user->password)) {
+            throw ValidationException::withMessages([
+                'password' => 'Yeni şifreniz eski şifrenizden farklı olmalıdır.'
+            ]);
+        }
+
+        $user->update([
+            'password' => Hash::make($data['password'])
+        ]);
+
+        return $user;
     }
 }

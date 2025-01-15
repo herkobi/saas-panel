@@ -23,15 +23,43 @@ class SettingsTableSeeder extends Seeder
             ],
             [
                 'key' => 'logo',
-                'value' => 'herkobi-favicon.png'
+                'value' => 'herkobi.png'
             ],
             [
                 'key' => 'favicon',
-                'value' => 'herkobi-favicon.png'
+                'value' => 'favicon.png'
             ],
             [
                 'key' => 'email',
                 'value' => 'contact@example.com'
+            ],
+            [
+                'key' => 'language',
+                'value' => 'tr'
+            ],
+            [
+                'key' => 'location',
+                'value' => 'TR'
+            ],
+            [
+                'key' => 'currency',
+                'value' => 'TRY'
+            ],
+            [
+                'key' => 'tax',
+                'value' => 'KDV'
+            ],
+            [
+                'key' => 'timezone',
+                'value' => 'Europe/Istanbul'
+            ],
+            [
+                'key' => 'dateformat',
+                'value' => 'm/d/Y'
+            ],
+            [
+                'key' => 'timeformat',
+                'value' => 'H:i'
             ]
         ];
 

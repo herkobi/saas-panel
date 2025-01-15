@@ -3,7 +3,11 @@
 namespace App\Actions\Fortify;
 
 use App\Enums\AccountStatus;
+use App\Enums\Status;
 use App\Enums\UserType;
+use App\Models\Agreement;
+use App\Models\Plan;
+use App\Models\Tenant;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -17,14 +21,14 @@ class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
 
-    /**
-     * Validate and create a newly registered user.
-     *
-     * @param  array<string, string>  $input
-     */
     public function create(array $input): User
     {
-        Validator::make($input, [
+        $registerAgreements = Agreement::where('user_type', UserType::USER)
+            ->where('show_on_register', true)
+            ->where('status', Status::ACTIVE)
+            ->get();
+
+        $validationRules = [
             'name' => ['required', 'string', 'max:255'],
             'surname' => ['required', 'string', 'max:255'],
             'email' => [
@@ -35,39 +39,85 @@ class CreateNewUser implements CreatesNewUsers
                 Rule::unique(User::class),
             ],
             'password' => $this->passwordRules(),
-            'terms' => ['required']
-        ])->validate();
+        ];
 
-        $input['terms'] = $input['terms'] ? '1' : '0';
+        // Domain validasyonu subdomain aktifse
+        if (config('tenant.use_subdomain')) {
+            $validationRules['domain'] = ['nullable', 'string', 'unique:tenants,domain'];
+        }
 
+        // Sözleşme validasyonları
+        foreach ($registerAgreements as $agreement) {
+            $validationRules['agreement_' . $agreement->id] = ['required', 'accepted'];
+        }
+
+        Validator::make($input, $validationRules)->validate();
+
+        // Önce tenant oluştur
+        $tenant = Tenant::create([
+            'code' => Tenant::generateCode(),
+            'domain' => $input['domain'] ?? null,
+            'has_domain' => config('tenant.use_subdomain') && !empty($input['domain']),
+            'status' => AccountStatus::ACTIVE
+        ]);
+
+        // Kullanıcıyı tenant ile ilişkilendir
         $user = User::create([
             'status' => AccountStatus::ACTIVE,
+            'tenant_id' => $tenant->id,
+            'is_tenant_owner' => true, // Tenant sahibi mi
             'type' => UserType::USER,
             'name' => $input['name'],
             'surname' => $input['surname'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
-            'terms' => $input['terms'],
             'created_by' => 0,
             'created_by_name' => 'Owner'
         ]);
 
-        /**
-         * Kullanıcı klasörü oluşturuluyor.
-         */
+        // Kullanıcı klasörünü tenant altında oluştur
         $folderName = 'user_' . Str::random(12);
+        Storage::makeDirectory($tenant->getUserPath($folderName));
 
-        if (!Storage::disk('public')->exists($folderName)) {
-            Storage::disk('public')->makeDirectory($folderName);
-        }
-
-        // User tablosuna user_folder bilgisini ekle
+        // User meta
         $user->meta()->create([
             'title' => null,
-            'url' => null,
-            'phone' => null,
             'user_folder' => $folderName
         ]);
+
+        // User account
+        $user->account()->create([
+            'invoice_name' => $user->name . ' ' . $user->surname
+        ]);
+
+        // Sözleşmeleri ekle
+        foreach ($registerAgreements as $agreement) {
+            if (isset($input['agreement_' . $agreement->id])) {
+                $latestVersion = $agreement->latestVersion();
+                if ($latestVersion) {
+                    $user->agreements()->attach($agreement->id, [
+                        'id' => Str::uuid(),
+                        'agreement_version_id' => $latestVersion->id,
+                        'accepted_at' => now(),
+                        'ip_address' => request()->ip(),
+                        'user_agent' => request()->userAgent()
+                    ]);
+                }
+            }
+        }
+
+        // Plan subscription
+        if (session()->has('selected_plan')) {
+
+            $plan = Plan::find(session('selected_plan'));
+
+            $subscription = $user->subscribeTo($plan);
+
+            if ($plan->price > 0)
+            {
+                $subscription->suppress();
+            }
+        }
 
         return $user;
     }

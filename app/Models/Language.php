@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\Sluggable;
 use App\Enums\Status;
 use App\Traits\HasDefaultPagination;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -11,15 +10,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Language extends Model
 {
-    use HasFactory, HasUuids, Sluggable, HasDefaultPagination;
+    use HasFactory, HasUuids, HasDefaultPagination;
 
     protected $table = "languages";
 
     protected $fillable = [
         'status',
-        'title',
-        'slug',
-        'content'
+        'name',
+        'code',
+        'regional_code',
+        'charset',
+        'direction'
     ];
 
     protected function casts(): array
@@ -29,11 +30,5 @@ class Language extends Model
             'updated_at' => 'datetime',
             'status' => Status::class,
         ];
-    }
-
-    public function setTitleAttribute($value)
-    {
-        $this->attributes['title'] = $value;
-        $this->attributes['slug'] = $this->generateSlug($value);
     }
 }

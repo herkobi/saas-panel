@@ -3,163 +3,158 @@
     @include('admin.include.header', [
         'title' => 'Planlar',
     ])
-    <div class="page-content flex-grow-1 d-flex flex-column shadow-sm">
-        <div class="row flex-grow-1">
-            <div class="col-20 col-lg-3 col-md-3">
-                <div class="page-menu rounded-2">
-                    @include('admin.plans.include.navigation')
+    @include('admin.plans.include.navigation')
+    <div class="page-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    @include('admin.plans.include.sidebar')
                 </div>
-            </div>
-            <div class="col-80 col-lg-9 col-md-9">
-                <div class="card h-100 border-0 mb-5">
-                    <div class="card-header border-0 bg-white p-0 mb-3">
-                        <div class="d-flex align-items-center justify-content-between w-100 border-bottom pb-2">
-                            <h1 class="card-title">Özellik Bilgileri Güncelle</h1>
-                        </div>
-                    </div>
-                    <form action="{{ route('panel.feature.update', $feature->id) }}" method="POST">
-                        @csrf
-                        <div class="card-body">
-                            <div class="mb-3 row">
-                                <label class="col-lg-2 col-md-3 col-form-label required">Özellik Adı</label>
-                                <div class="col-lg-10 col-md-9">
-                                    <input type="text" id="name" name="name"
-                                        class="form-control @error('name') is-invalid @enderror"
-                                        value="{{ old('name', $feature->name) }}" placeholder="Özellik Adı" required>
-                                    <small class="form-hint">Lütfen özellik adını giriniz.</small>
-                                    @error('name')
-                                        <span class="invalid-feedback" role="alert">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="mb-3 row">
-                                <div class="col-lg-10 col-md-9 offset-lg-2 offset-md-3">
-                                    <div class="mb-3 row">
-                                        <div class="col-lg-4">
-                                            <div class="custom-control custom-switch">
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" role="switch"
-                                                        id="consumable" name="consumable" value="1"
-                                                        {{ old('consumable', $feature->consumable) ? 'checked' : '' }}>
-                                                    <label class="form-check-label" for="consumableCheck">Kullanımı Takip
-                                                        Et</label>
-                                                </div>
-                                                <span class="form-hint small">Kullanımı farklı periyotlarla sınırlandırmak
-                                                    isterseniz seçiniz. Günde 3 kayıt, saatlik 20 işlem vb. gibi</span>
+                <div class="col-lg-9">
+                    <div class="page-form row">
+                        <div class="col-lg-10 offset-lg-1">
+                            <h3 class="form-title border-bottom mb-3 pb-2">Özellik Bilgilerini Düzenle</h3>
+                            <form action="{{ route('panel.feature.update', $feature->id) }}" method="POST">
+                                @csrf
+                                <div class="row mb-3">
+                                    <label for="name" class="col-form-label col-lg-2 col-md-3">Özellik Adı</label>
+                                    <div class="col-lg-10 col-md-9">
+                                        <div class="input-group">
+                                            <div class="input-group-text rounded-0 border-end-0 bg-white">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                    <path fill-rule="evenodd"
+                                                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                                </svg>
                                             </div>
+                                            <input id="name" type="text" name="name"
+                                                class="form-control rounded-0 border-start-0"
+                                                placeholder="Özellik Adını Giriniz"
+                                                value="{{ old('name', $feature->name) }}" required>
                                         </div>
-                                        <div class="col-lg-4">
-                                            <div class="custom-control custom-switch">
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" role="switch"
-                                                        id="quota" name="quota" value="1"
-                                                        {{ old('quota', $feature->quota) ? 'checked' : '' }}>
-                                                    <label class="form-check-label" for="quota">Dosya Kotası
-                                                        Tanımla</label>
-                                                </div>
-                                                <span class="form-hint small">Belirli bir kullanım alanı tanımlamak
-                                                    isterseniz seçiniz.</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="custom-control custom-switch">
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" role="switch"
-                                                        id="postpaid" name="postpaid" value="1"
-                                                        {{ old('postpaid', $feature->postpaid) ? 'checked' : '' }}>
-                                                    <label class="form-check-label" for="postpaid">Sonradan Ödemeli</label>
-                                                </div>
-                                                <span class="form-hint small">Kullanım sonrasında ödeme yapılacaksa
-                                                    işaretleyiniz.</span>
-                                            </div>
-                                        </div>
+                                        <span class="form-hint small">Özellik adını giriniz</span>
+                                        @error('name')
+                                            <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                                        @enderror
                                     </div>
-                                    <div id="consumableOptions"
-                                        style="{{ old('consumable', $feature->consumable) ? 'display: block;' : 'display: none;' }}">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6">
-                                                <div class="mb-3">
-                                                    <label for="periodicity_type" class="form-label">Yenilenme Sıklığı
-                                                        Türü</label>
+                                </div>
+                                <div class="row mb-5">
+                                    <label for="name" class="col-form-label col-lg-2 col-md-3">Özellik Bilgileri</label>
+                                    <div class="col-lg-10 col-md-9">
+                                        <div class="row mb-3">
+                                            <!-- Tüketilebilir Özellik -->
+                                            <div class="col-lg-4">
+                                                <div class="custom-control custom-switch">
+                                                    <div class="form-check form-switch border-bottom pb-3 mb-2">
+                                                        <input class="form-check-input" type="checkbox" id="consumable"
+                                                            name="consumable" value="1">
+                                                        <label class="form-check-label">Kullanımı Takip Et</label>
+                                                    </div>
+                                                    <span class="form-hint small">Kullanım miktarı takip edilecekse
+                                                        seçin</span>
+                                                </div>
+                                            </div>
+                                            <!-- Kota Takibi -->
+                                            <div class="col-lg-4">
+                                                <div class="custom-control custom-switch">
+                                                    <div class="form-check form-switch border-bottom pb-3 mb-2">
+                                                        <input class="form-check-input" type="checkbox" id="quota"
+                                                            name="quota" value="1" disabled>
+                                                        <label class="form-check-label">Kota Takibi</label>
+                                                    </div>
+                                                    <span class="form-hint small">Depolama alanı gibi kota takibi
+                                                        yapılacaksa seçin</span>
+                                                </div>
+                                            </div>
+                                            <!-- Sonradan Ödeme -->
+                                            <div class="col-lg-4">
+                                                <div class="custom-control custom-switch">
+                                                    <div class="form-check form-switch border-bottom pb-3 mb-2">
+                                                        <input class="form-check-input" type="checkbox" id="postpaid"
+                                                            name="postpaid" value="1" disabled>
+                                                        <label class="form-check-label">Sonradan Ödemeli</label>
+                                                    </div>
+                                                    <span class="form-hint small">Özellik kullanıldıktan sonra ödemeye izin
+                                                        ver</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <!-- Periyodik Yenileme -->
+                                            <div class="col-lg-4">
+                                                <div class="custom-control custom-switch">
+                                                    <div class="form-check form-switch border-bottom pb-3 mb-2">
+                                                        <input class="form-check-input" type="checkbox" id="has_periodic"
+                                                            name="has_periodic" value="1" disabled>
+                                                        <label class="form-check-label">Periyodik Yenileme</label>
+                                                    </div>
+                                                    <span class="form-hint small">Belirlenen sürelerde yenilenecekse seçin
+                                                        (Aylık SMS paketi gibi)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Periyot Alanları -->
+                                        <div id="periodicityOptions" style="display: none;">
+                                            <div class="row mb-3">
+                                                <div class="col-lg-6">
+                                                    <label class="col-form-label">Yenilenme Sıklığı Türü</label>
                                                     <select class="form-select" id="periodicity_type"
                                                         name="periodicity_type">
-                                                        <option>Bir tür seçin</option>
-                                                        <option value="PeriodicityType::Day"
-                                                            {{ old('periodicity_type', $feature->periodicity_type) == 'PeriodicityType::Day' ? 'selected' : '' }}>
-                                                            Gün</option>
-                                                        <option value="PeriodicityType::Week"
-                                                            {{ old('periodicity_type', $feature->periodicity_type) == 'PeriodicityType::Week' ? 'selected' : '' }}>
-                                                            Hafta</option>
-                                                        <option value="PeriodicityType::Month"
-                                                            {{ old('periodicity_type', $feature->periodicity_type) == 'PeriodicityType::Month' ? 'selected' : '' }}>
-                                                            Ay</option>
-                                                        <option value="PeriodicityType::Year"
-                                                            {{ old('periodicity_type', $feature->periodicity_type) == 'PeriodicityType::Year' ? 'selected' : '' }}>
-                                                            Yıl</option>
+                                                        <option>Bir periyot seçin</option>
+                                                        <option value="PeriodicityType::Day">Gün</option>
+                                                        <option value="PeriodicityType::Week">Hafta</option>
+                                                        <option value="PeriodicityType::Month">Ay</option>
+                                                        <option value="PeriodicityType::Year">Yıl</option>
                                                     </select>
-                                                    @error('periodicity_type')
-                                                        <span class="invalid-feedback"
-                                                            role="alert">{{ $message }}</span>
-                                                    @enderror
+                                                    <span class="form-hint small">Yenileme sıklığını seçiniz.</span>
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6">
-                                                <div class="mb-3">
-                                                    <label for="periodicity" class="form-label">Yenilenme Sıklığı</label>
+                                                <div class="col-lg-6">
+                                                    <label class="col-form-label">Yenilenme Sıklığı</label>
                                                     <input type="number" class="form-control" id="periodicity"
-                                                        name="periodicity"
-                                                        value="{{ old('periodicity', $feature->periodicity) }}">
-                                                    <span class="form-hint small">Yenileme sıklığını giriniz. İşlemin kaç
-                                                        dönemde bir tekrar kullanılabilir olacağını belirtiniz.</span>
-                                                    @error('periodicity')
-                                                        <span class="invalid-feedback"
-                                                            role="alert">{{ $message }}</span>
-                                                    @enderror
+                                                        name="periodicity">
+                                                    <span class="form-hint small">Yenileme sıklığını giriniz.</span>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <div class="col-lg-6">
-                                            <button type="submit" class="btn btn-success btn-sm w-100">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-checks">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M7 12l5 5l10 -10" />
-                                                    <path d="M2 12l5 5m5 -5l5 -5" />
-                                                </svg>
-                                                Özelliği Güncelle
-                                            </button>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="float-end">
-                                                <button type="button" class="btn btn-sm btn-outline-danger px-3"
-                                                    data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                        <path d="M4 7l16 0" />
-                                                        <path d="M10 11l0 6" />
-                                                        <path d="M14 11l0 6" />
-                                                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                                                    </svg>
-                                                </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="row mb-3">
+                                    <div class="col-lg-10 col-mg-9 offset-lg-2 offset-md-3">
+                                        <div class="d-flex align-items-center justify-content-between w-100">
+                                            <button type="submit" class="btn rounded-1 px-5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                    fill="currentColor" class="bi bi-floppy" viewBox="0 0 20 20">
+                                                    <path d="M11 2H9v3h2z" />
+                                                    <path
+                                                        d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
+                                                </svg>
+                                                GÜNCELLE
+                                            </button>
+                                            <button type="button" class="btn bg-white border-0 text-danger"
+                                                data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                    <path
+                                                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                                </svg>
+                                                SİL
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Delete Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -175,9 +170,11 @@
                         Emin misiniz?
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">İptal
-                            Et</button>
-                        <button type="submit" class="btn btn-sm btn-danger">Evet, Özelliği Sil</button>
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                            <button type="button" class="btn bg-white border-0 text-dark" data-bs-dismiss="modal">İptal
+                                Et</button>
+                            <button type="submit" class="btn">Evet, Özelliği Sil</button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -187,48 +184,77 @@
 
 @section('js')
     <script>
-        // Elementleri seçme
-        const consumableCheckbox = document.getElementById('consumable');
-        const quotaCheckbox = document.getElementById('quota');
-        const postpaidCheckbox = document.getElementById('postpaid');
-        const consumableOptions = document.getElementById('consumableOptions');
+        document.addEventListener('DOMContentLoaded', function() {
+            const consumableCheckbox = document.getElementById('consumable');
+            const hasPeriodicCheckbox = document.getElementById('has_periodic');
+            const quotaCheckbox = document.getElementById('quota');
+            const postpaidCheckbox = document.getElementById('postpaid'); // Postpaid checkbox'ını seç
+            const periodicityOptions = document.getElementById('periodicityOptions');
+            const periodicityTypeSelect = document.getElementById('periodicity_type');
+            const periodicityInput = document.getElementById('periodicity');
 
-        // Yardımcı fonksiyonlar
-        function setElementsRequired(container, isRequired) {
-            const inputs = container.getElementsByTagName('input');
-            const selects = container.getElementsByTagName('select');
+            // Tüketilebilir özellik değiştiğinde
+            consumableCheckbox.addEventListener('change', function() {
+                const isConsumable = this.checked;
 
-            [...inputs, ...selects].forEach(element => {
-                element.required = isRequired;
+                // Periyodik seçeneğini aktif/pasif yap
+                hasPeriodicCheckbox.disabled = !isConsumable;
+                quotaCheckbox.disabled = !isConsumable;
+                postpaidCheckbox.disabled = !isConsumable; // Postpaid'i de aktif/pasif yap
+
+                if (!isConsumable) {
+                    // Tüketilebilir değilse diğer seçenekleri sıfırla
+                    hasPeriodicCheckbox.checked = false;
+                    quotaCheckbox.checked = false;
+                    postpaidCheckbox.checked = false; // Postpaid'i de sıfırla
+                    periodicityOptions.style.display = 'none';
+                    clearPeriodicityFields();
+                }
             });
-        }
 
-        function toggleVisibility(element, isVisible) {
-            element.style.display = isVisible ? 'block' : 'none';
-        }
+            // Periyodik yenileme değiştiğinde
+            hasPeriodicCheckbox.addEventListener('change', function() {
+                const isPeriodic = this.checked;
 
-        function toggleDisabled(checkbox, isDisabled) {
-            checkbox.disabled = isDisabled;
-        }
+                periodicityOptions.style.display = isPeriodic ? 'block' : 'none';
 
-        // Consumable checkbox event listener'ı
-        consumableCheckbox.addEventListener('change', function() {
-            toggleVisibility(consumableOptions, this.checked);
-            setElementsRequired(consumableOptions, this.checked);
+                periodicityTypeSelect.required = isPeriodic;
+                periodicityInput.required = isPeriodic;
 
-            // quotaCheck ve postpaid switchlerini etkinleştir/devre dışı bırak
-            toggleDisabled(quotaCheckbox, !this.checked);
-            toggleDisabled(postpaidCheckbox, !this.checked);
+                if (!isPeriodic) {
+                    clearPeriodicityFields();
+                }
+            });
 
-            // Eğer consumable kapatılırsa, diğer checkboxları da kapat
-            if (!this.checked) {
-                quotaCheckbox.checked = false;
-                postpaidCheckbox.checked = false;
+            function clearPeriodicityFields() {
+                periodicityTypeSelect.value = '';
+                periodicityInput.value = '';
+                periodicityTypeSelect.required = false;
+                periodicityInput.required = false;
+            }
+
+            // Edit formu için eski değerleri doldur
+            const oldFeatureData = {!! isset($feature) ? json_encode($feature) : 'null' !!};
+            if (oldFeatureData) {
+                // Checkbox'ları ayarla
+                consumableCheckbox.checked = oldFeatureData.consumable;
+                quotaCheckbox.checked = oldFeatureData.quota;
+                postpaidCheckbox.checked = oldFeatureData.postpaid; // Postpaid değerini ayarla
+
+                // Periyodik kontrolü
+                if (oldFeatureData.periodicity_type && oldFeatureData.periodicity) {
+                    hasPeriodicCheckbox.checked = true;
+                    periodicityTypeSelect.value = oldFeatureData.periodicity_type;
+                    periodicityInput.value = oldFeatureData.periodicity;
+                }
+
+                // Form durumunu güncelle
+                consumableCheckbox.dispatchEvent(new Event('change'));
+                hasPeriodicCheckbox.dispatchEvent(new Event('change'));
+            } else {
+                // Create form için başlangıç durumunu ayarla
+                consumableCheckbox.dispatchEvent(new Event('change'));
             }
         });
-
-        // İlk yükleme için durumu ayarla
-        toggleDisabled(quotaCheckbox, !consumableCheckbox.checked);
-        toggleDisabled(postpaidCheckbox, !consumableCheckbox.checked);
     </script>
 @endsection
