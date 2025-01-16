@@ -18,23 +18,24 @@
                                 <table class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Sipariş Kodu</th>
+                                            <th>Durum</th>
+                                            <th>Kod</th>
                                             <th>Tarih</th>
                                             <th>Tutar</th>
                                             <th>Ödeme Yöntemi</th>
-                                            <th>Durum</th>
-                                            <th>İşlemler</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse ($orders as $order)
                                             <tr>
+                                                <td>{{ $order->orderstatus->title }}</td>
                                                 <td>{{ $order->code }}</td>
                                                 <td>{{ $order->created_at->format('d.m.Y H:i') }}</td>
-                                                <td>{{ $order->formatted_amount }}</td>
+                                                <td>{{ number_format($order->total_amount, 2) }}
+                                                    {{ $order->currency->code }}</td>
                                                 <td>{{ $order->payment_type == 'bank' ? 'Banka Havalesi' : 'Kredi Kartı' }}
                                                 </td>
-                                                <td>{{ $order->orderstatus->title }}</td>
                                                 <td>
                                                     @if ($order->orderstatus->code === 'PENDING_PAYMENT')
                                                         <a href="{{ route('app.account.payment.bacs-success', $order->code) }}"

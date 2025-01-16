@@ -15,11 +15,10 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use LucasDotVin\Soulbscription\Models\Concerns\HasSubscriptions;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, HasUuids, HasDefaultPagination, TwoFactorAuthenticatable, HasSubscriptions;
+    use HasFactory, Notifiable, HasUuids, HasDefaultPagination, TwoFactorAuthenticatable;
 
     protected $table = 'users';
 

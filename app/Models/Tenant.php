@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use LucasDotVin\Soulbscription\Models\Concerns\HasSubscriptions;
 
 class Tenant extends Model
 {
-    use HasUuids;
+    use HasUuids, HasSubscriptions;
 
     protected $fillable = [
         'code',

@@ -80,9 +80,17 @@ class PaymentsController extends Controller
 
    public function create(Plan $plan): View|RedirectResponse
    {
-        if ($this->orderService->hasUncompletedOrders($this->user->id)) {
+        // Önce tenant owner kontrolü
+        if (!$this->user->is_tenant_owner) {
             return redirect()
-                ->route('app.account.payments')
+                ->back()
+                ->with('error', 'Ödeme işlemi yapma yetkiniz bulunmuyor.');
+        }
+
+        // Eğer tenant owner ise bekleyen ödeme kontrolü
+        if ($this->orderService->hasUncompletedOrders($this->user->tenant_id)) {
+            return redirect()
+                ->route('app.account.payments.index')
                 ->with('error', 'Bekleyen bir ödeme işleminiz bulunmaktadır. Lütfen önce mevcut ödeme işlemini tamamlayın veya bekleyin.');
         }
 

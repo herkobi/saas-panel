@@ -54,6 +54,7 @@ class SubscriptionCheck
     public function handle(Request $request, Closure $next)
     {
         $user = $this->user;
+        $tenant = $user->tenant;
         $currentRoute = $request->route()?->getName();
 
         // İzin verilen rotalar için devam et
@@ -63,8 +64,8 @@ class SubscriptionCheck
 
         $subscription = DB::table('subscriptions')
             ->select(['id', 'plan_id', 'suppressed_at'])
-            ->where('subscriber_id', $user->id)
-            ->where('subscriber_type', get_class($user))
+            ->where('subscriber_id', $tenant->id)
+            ->where('subscriber_type', get_class($tenant))
             ->orderBy('started_at', 'desc')
             ->first();
 

@@ -40,9 +40,9 @@ class OrderService
         return $this->repository->getUserOrders($userId);
     }
 
-    public function hasUncompletedOrders(string $userId): bool
+    public function hasUncompletedOrders(string $tenantId): bool
     {
-        return $this->repository->hasUncompletedOrders($userId);
+        return $this->repository->hasUncompletedOrders($tenantId);
     }
 
     public function calculateOrderTaxes(float $amount, string $countryId, ?string $stateId): array

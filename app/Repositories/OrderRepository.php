@@ -76,9 +76,9 @@ class OrderRepository extends BaseRepository
         return $order;
     }
 
-    public function hasUncompletedOrders(string $userId): bool
+    public function hasUncompletedOrders(string $tenantId): bool
     {
-        return $this->model::where('user_id', $userId)
+        return $this->model::where('tenant_id', $tenantId)
             ->whereHas('orderstatus', function($query) {
                 $query->whereIn('code', ['PENDING_PAYMENT', 'REVIEW']);
             })
@@ -94,6 +94,6 @@ class OrderRepository extends BaseRepository
         ]);
 
         // Aboneliği yenile/aktifleştir
-        $order->user->subscription->renew();
+        $order->user->tenant->subscription->renew();
     }
 }
