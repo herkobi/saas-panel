@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Listeners\User\Subscription;
 
 use App\Models\Activity;
 use App\Services\LoggingService;

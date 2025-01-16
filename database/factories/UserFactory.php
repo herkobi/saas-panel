@@ -96,6 +96,42 @@ class UserFactory extends Factory
        });
    }
 
+   public function tenantUser()
+   {
+       return $this->state(function (array $attributes) {
+           return [
+               'status' => AccountStatus::ACTIVE,
+               'type' => UserType::USER,
+               'name' => 'Tenant',
+               'surname' => 'User',
+               'email' => 'tenant@user.com',
+               'email_verified_at' => now(),
+               'password' => static::$password ??= Hash::make('password'),
+               'remember_token' => Str::random(10),
+               'created_by' => 0,
+               'created_by_name' => 'Owner'
+           ];
+       })->afterCreating(function ($user) {
+           $requiredAgreements = Agreement::where('user_type', UserType::USER)
+               ->where(function ($query) {
+                   $query->where('title', 'KVKK Politikası')
+                         ->orWhere('title', 'Üyelik Sözleşmesi');
+               })->get();
+
+           foreach ($requiredAgreements as $agreement) {
+               $latestVersion = $agreement->latestVersion();
+               if ($latestVersion) {
+                   $user->agreements()->attach($agreement->id, [
+                       'agreement_version_id' => $latestVersion->id,
+                       'accepted_at' => now(),
+                       'ip_address' => '127.0.0.1',
+                       'user_agent' => 'Seeder'
+                   ]);
+               }
+           }
+       });
+   }
+
    public function draftUser()
    {
        return $this->state(function (array $attributes) {

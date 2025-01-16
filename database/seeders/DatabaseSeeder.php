@@ -39,7 +39,14 @@ class DatabaseSeeder extends Seeder
         //Yönetici Hesabı ve Rolü
         $admin = User::factory()->adminUser()->create();
         //Kullanıcı Hesapları - tenant_id ekle
-        $normal = User::factory()->normalUser()->create(['tenant_id' => $tenant->id]);
+        $normal = User::factory()->normalUser()->create([
+            'tenant_id' => $tenant->id,
+            'is_tenant_owner' => true  // Tenant owner
+        ]);
+        $tenantUser = User::factory()->tenantUser()->create([
+            'tenant_id' => $tenant->id,
+            'is_tenant_owner' => false  // Normal tenant kullanıcısı
+        ]);
         $draft = User::factory()->draftUser()->create(['tenant_id' => $tenant->id]);
         $passive = User::factory()->passiveUser()->create(['tenant_id' => $tenant->id]);
         $deleted = User::factory()->deletedUser()->create(['tenant_id' => $tenant->id]);
@@ -48,16 +55,14 @@ class DatabaseSeeder extends Seeder
         /**
          * Kullanıcı klasörü oluşturuluyor.
          */
-        $userTypes = ['super', 'admin', 'normal', 'draft', 'passive', 'deleted', 'demo'];
+        $userTypes = ['super', 'admin', 'normal', 'tenantUser', 'draft', 'passive', 'deleted', 'demo'];
         foreach ($userTypes as $type) {
             $user = ${$type};
             $folderName = 'user_' . Str::random(12);
 
             if ($user->tenant_id && $tenant) {
-                // Tenant'a ait kullanıcılar için private/tenants altında klasör oluştur
                 Storage::makeDirectory($tenant->getUserPath($folderName));
             } else {
-                // Yöneticiler için private altında klasör oluştur
                 if (!Storage::exists('private/users/' . $folderName)) {
                     Storage::makeDirectory('private/users/' . $folderName);
                 }
@@ -70,15 +75,11 @@ class DatabaseSeeder extends Seeder
         }
 
         /**
-         * Kullanıcı fatura bilgileri oluşturuluyor.
+         * Sadece tenant owner için fatura bilgileri oluştur
          */
-        $userAccounts = ['normal', 'draft', 'passive', 'deleted', 'demo'];
-        foreach ($userAccounts as $type) {
-            $user = ${$type};
-            UserAccount::create([
-                'user_id' => $user->id,
-                'invoice_name' => $user->name . ' ' . $user->surname
-            ]);
-        }
+        UserAccount::create([
+            'user_id' => $normal->id,  // Sadece tenant owner
+            'invoice_name' => $normal->name . ' ' . $normal->surname
+        ]);
     }
 }
