@@ -8,8 +8,9 @@ use App\Services\OrderService;
 use App\Traits\AuthUser;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use LucasDotVin\Soulbscription\Models\Scopes\SuppressingScope;
+use LucasDotVin\Soulbscription\Models\Subscription;
 
 class SubscriptionCheck
 {
@@ -18,12 +19,13 @@ class SubscriptionCheck
     protected array $allowedRoutes = [
         'app.country.states',  // Ödeme formunda ülke/eyalet seçimi için
         'app.taxes',          // Vergi hesaplaması için
+        'app.account.payments',
+        'app.account.payment.show',
         'app.account.payment.create',  // Ödeme sayfası
         'app.account.payment.store',   // Ödeme işlemi
         'app.account.payment.bacs-success', // Banka havalesi başarılı sayfası
         'app.account.payment.upload',   // Dekont yükleme
         'app.account.plans',           // Planlar sayfası
-        'app.account.*',               // Account ile başlayan tüm rotalar
     ];
 
     protected $orderService;
@@ -59,30 +61,34 @@ class SubscriptionCheck
             return $next($request);
         }
 
-        // SuppressingScope olmadan aboneliği sorgula
-        $subscription = $user->subscription()
-            ->withoutGlobalScope(SuppressingScope::class)
+        $subscription = DB::table('subscriptions')
+            ->select(['id', 'plan_id', 'suppressed_at'])
+            ->where('subscriber_id', $user->id)
+            ->where('subscriber_type', get_class($user))
+            ->orderBy('started_at', 'desc')
             ->first();
 
-        // Hiç abonelik yoksa planlara yönlendir
         if (!$subscription) {
             return redirect()
                 ->route('app.account.plans')
                 ->with('warning', 'Lütfen bir abonelik planı seçin.');
         }
 
-        // Askıya alınmış abonelik varsa ödeme sayfasına yönlendir
+        // Suppressed kontrolü
         if ($subscription->suppressed_at) {
             return redirect()
-                ->route('app.account.payment.create', ['plan_id' => $subscription->plan_id])
+                ->route('app.account.payment.create', $subscription->plan_id)
                 ->with('warning', 'Lütfen ödeme işleminizi tamamlayın.');
         }
 
+        // İlişkili verilere ihtiyaç varsa model kullan
+        $subscriptionModel = Subscription::first($subscription->id);
+
         // Abonelik aktif ama süresi 7 gün veya daha az kaldıysa ödeme kaydı oluştur
-        if ($subscription->expired_at && $subscription->expired_at->diffInDays(now()) <= 7 && $subscription->plan->price > 0) {
+        if ($subscriptionModel->expired_at && $subscriptionModel->expired_at->diffInDays(now()) <= 7 && $subscriptionModel->plan->price > 0) {
             $hasPendingOrder = Order::query()
                 ->where('user_id', $user->id)
-                ->where('plan_id', $subscription->plan_id)
+                ->where('plan_id', $subscriptionModel->plan_id)
                 ->whereHas('orderstatus', fn ($q) => $q->where('code', 'PENDING_PAYMENT'))
                 ->exists();
 
@@ -90,9 +96,9 @@ class SubscriptionCheck
                 $orderData = [
                     'user_id' => $user->id,
                     'tenant_id' => $user->tenant_id,
-                    'plan_id' => $subscription->plan_id,
-                    'currency_id' => $subscription->plan->currency_id,
-                    'amount' => $subscription->plan->price,
+                    'plan_id' => $subscriptionModel->plan_id,
+                    'currency_id' => $subscriptionModel->plan->currency_id,
+                    'amount' => $subscriptionModel->plan->price,
                     'payment_type' => 'bank',
                     'invoice_data' => [
                         'invoice_name' => $user->account->invoice_name,
@@ -114,13 +120,13 @@ class SubscriptionCheck
         // Bekleyen ödeme kontrolü
         $pendingOrder = Order::query()
             ->where('user_id', $user->id)
-            ->where('plan_id', $subscription->plan_id)
+            ->where('plan_id', $subscriptionModel->plan_id)
             ->whereHas('orderstatus', fn ($q) => $q->where('code', 'PENDING_PAYMENT'))
             ->first();
 
         if ($pendingOrder) {
             return redirect()
-                ->route('app.account.payment.create', ['plan_id' => $subscription->plan_id])
+                ->route('app.account.payment.create', ['plan_id' => $subscriptionModel->plan_id])
                 ->with('warning', 'Bekleyen ödemenizi tamamlayın.');
         }
 

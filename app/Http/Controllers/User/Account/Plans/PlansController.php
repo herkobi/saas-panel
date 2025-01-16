@@ -24,7 +24,7 @@ class PlansController extends Controller
     {
         $subscription = $this->user->subscription;
         $pendingOrder = Order::where('user_id', $this->user->id)
-            ->whereHas('orderstatus', fn($q) => $q->where('code', 'PENDING'))
+            ->whereHas('orderstatus', fn($q) => $q->where('code', 'PENDING_PAYMENT'))
             ->first();
 
         // Tenant'a özel ve genel planlar

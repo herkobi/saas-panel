@@ -40,6 +40,16 @@ class Plan extends ModelsPlan
     }
 
     /**
+     * Postpaid özelliğine sahip Feature var mı?
+     *
+     * @return bool
+     */
+    public function getHasPostpaidFeatureAttribute(): bool
+    {
+        return $this->features()->where('postpaid', true)->exists();
+    }
+
+    /**
      * Periyot açıklamasını döndürür
      * Örnek: "1 Ay", "6 Ay", "1 Yıl" vb.
      */

@@ -108,13 +108,10 @@ class CreateNewUser implements CreatesNewUsers
 
         // Plan subscription
         if (session()->has('selected_plan')) {
-
             $plan = Plan::find(session('selected_plan'));
-
             $subscription = $user->subscribeTo($plan);
 
-            if ($plan->price > 0)
-            {
+            if ($plan->price > 0 && !$plan->has_postpaid_feature) {
                 $subscription->suppress();
             }
         }

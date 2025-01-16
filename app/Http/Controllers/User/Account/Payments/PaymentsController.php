@@ -82,7 +82,7 @@ class PaymentsController extends Controller
    {
         if ($this->orderService->hasUncompletedOrders($this->user->id)) {
             return redirect()
-                ->route('app.account.payments.index')
+                ->route('app.account.payments')
                 ->with('error', 'Bekleyen bir ödeme işleminiz bulunmaktadır. Lütfen önce mevcut ödeme işlemini tamamlayın veya bekleyin.');
         }
 
