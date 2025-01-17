@@ -228,4 +228,9 @@ class PaymentsController extends Controller
         return Redirect::route('app.account.payment.show', $code)
             ->with('success', 'Dekont başarıyla yüklendi. İncelemeye alındı.');
     }
+
+    public function normaluser(): View
+    {
+        return view('user.account.payments.user');
+    }
 }

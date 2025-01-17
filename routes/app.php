@@ -37,6 +37,8 @@ Route::middleware(['auth', 'auth.session', 'verified', 'resolve.tenant', 'check.
 
         Route::get('/account/payment/bacs-success/{code}', 'bacsSuccess')->name('account.payment.bacs-success');
         Route::post('/account/payment/{code}/upload', 'uploadDocument')->name('account.payment.upload');
+
+        Route::get('/account/payment/blocked', 'normaluser')->name('account.payment.normaluser');
     });
 
     Route::controller(InvoiceController::class)->group( function() {

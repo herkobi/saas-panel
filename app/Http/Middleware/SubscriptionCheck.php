@@ -25,6 +25,7 @@ class SubscriptionCheck
         'app.account.payment.store',   // Ödeme işlemi
         'app.account.payment.bacs-success', // Banka havalesi başarılı sayfası
         'app.account.payment.upload',   // Dekont yükleme
+        'app.account.payment.normaluser',   // Dekont yükleme
         'app.account.plans',           // Planlar sayfası
     ];
 
@@ -69,13 +70,18 @@ class SubscriptionCheck
             ->orderBy('started_at', 'desc')
             ->first();
 
+        if (!$user->is_tenant_owner) {
+            return redirect()
+                ->route('app.account.payment.normaluser')
+                ->with('warning', 'Hesabınızla ilgili yapılması gereken işlemler var. Lütfen tenant yöneticiniz ile iletişime geçin.');
+        }
+
         if (!$subscription) {
             return redirect()
                 ->route('app.account.plans')
                 ->with('warning', 'Lütfen bir abonelik planı seçin.');
         }
 
-        // Suppressed kontrolü
         if ($subscription->suppressed_at) {
             return redirect()
                 ->route('app.account.payment.create', $subscription->plan_id)
@@ -88,7 +94,7 @@ class SubscriptionCheck
         // Abonelik aktif ama süresi 7 gün veya daha az kaldıysa ödeme kaydı oluştur
         if ($subscriptionModel->expired_at && $subscriptionModel->expired_at->diffInDays(now()) <= 7 && $subscriptionModel->plan->price > 0) {
             $hasPendingOrder = Order::query()
-                ->where('user_id', $user->id)
+                ->where('tenant_id', $user->tenant_id)
                 ->where('plan_id', $subscriptionModel->plan_id)
                 ->whereHas('orderstatus', fn ($q) => $q->where('code', 'PENDING_PAYMENT'))
                 ->exists();
@@ -120,7 +126,7 @@ class SubscriptionCheck
 
         // Bekleyen ödeme kontrolü
         $pendingOrder = Order::query()
-            ->where('user_id', $user->id)
+            ->where('tenant_id', $user->tenant_id)
             ->where('plan_id', $subscriptionModel->plan_id)
             ->whereHas('orderstatus', fn ($q) => $q->where('code', 'PENDING_PAYMENT'))
             ->first();
