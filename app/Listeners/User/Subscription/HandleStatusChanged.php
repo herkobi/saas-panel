@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Listeners\User\Profile;
+namespace App\Listeners\User\Subscription;
 
+use App\Events\User\Tenant\StatusChanged as Event;
 use App\Models\Activity;
 use App\Services\LoggingService;
-use App\Events\User\Account\Profile\Profile as Event;
 use App\Traits\LogActivity;
 
-class Profile
+class HandleStatusChanged
 {
     use LogActivity;
 
@@ -23,24 +23,24 @@ class Profile
     public function handle(Event $event)
     {
         $this->loggingService->logUserAction(
-            'profile.updated',
-            $event->currentUser,
-            $event->newData,
+            'tenant.status.changed',
+            $event->changedBy,
+            $event->tenant,
             [
-                'new_data' => $event->newData,
-                'old_data' => $event->oldData
+                'old_status' => $event->oldStatus->title(),
+                'new_status' => $event->newStatus->title(),
             ]
         );
 
         Activity::create([
-            'message' => 'profile.updated',
+            'message' => 'tenant.status.changed',
             'log' => $this->logActivity(
-                ' user updated profile.',
-                $event->currentUser,
-                $event->newData,
+                'tenant status changed',
+                $event->changedBy,
+                $event->tenant,
                 [
-                    'old_data' => $event->oldData,
-                    'new_data' => $event->newData
+                    'old_status' => $event->oldStatus->title(),
+                    'new_status' => $event->newStatus->title(),
                 ]
             ),
         ]);

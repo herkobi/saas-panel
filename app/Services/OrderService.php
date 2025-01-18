@@ -105,7 +105,7 @@ class OrderService
         $this->repository->delete($id);
     }
 
-    public function approvePayment(Order $order): Order
+    public function approvePayment(Order $order): bool
     {
         return $this->repository->approvePayment($order);
     }

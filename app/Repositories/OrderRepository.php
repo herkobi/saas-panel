@@ -85,15 +85,11 @@ class OrderRepository extends BaseRepository
             ->exists();
     }
 
-    public function approvePayment(Order $order): ?Order
+    public function approvePayment(Order $order): bool
     {
-
-        $order->update([
+        return $order->update([
             'orderstatus_id' => $this->orderStatusService->getOrderstatusByCode('APPROVED')->id,
             'payment_date' => now()
         ]);
-
-        // Aboneliği yenile/aktifleştir
-        $order->user->tenant->subscription->renew();
     }
 }

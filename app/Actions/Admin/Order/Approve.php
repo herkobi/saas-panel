@@ -19,11 +19,16 @@ class Approve
         $this->initializeAuthUser();
     }
 
-    public function execute(Order $order): Order
+    public function execute(Order $order): bool
     {
+        // Ödemeyi onayla
         $result = $this->orderService->approvePayment($order);
 
         if ($result) {
+            // Subscription'ı yenile
+            $order->tenant->subscription->renew();
+
+            // Event'i tetikle
             event(new Event($order, $this->user));
         }
 

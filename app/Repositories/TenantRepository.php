@@ -37,4 +37,20 @@ class TenantRepository extends BaseRepository
             'settings' => $data['settings'] ?? [],
         ]);
     }
+
+    public function updateStatus(Tenant $tenant, AccountStatus $status): bool
+    {
+        return $tenant->update(['status' => $status]);
+    }
+
+    public function createUserTenant(array $data): Tenant
+    {
+        return $this->create([
+            'code' => Tenant::generateCode(),
+            'domain' => $data['domain'] ?? null,
+            'has_domain' => $data['has_domain'] ?? false,
+            'status' => $data['status'] ?? AccountStatus::ACTIVE,
+            'settings' => $data['settings'] ?? []
+        ]);
+    }
 }

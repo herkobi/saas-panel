@@ -2,7 +2,7 @@
 
 namespace App\Listeners\User\Profile;
 
-use App\Events\User\Profile\Password as Event;
+use App\Events\User\Account\Profile\Password as Event;
 use App\Models\Activity;
 use App\Services\LoggingService;
 use App\Traits\LogActivity;

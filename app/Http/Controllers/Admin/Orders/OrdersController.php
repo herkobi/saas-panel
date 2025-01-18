@@ -43,19 +43,12 @@ class OrdersController extends Controller
 
     public function approve(Order $order): RedirectResponse
     {
-        // Sadece banka ödemesi bekleyen orderları onayla
+        // Onay kontrolü
         if ($order->payment_type !== 'bank' ||
-            !$order->orderstatus->code === 'PENDING_PAYMENT') {
+            $order->orderstatus->code !== 'PENDING_PAYMENT') {
             return redirect()
                 ->back()
                 ->with('error', 'Geçersiz işlem.');
-        }
-
-        // Tenant ve owner kontrolü
-        if (!$this->user->is_tenant_owner || $order->tenant_id !== $this->user->tenant_id) {
-            return redirect()
-                ->back()
-                ->with('error', 'Bu işlem için yetkiniz bulunmuyor.');
         }
 
         $result = $this->approvePayment->execute($order);

@@ -7,7 +7,6 @@ use App\Enums\Status;
 use App\Enums\UserType;
 use App\Models\Agreement;
 use App\Models\Plan;
-use App\Models\Tenant;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -16,10 +15,18 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Illuminate\Support\Str;
+use App\Services\User\TenantService;
 
 class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
+
+    protected $tenantService;
+
+    public function __construct(TenantService $tenantService)
+    {
+        $this->tenantService = $tenantService;
+    }
 
     public function create(array $input): User
     {
@@ -54,11 +61,8 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, $validationRules)->validate();
 
         // Önce tenant oluştur
-        $tenant = Tenant::create([
-            'code' => Tenant::generateCode(),
-            'domain' => $input['domain'] ?? null,
-            'has_domain' => config('tenant.use_subdomain') && !empty($input['domain']),
-            'status' => AccountStatus::ACTIVE
+        $tenant = $this->tenantService->createForUser([
+            'domain' => $input['domain'] ?? null
         ]);
 
         // Kullanıcıyı tenant ile ilişkilendir
@@ -108,7 +112,7 @@ class CreateNewUser implements CreatesNewUsers
 
         // Plan subscription
         if (session()->has('selected_plan')) {
-            $plan = Plan::find(session('selected_plan'));
+            $plan = Plan::first(session('selected_plan'));
             $subscription = $tenant->subscribeTo($plan);
 
             if ($plan->price > 0 && !$plan->has_postpaid_feature) {
