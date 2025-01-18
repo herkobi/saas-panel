@@ -117,4 +117,23 @@ class OrderRepository extends BaseRepository
 
         return $rejected;
     }
+
+    public function createSwitchOrder(array $data, array $taxCalculation): Order
+    {
+        $orderData = array_merge($data, [
+            'total_amount' => $taxCalculation['total_amount'],
+            'invoice_data' => array_merge(
+                array_intersect_key($data, array_flip([
+                    'invoice_name', 'tax_number', 'tax_office',
+                    'address', 'zip_code', 'country_id', 'state_id'
+                ])),
+                [
+                    'tax_data' => $taxCalculation['tax_data'],
+                    'switch_data' => $data['switch_data']
+                ]
+            )
+        ]);
+
+        return $this->model::create($orderData);
+    }
 }

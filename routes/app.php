@@ -4,6 +4,7 @@ use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\Account\Account\AccountController;
 use App\Http\Controllers\User\Account\Invoices\InvoiceController;
 use App\Http\Controllers\User\Account\Payments\PaymentsController;
+use App\Http\Controllers\User\Account\Payments\PlanSwitchController;
 use App\Http\Controllers\User\Account\Plans\PlansController;
 use App\Http\Controllers\User\Account\Profile\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,11 @@ Route::middleware(['auth', 'auth.session', 'verified', 'resolve.tenant', 'check.
 
     Route::controller(PlansController::class)->group( function() {
         Route::get('/account/plans', 'index')->name('account.plans');
+    });
+
+    Route::controller(PlanSwitchController::class)->group(function () {
+        Route::get('/account/payment/switch/plan/{plan}', 'create')->name('account.payment.switch.create');
+        Route::post('/account/payment/switch', 'store')->name('account.payment.switch.store');
     });
 
     Route::controller(PaymentsController::class)->group( function() {

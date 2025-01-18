@@ -114,4 +114,15 @@ class OrderService
     {
         return $this->repository->rejectPayment($order);
     }
+
+    public function createSwitchOrder(array $data): ?Order
+    {
+        $taxCalculation = $this->calculateOrderTaxes(
+            $data['amount'],
+            $data['country_id'],
+            $data['state_id']
+        );
+
+        return $this->repository->createSwitchOrder($data, $taxCalculation);
+    }
 }

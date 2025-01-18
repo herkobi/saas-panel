@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Accounts\AccountGroupsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Accounts\AccountsController;
 use App\Http\Controllers\Admin\Feature\FeatureController;
+use App\Http\Controllers\Admin\Orders\OrdersController;
 use App\Http\Controllers\Admin\Plan\PlanController;
 use App\Http\Controllers\Admin\Profile\ProfileController;
 use App\Http\Controllers\Admin\Settings\{
@@ -72,6 +73,14 @@ Route::middleware(['auth', 'auth.session', 'verified', 'panel:admin', 'system.se
             Route::post('/account-group/update/{accountgroup}', 'update')->name('accountgroup.update');
             Route::get('/account-group/detail/{accountgroup}', 'detail')->name('accountgroup.detail');
             Route::delete('/account-group/delete/{accountgroup}', 'destroy')->name('accountgroup.delete');
+        });
+
+        Route::prefix('orders')->name('orders.')->controller(OrdersController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/pending', 'pending')->name('pending');
+            Route::get('/{order:code}', 'show')->name('show');
+            Route::post('/{order:code}/approve', 'approve')->name('approve');
+            Route::post('/{order:code}/reject', 'reject')->name('reject');  // Yeni eklenen
         });
 
         Route::controller(PlanController::class)->group( function () {
