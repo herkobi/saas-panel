@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Services\OrderService;
 use App\Services\Admin\Tools\OrderStatusService;
 use App\Actions\Admin\Order\ApprovePayment;
+use App\Actions\Admin\Order\Reject;
 use App\Traits\AuthUser;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -18,16 +19,19 @@ class OrdersController extends Controller
     protected $orderService;
     protected $orderStatusService;
     protected $approvePayment;
+    protected $rejectPayment;
 
     public function __construct(
         OrderService $orderService,
         OrderStatusService $orderStatusService,
-        Approve $approvePayment
+        Approve $approvePayment,
+        Reject $rejectPayment,
     ) {
         $this->initializeAuthUser();
         $this->orderService = $orderService;
         $this->orderStatusService = $orderStatusService;
         $this->approvePayment = $approvePayment;
+        $this->rejectPayment = $rejectPayment;
     }
 
     public function index(): View
@@ -60,5 +64,26 @@ class OrdersController extends Controller
             : redirect()
                 ->back()
                 ->with('error', 'Ödeme onaylanırken bir hata oluştu.');
+    }
+
+    public function reject(Order $order): RedirectResponse
+    {
+        // Onay kontrolü
+        if ($order->payment_type !== 'bank' ||
+            !in_array($order->orderstatus->code, ['PENDING_PAYMENT', 'REVIEW'])) {
+            return redirect()
+                ->back()
+                ->with('error', 'Geçersiz işlem.');
+        }
+
+        $result = $this->rejectPayment->execute($order);
+
+        return $result
+            ? redirect()
+                ->back()
+                ->with('success', 'Ödeme reddedildi ve yeni ödeme kaydı oluşturuldu.')
+            : redirect()
+                ->back()
+                ->with('error', 'Ödeme reddedilirken bir hata oluştu.');
     }
 }

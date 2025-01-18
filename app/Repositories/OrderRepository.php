@@ -92,4 +92,29 @@ class OrderRepository extends BaseRepository
             'payment_date' => now()
         ]);
     }
+
+    public function rejectPayment(Order $order): bool
+    {
+        // Reject işlemi
+        $rejected = $order->update([
+            'orderstatus_id' => $this->orderStatusService->getOrderstatusByCode('REJECTED')->id
+        ]);
+
+        if ($rejected) {
+            // Yeni order oluştur
+            $this->create([
+                'user_id' => $order->user_id,
+                'tenant_id' => $order->tenant_id,
+                'plan_id' => $order->plan_id,
+                'currency_id' => $order->currency_id,
+                'amount' => $order->amount,
+                'total_amount' => $order->total_amount,
+                'payment_type' => $order->payment_type,
+                'invoice_data' => $order->invoice_data,
+                'orderstatus_id' => $this->orderStatusService->getOrderstatusByCode('PENDING_PAYMENT')->id
+            ]);
+        }
+
+        return $rejected;
+    }
 }

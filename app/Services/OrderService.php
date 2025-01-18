@@ -109,4 +109,9 @@ class OrderService
     {
         return $this->repository->approvePayment($order);
     }
+
+    public function rejectPayment(Order $order): bool
+    {
+        return $this->repository->rejectPayment($order);
+    }
 }
