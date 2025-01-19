@@ -83,7 +83,7 @@ class Order extends Model
 
     public function orderstatus(): BelongsTo
     {
-        return $this->belongsTo(Orderstatus::class);
+        return $this->belongsTo(Orderstatus::class, 'orderstatus_id');
     }
 
     public function currency(): BelongsTo
@@ -91,10 +91,16 @@ class Order extends Model
         return $this->belongsTo(Currency::class);
     }
 
-    public function scopePendingPayment($query)
+    public function scopeWithStatus($query, string|array $statusCode, array $relations = ['orderstatus', 'user', 'tenant', 'plan'])
     {
-        return $query->whereHas('orderstatus', function($query) {
-            $query->where('code', 'PENDING_PAYMENT');
-        });
+        return $query->withoutGlobalScopes()
+            ->with($relations)
+            ->whereHas('orderstatus', function($query) use ($statusCode) {
+                if (is_array($statusCode)) {
+                    $query->whereIn('code', $statusCode);
+                } else {
+                    $query->where('code', $statusCode);
+                }
+            });
     }
 }

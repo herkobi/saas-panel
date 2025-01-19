@@ -28,7 +28,7 @@ class OrderRepository extends BaseRepository
 
     public function getPendingOrders(): LengthAwarePaginator
     {
-        return $this->model::pendingPayment()->defaultPagination();
+        return $this->model::withStatus(['PENDING_PAYMENT', 'REVIEW'])->defaultPagination();
     }
 
     public function getOrderByCode(string $code): Order

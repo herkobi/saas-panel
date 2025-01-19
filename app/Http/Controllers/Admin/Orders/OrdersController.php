@@ -9,6 +9,7 @@ use App\Services\OrderService;
 use App\Services\Admin\Tools\OrderStatusService;
 use App\Actions\Admin\Order\ApprovePayment;
 use App\Actions\Admin\Order\Reject;
+use App\Models\Orderstatus;
 use App\Traits\AuthUser;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -37,13 +38,17 @@ class OrdersController extends Controller
     public function index(): View
     {
         $orders = $this->orderService->getAllOrders();
-        return view('admin.orders.index', compact('orders'));
+        return view('admin.orders.index', [
+            'orders' => $orders
+        ]);
     }
 
     public function pending(): View
     {
         $orders = $this->orderService->getPendingOrders();
-        return view('admin.orders.index', compact('orders'));
+        return view('admin.orders.pending', [
+            'orders' => $orders
+        ]);
     }
 
     public function show(Order $order): View
