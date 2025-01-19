@@ -25,6 +25,11 @@ class OrderService
         return $this->repository->getAllOrders();
     }
 
+    public function getPendingOrders(): LengthAwarePaginator
+    {
+        return $this->repository->getPendingOrders();
+    }
+
     public function getOrderByCode(string $code): Order
     {
         return $this->repository->getOrderByCode($code);

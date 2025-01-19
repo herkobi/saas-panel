@@ -90,4 +90,11 @@ class Order extends Model
     {
         return $this->belongsTo(Currency::class);
     }
+
+    public function scopePendingPayment($query)
+    {
+        return $query->whereHas('orderstatus', function($query) {
+            $query->where('code', 'PENDING_PAYMENT');
+        });
+    }
 }

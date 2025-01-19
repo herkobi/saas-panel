@@ -36,8 +36,8 @@
                 Abonelikler
             </a>
         </li>
-        <li {{ request()->routeIs('panel.accounts') ? 'class=active' : '' }}>
-            <a href="{{ route('panel.accounts') }}" title="Ödemeler">
+        <li {{ request()->routeIs('panel.orders.*') ? 'class=active' : '' }}>
+            <a href="{{ route('panel.orders.index') }}" title="Ödemeler">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                     class="bi bi-credit-card-2-front" viewBox="0 0 20 20">
                     <path

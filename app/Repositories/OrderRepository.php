@@ -2,7 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Enums\AccountStatus;
 use App\Models\Order;
+use App\Models\Orderstatus;
 use App\Services\Admin\Tools\OrderstatusService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -22,6 +24,11 @@ class OrderRepository extends BaseRepository
     {
         return $this->model::with(['user', 'tenant', 'plan', 'orderstatus', 'currency'])
             ->defaultPagination();
+    }
+
+    public function getPendingOrders(): LengthAwarePaginator
+    {
+        return $this->model::pendingPayment()->defaultPagination();
     }
 
     public function getOrderByCode(string $code): Order

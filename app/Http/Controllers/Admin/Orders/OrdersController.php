@@ -40,6 +40,12 @@ class OrdersController extends Controller
         return view('admin.orders.index', compact('orders'));
     }
 
+    public function pending(): View
+    {
+        $orders = $this->orderService->getPendingOrders();
+        return view('admin.orders.index', compact('orders'));
+    }
+
     public function show(Order $order): View
     {
         return view('admin.orders.show', compact('order'));
