@@ -23,11 +23,11 @@ class ChangeStatus
     public function execute(Tenant $tenant, AccountStatus $newStatus): bool
     {
         $oldStatus = $tenant->status;
-
         $updated = $this->tenantService->changeStatus($tenant, $newStatus);
 
         if ($updated) {
-            event(new Event($tenant, $oldStatus, $newStatus, $this->user));
+            $tenantOwnerUser = $tenant->users()->where('is_tenant_owner', true)->first();
+            event(new Event($tenant, $oldStatus, $newStatus, $tenantOwnerUser));
         }
 
         return $updated;

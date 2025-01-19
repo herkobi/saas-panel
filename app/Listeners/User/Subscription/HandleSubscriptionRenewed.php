@@ -25,10 +25,13 @@ class HandleSubscriptionRenewed
     public function handle(SubscriptionRenewed $event): void
     {
         $subscription = $event->subscription;
+        $tenant = $subscription->subscriber;
+
+        $tenantOwnerUser = $tenant->users()->where('is_tenant_owner', true)->first();
 
         $this->loggingService->logUserAction(
             'subscription.renewed',
-            $subscription->subscriber->tenant->code,
+            $tenantOwnerUser,
             $subscription,
             [
                 'plan_id' => $subscription->plan_id,
@@ -39,10 +42,11 @@ class HandleSubscriptionRenewed
         );
 
         Activity::create([
+            'user_id' => $tenantOwnerUser->id,
             'message' => 'subscription.renewed',
             'log' => $this->logActivity(
                 'subscription renewed',
-                $subscription->subscriber->tenant->code,
+                $tenantOwnerUser,
                 $subscription->plan_id,
                 [
                     'plan_id' => $subscription->plan_id,

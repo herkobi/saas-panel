@@ -4,14 +4,12 @@ namespace App\Listeners\User\Subscription;
 
 use App\Models\Activity;
 use App\Services\LoggingService;
-use App\Traits\AuthUser;
 use App\Traits\LogActivity;
 use LucasDotVin\Soulbscription\Events\SubscriptionStarted;
 
 class HandleSubscriptionStarted
 {
-
-    use AuthUser, LogActivity;
+    use LogActivity;
 
     protected $loggingService;
     protected $activity;
@@ -20,15 +18,18 @@ class HandleSubscriptionStarted
     {
         $this->loggingService = $loggingService;
         $this->activity = $activity;
-        $this->initializeAuthUser();
     }
+
     public function handle(SubscriptionStarted $event): void
     {
         $subscription = $event->subscription;
+        $tenant = $subscription->subscriber;
+
+        $tenantOwnerUser = $tenant->users()->where('is_tenant_owner', true)->first();
 
         $this->loggingService->logUserAction(
             'new.subscription',
-            $this->user->tenant->code,
+            $tenantOwnerUser,
             $subscription,
             [
                 'plan_type' => $subscription->plan->price == 0 ? 'free' : 'paid',
@@ -38,10 +39,11 @@ class HandleSubscriptionStarted
         );
 
         Activity::create([
+            'user_id' => $tenantOwnerUser->id,
             'message' => 'new.subscription',
             'log' => $this->logActivity(
-                'user updated invoice detail of',
-                $this->user->tenant->code,
+                'subscription started',
+                $tenantOwnerUser,
                 $subscription->plan_id,
                 [
                     'plan_type' => $subscription->plan->price == 0 ? 'free' : 'paid',

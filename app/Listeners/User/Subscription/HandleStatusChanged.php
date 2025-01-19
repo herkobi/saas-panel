@@ -22,9 +22,11 @@ class HandleStatusChanged
 
     public function handle(Event $event)
     {
+        $tenantOwnerUser = $event->tenant->users()->where('is_tenant_owner', true)->first();
+
         $this->loggingService->logUserAction(
             'tenant.status.changed',
-            $event->changedBy,
+            $tenantOwnerUser,
             $event->tenant,
             [
                 'old_status' => $event->oldStatus->title(),
@@ -33,10 +35,11 @@ class HandleStatusChanged
         );
 
         Activity::create([
+            'user_id' => $tenantOwnerUser->id,
             'message' => 'tenant.status.changed',
             'log' => $this->logActivity(
                 'tenant status changed',
-                $event->changedBy,
+                $tenantOwnerUser,
                 $event->tenant,
                 [
                     'old_status' => $event->oldStatus->title(),

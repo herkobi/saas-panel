@@ -7,6 +7,7 @@ use App\Traits\AuthUser;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TenantStatusCheck
 {
@@ -27,25 +28,16 @@ class TenantStatusCheck
             return $next($request);
         }
 
-        switch ($tenant->status) {
-            case AccountStatus::DRAFT:
-                if ($user->isTenantOwner()) {
-                    return redirect()->route('app.home')->with('error', 'Sistemi kullanabilmek için ödeme yapmanız gerekmektedir.');
-                } else {
-                    return redirect()->route('app.home')->with('error', 'Hesabınız geçici olarak devre dışı bırakılmıştır. Lütfen tenant yöneticiniz ile iletişime geçin.');
-                }
-
-            case AccountStatus::PASSIVE:
-                if (!$request->isMethod('get')) {
-                    return redirect()->route('app.home')
-                        ->withErrors(['error' => 'Hesabınız pasif durumda. Lütfen hesap durumunuzu kontrol edin.']);
-                }
-                break;
-
-            case AccountStatus::DELETED:
-                Auth::logout();
-                return redirect()->route('login')
-                    ->withErrors(['error' => 'Hesabınız silinmiş durumda.']);
+        // Account Status kontrolü
+        if ($tenant->status === AccountStatus::DRAFT || $tenant->status === AccountStatus::PASSIVE) {
+            if ($request->isMethod('post') ||
+                $request->isMethod('put') ||
+                $request->isMethod('patch') ||
+                $request->isMethod('delete')
+            ) {
+                return redirect()->back()
+                    ->withErrors(['error' => 'Hesap durumunuz nedeniyle bu işlemi gerçekleştiremezsiniz.']);
+            }
         }
 
         return $next($request);

@@ -3,7 +3,7 @@
    @include('admin.include.header', [
        'title' => 'Ödemeler',
    ])
-   @include('admin.orders.include.navigation')
+   <!--@include('admin.orders.include.navigation')-->
    <div class="page-content">
        <div class="container">
            <div class="row">

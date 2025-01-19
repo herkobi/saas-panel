@@ -133,7 +133,7 @@ class SubscriptionCheck
 
         if ($pendingOrder) {
             return redirect()
-                ->route('app.account.payment.create', ['plan_id' => $subscriptionModel->plan_id])
+                ->route('app.account.payment.create', $subscriptionModel->plan_id)
                 ->with('warning', 'Bekleyen ödemenizi tamamlayın.');
         }
 
