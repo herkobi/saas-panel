@@ -26,9 +26,24 @@ class OrderRepository extends BaseRepository
             ->defaultPagination();
     }
 
+    public function getApprovedOrders(): LengthAwarePaginator
+    {
+        return $this->model::withStatus('APPROVED')->defaultPagination();
+    }
+
+    public function getInvoicedOrders(): LengthAwarePaginator
+    {
+        return $this->model::withStatus('INVOICED')->defaultPagination();
+    }
+
     public function getPendingOrders(): LengthAwarePaginator
     {
         return $this->model::withStatus(['PENDING_PAYMENT', 'REVIEW'])->defaultPagination();
+    }
+
+    public function getRejectedOrders(): LengthAwarePaginator
+    {
+        return $this->model::withStatus('REJECTED')->defaultPagination();
     }
 
     public function getOrderByCode(string $code): Order

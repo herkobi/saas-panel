@@ -432,6 +432,22 @@ ul.menu li a:hover {
     border-top-color: #aaa;
 }
 
+.border-top-left-radius {
+    border-top-left-radius: 0
+}
+
+.border-top-right-radius {
+    border-top-right-radius: 0
+}
+
+.border-bottom-left-radius {
+    border-bottom-left-radius: 0
+}
+
+.border-bottom-right-radius {
+    border-bottom-right-radius: 0
+}
+
 .tire {
     display: inline-block;
     width: 16px;

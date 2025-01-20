@@ -25,9 +25,24 @@ class OrderService
         return $this->repository->getAllOrders();
     }
 
+    public function getApprovedOrders(): LengthAwarePaginator
+    {
+        return $this->repository->getApprovedOrders();
+    }
+
+    public function getInvoicedOrders(): LengthAwarePaginator
+    {
+        return $this->repository->getInvoicedOrders();
+    }
+
     public function getPendingOrders(): LengthAwarePaginator
     {
         return $this->repository->getPendingOrders();
+    }
+
+    public function getRejectedOrders(): LengthAwarePaginator
+    {
+        return $this->repository->getRejectedOrders();
     }
 
     public function getOrderByCode(string $code): Order

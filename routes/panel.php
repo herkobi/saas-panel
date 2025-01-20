@@ -75,12 +75,14 @@ Route::middleware(['auth', 'auth.session', 'verified', 'panel:admin', 'system.se
             Route::delete('/account-group/delete/{accountgroup}', 'destroy')->name('accountgroup.delete');
         });
 
-        Route::prefix('orders')->name('orders.')->controller(OrdersController::class)->group(function () {
-            Route::get('/', 'index')->name('index');
-            Route::get('/pending', 'pending')->name('pending');
-            Route::get('/{order:code}', 'show')->name('show');
-            Route::post('/{order:code}/approve', 'approve')->name('approve');
-            Route::post('/{order:code}/reject', 'reject')->name('reject');  // Yeni eklenen
+        Route::controller(OrdersController::class)->group(function () {
+            Route::get('/orders', 'index')->name('orders');
+            Route::get('/order/invoiced', 'invoiced')->name('order.invoiced');
+            Route::get('/order/pending', 'pending')->name('order.pending');
+            Route::get('/order/rejected', 'rejected')->name('order.rejected');
+            Route::get('/order/{order:code}', 'show')->name('order.show');
+            Route::post('/order/{order:code}/approve', 'approve')->name('order.approve');
+            Route::post('/order/{order:code}/reject', 'reject')->name('order.reject');  // Yeni eklenen
         });
 
         Route::controller(PlanController::class)->group( function () {

@@ -13,7 +13,7 @@
                 <div class="col-lg-9">
                     <div class="row align-items-center mb-2">
                         <div class="col-lg-6">
-                            <h2 class="mb-0">Son Ödemeler</h2>
+                            <h2 class="mb-0">Faturalandırılmış Ödemeler</h2>
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -24,7 +24,7 @@
                                     <th class="w-15">Hesap</th>
                                     <th class="w-20">Plan</th>
                                     <th class="w-15">Tutar</th>
-                                    <th class="w-15">Ödeme Tipi</th>
+                                    <th class="w-15">Dekont</th>
                                     <th class="w-15"></th>
                                 </tr>
                             </thead>
@@ -32,7 +32,7 @@
                                 @foreach ($orders as $order)
                                     <tr>
                                         <td>
-                                            <span class="badge bg-success">Onaylandı</span>
+                                            <span class="badge bg-danger">Faturalandırıldı</span>
                                         </td>
                                         <td>{{ $order->code }}</td>
                                         <td>{{ $order->tenant->code }}</td>

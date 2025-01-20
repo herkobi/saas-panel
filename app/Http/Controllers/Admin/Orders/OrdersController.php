@@ -7,9 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Services\OrderService;
 use App\Services\Admin\Tools\OrderStatusService;
-use App\Actions\Admin\Order\ApprovePayment;
 use App\Actions\Admin\Order\Reject;
-use App\Models\Orderstatus;
 use App\Traits\AuthUser;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -37,8 +35,16 @@ class OrdersController extends Controller
 
     public function index(): View
     {
-        $orders = $this->orderService->getAllOrders();
+        $orders = $this->orderService->getApprovedOrders();
         return view('admin.orders.index', [
+            'orders' => $orders
+        ]);
+    }
+
+    public function invoiced(): View
+    {
+        $orders = $this->orderService->getInvoicedOrders();
+        return view('admin.orders.invoiced', [
             'orders' => $orders
         ]);
     }
@@ -47,6 +53,14 @@ class OrdersController extends Controller
     {
         $orders = $this->orderService->getPendingOrders();
         return view('admin.orders.pending', [
+            'orders' => $orders
+        ]);
+    }
+
+    public function rejected(): View
+    {
+        $orders = $this->orderService->getRejectedOrders();
+        return view('admin.orders.rejected', [
             'orders' => $orders
         ]);
     }
