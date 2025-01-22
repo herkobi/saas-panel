@@ -78,13 +78,15 @@ class OrdersController extends Controller
 
     public function approve(OrderApproveRequest $request, string $id): RedirectResponse
     {
-        $result = $this->approvePayment->execute($id);
+        $order = $this->orderService->getOrderById($id);
+        if($request->validated()) {
+            $result = $this->approvePayment->execute($order->id);
+            return $result
+                ? Redirect::back()->with('success', 'Ödeme onaylandı ve abonelik işlendi.')
+                : Redirect::back()->with('error', 'Ödeme onaylanırken bir hata oluştu.');
+        };
 
-        return $result
-            ? Redirect::back()
-                ->with('success', 'Ödeme onaylandı ve abonelik yenilendi.')
-            : Redirect::back()
-                ->with('error', 'Ödeme onaylanırken bir hata oluştu.');
+        return Redirect::back()->with('error', 'Ödeme onaylanırken bir hata oluştu.');
     }
 
     public function reject(OrderRejectRequest $request, string $id): RedirectResponse

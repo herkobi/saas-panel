@@ -25,10 +25,6 @@ class Approve
         $order = $this->orderService->getOrderById($id);
 
         if ($result) {
-            // Subscription'ı yenile
-            $order->tenant->subscription->renew();
-
-            // Event'i tetikle
             event(new Event($order, $this->user));
         }
 

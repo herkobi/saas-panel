@@ -20,10 +20,10 @@
                         <table class="table">
                             <thead class="table-light">
                                 <tr>
-                                    <th class="w-20">Kod</th>
+                                    <th class="w-15">Durum</th>
+                                    <th class="w-20">Ödeme Kodu</th>
                                     <th class="w-15">Hesap</th>
-                                    <th class="w-20">Plan</th>
-                                    <th class="w-15">Tutar</th>
+                                    <th class="w-20">Plan ve Tutar</th>
                                     <th class="w-15">Ödeme Tipi</th>
                                     <th class="w-15"></th>
                                 </tr>
@@ -36,8 +36,8 @@
                                         </td>
                                         <td>{{ $order->code }}</td>
                                         <td>{{ $order->tenant->code }}</td>
-                                        <td>{{ $order->plan->name }}</td>
-                                        <td>{{ number_format($order->total_amount, 2) }} {{ $order->currency->code }}</td>
+                                        <td>{{ $order->plan->name }} / {{ number_format($order->total_amount, 2) }}
+                                            {{ $order->currency->code }}</td>
                                         <td>
                                             @if ($order->payment_type == 'bank')
                                                 <span class="badge bg-info">Havale/EFT</span>
@@ -48,7 +48,7 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            <a href="{{ route('panel.order.show', $order->code) }}" class="btn btn-sm">
+                                            <a href="{{ route('panel.order.detail', $order->id) }}" class="btn btn-sm">
                                                 Detay
                                             </a>
                                         </td>

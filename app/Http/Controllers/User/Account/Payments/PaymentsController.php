@@ -90,7 +90,7 @@ class PaymentsController extends Controller
         // Eğer tenant owner ise bekleyen ödeme kontrolü
         if ($this->orderService->hasUncompletedOrders($this->user->tenant_id)) {
             return redirect()
-                ->route('app.account.payments.index')
+                ->route('app.account.payments')
                 ->with('error', 'Bekleyen bir ödeme işleminiz bulunmaktadır. Lütfen önce mevcut ödeme işlemini tamamlayın veya bekleyin.');
         }
 

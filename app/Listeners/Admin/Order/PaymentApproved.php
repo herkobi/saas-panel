@@ -22,6 +22,10 @@ class PaymentApproved
 
     public function handle(Event $event)
     {
+
+        // Subscription'ı yenile
+        $event->order->tenant->subscription->renew();
+
         $this->loggingService->logUserAction(
             'order.payment.approved',
             $event->approvedBy,

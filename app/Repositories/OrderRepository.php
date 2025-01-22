@@ -117,7 +117,7 @@ class OrderRepository extends BaseRepository
 
     public function approvePayment(string $id): bool
     {
-        $order = $this->getById($id);
+        $order = $this->getOrderById($id);
         return $order->update([
             'orderstatus_id' => $this->orderStatusService->getOrderstatusByCode('APPROVED')->id,
             'payment_date' => now()
