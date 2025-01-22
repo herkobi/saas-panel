@@ -69,18 +69,18 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group">
-                                                <a href="{{ route('panel.order.show', $order) }}" class="btn btn-sm">
+                                                <a href="{{ route('panel.order.detail', $order->id) }}" class="btn btn-sm">
                                                     Detay
                                                 </a>
                                                 @if ($order->document)
-                                                    <form action="{{ route('panel.order.approve', $order) }}"
+                                                    <form action="{{ route('panel.order.approve', $order->id) }}"
                                                         method="POST">
                                                         @csrf
                                                         <button type="submit" class="btn btn-sm rounded-0">
                                                             Onayla
                                                         </button>
                                                     </form>
-                                                    <form action="{{ route('panel.order.reject', $order) }}"
+                                                    <form action="{{ route('panel.order.reject', $order->id) }}"
                                                         method="POST">
                                                         @csrf
                                                         <button type="submit"

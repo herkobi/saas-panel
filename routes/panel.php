@@ -80,7 +80,7 @@ Route::middleware(['auth', 'auth.session', 'verified', 'panel:admin', 'system.se
             Route::get('/order/invoiced', 'invoiced')->name('order.invoiced');
             Route::get('/order/pending', 'pending')->name('order.pending');
             Route::get('/order/rejected', 'rejected')->name('order.rejected');
-            Route::get('/order/detail/{order}', 'show')->name('order.show');
+            Route::get('/order/detail/{order}', 'detail')->name('order.detail');
             Route::post('/order/approve/{order}', 'approve')->name('order.approve');
             Route::post('/order/reject/{order}', 'reject')->name('order.reject');
         });

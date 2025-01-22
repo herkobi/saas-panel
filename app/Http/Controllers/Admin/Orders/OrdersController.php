@@ -68,9 +68,12 @@ class OrdersController extends Controller
         ]);
     }
 
-    public function show(Order $order): View
+    public function detail(string $id): View
     {
-        return view('admin.orders.show', compact('order'));
+        $order = $this->orderService->getOrderById($id);
+        return view('admin.orders.detail', [
+            'order' => $order
+        ]);
     }
 
     public function approve(OrderApproveRequest $request, string $id): RedirectResponse

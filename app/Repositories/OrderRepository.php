@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Enums\AccountStatus;
 use App\Models\Order;
 use App\Models\Orderstatus;
+use App\Scopes\GlobalQuery;
 use App\Services\Admin\Tools\OrderstatusService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -22,7 +23,9 @@ class OrderRepository extends BaseRepository
 
     public function getOrderById(string $id): Order
     {
-        return $this->model::findOrFail($id);
+        return $this->model::withoutGlobalScope(GlobalQuery::class)
+            ->with(['orderstatus', 'tenant', 'plan', 'currency'])
+            ->findOrFail($id);
     }
 
     public function getAllOrders(): LengthAwarePaginator
