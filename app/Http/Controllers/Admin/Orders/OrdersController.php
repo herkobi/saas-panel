@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Admin\Orders;
 
-use App\Actions\Admin\Order\Approve;
-use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Services\OrderService;
-use App\Services\Admin\Tools\OrderStatusService;
+use App\Actions\Admin\Order\Approve;
 use App\Actions\Admin\Order\Reject;
+use App\Http\Controllers\Controller;
+use App\Services\OrderService;
+use App\Http\Requests\Admin\Order\OrderApproveRequest;
+use App\Http\Requests\Admin\Order\OrderRejectRequest;
+use App\Services\Admin\Tools\OrderStatusService;
 use App\Traits\AuthUser;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class OrdersController extends Controller
@@ -70,45 +73,25 @@ class OrdersController extends Controller
         return view('admin.orders.show', compact('order'));
     }
 
-    public function approve(Order $order): RedirectResponse
+    public function approve(OrderApproveRequest $request, string $id): RedirectResponse
     {
-        // Onay kontrolü
-        if ($order->payment_type !== 'bank' ||
-            $order->orderstatus->code !== 'PENDING_PAYMENT') {
-            return redirect()
-                ->back()
-                ->with('error', 'Geçersiz işlem.');
-        }
-
-        $result = $this->approvePayment->execute($order);
+        $result = $this->approvePayment->execute($id);
 
         return $result
-            ? redirect()
-                ->back()
+            ? Redirect::back()
                 ->with('success', 'Ödeme onaylandı ve abonelik yenilendi.')
-            : redirect()
-                ->back()
+            : Redirect::back()
                 ->with('error', 'Ödeme onaylanırken bir hata oluştu.');
     }
 
-    public function reject(Order $order): RedirectResponse
+    public function reject(OrderRejectRequest $request, string $id): RedirectResponse
     {
-        // Onay kontrolü
-        if ($order->payment_type !== 'bank' ||
-            !in_array($order->orderstatus->code, ['PENDING_PAYMENT', 'REVIEW'])) {
-            return redirect()
-                ->back()
-                ->with('error', 'Geçersiz işlem.');
-        }
-
-        $result = $this->rejectPayment->execute($order);
+        $result = $this->rejectPayment->execute($id);
 
         return $result
-            ? redirect()
-                ->back()
+            ? Redirect::back()
                 ->with('success', 'Ödeme reddedildi ve yeni ödeme kaydı oluşturuldu.')
-            : redirect()
-                ->back()
+            : Redirect::back()
                 ->with('error', 'Ödeme reddedilirken bir hata oluştu.');
     }
 }

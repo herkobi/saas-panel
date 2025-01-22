@@ -2,9 +2,9 @@
 
 namespace App\Listeners\Admin\Order;
 
-use App\Events\Admin\Order\PaymentRejected as Event;
 use App\Models\Activity;
 use App\Services\LoggingService;
+use App\Events\Admin\Order\PaymentRejected as Event;
 use App\Traits\LogActivity;
 
 class PaymentRejected
@@ -20,34 +20,25 @@ class PaymentRejected
         $this->activity = $activity;
     }
 
-    public function handle(Event $event): void
+    public function handle(Event $event)
     {
-        $order = $event->order;
-        $admin = $event->user;
-
         $this->loggingService->logUserAction(
             'order.payment.rejected',
-            $order->tenant->code,
-            $order,
+            $event->rejectedBy,
+            $event->order,
             [
-                'rejected_by' => $admin->id,
-                'rejected_by_name' => $admin->name,
-                'plan_id' => $order->plan_id,
-                'amount' => $order->amount
+                'order_code' => $event->order->code,
             ]
         );
 
         Activity::create([
             'message' => 'order.payment.rejected',
             'log' => $this->logActivity(
-                'payment rejected by',
-                $order->tenant->code,
-                $order->id,
+                ' user rejected payment ',
+                $event->rejectedBy,
+                $event->order,
                 [
-                    'rejected_by' => $admin->id,
-                    'rejected_by_name' => $admin->name,
-                    'plan_id' => $order->plan_id,
-                    'amount' => $order->amount
+                    'order_code' => $event->order->code
                 ]
             ),
         ]);

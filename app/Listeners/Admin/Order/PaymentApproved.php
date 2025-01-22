@@ -20,32 +20,25 @@ class PaymentApproved
         $this->activity = $activity;
     }
 
-    public function handle(Event $event): void
+    public function handle(Event $event)
     {
-        $order = $event->order;
-        $admin = $event->user;
-
         $this->loggingService->logUserAction(
             'order.payment.approved',
-            $order->tenant->code,
-            $order,
+            $event->approvedBy,
+            $event->order,
             [
-                'approved_by' => $admin->id,
-                'approved_by_name' => $admin->name,
-                'payment_date' => $order->payment_date
+                'page_title' => $event->order->code,
             ]
         );
 
         Activity::create([
             'message' => 'order.payment.approved',
             'log' => $this->logActivity(
-                'payment approved by',
-                $order->tenant->code,
-                $order->id,
+                ' user approved payment',
+                $event->approvedBy,
+                $event->order,
                 [
-                    'approved_by' => $admin->id,
-                    'approved_by_name' => $admin->name,
-                    'payment_date' => $order->payment_date
+                    'order_code' => $event->order->code,
                 ]
             ),
         ]);

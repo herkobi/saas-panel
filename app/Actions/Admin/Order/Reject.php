@@ -19,11 +19,14 @@ class Reject
         $this->initializeAuthUser();
     }
 
-    public function execute(Order $order): bool
+    public function execute(string $id): bool
     {
-        $result = $this->orderService->rejectPayment($order);
+        // Ödemeyi reddet
+        $result = $this->orderService->rejectPayment($id);
+        $order = $this->orderService->getOrderById($id);
 
         if ($result) {
+            // Event'i tetikle
             event(new Event($order, $this->user));
         }
 

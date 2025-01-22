@@ -80,9 +80,9 @@ Route::middleware(['auth', 'auth.session', 'verified', 'panel:admin', 'system.se
             Route::get('/order/invoiced', 'invoiced')->name('order.invoiced');
             Route::get('/order/pending', 'pending')->name('order.pending');
             Route::get('/order/rejected', 'rejected')->name('order.rejected');
-            Route::get('/order/{order}/detail', 'show')->name('order.show');
-            Route::post('/order/{order}/approve', 'approve')->name('order.approve');
-            Route::post('/order/{order}/reject', 'reject')->name('order.reject');  // Yeni eklenen
+            Route::get('/order/detail/{order}', 'show')->name('order.show');
+            Route::post('/order/approve/{order}', 'approve')->name('order.approve');
+            Route::post('/order/reject/{order}', 'reject')->name('order.reject');
         });
 
         Route::controller(PlanController::class)->group( function () {

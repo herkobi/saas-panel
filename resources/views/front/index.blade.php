@@ -3,8 +3,11 @@
     <div class="container mt-5 mx-auto">
         <div class="row mb-5">
             <div class="col-12">
+                <div class="d-block text-center mb-3">
+                    <img src="{{ Setting::getFullPath('logo') }}" alt="Herkobi Panel" class="img-fluid mw-200">
+                </div>
                 <div class="text-center">
-                    <img src="{{ Setting::getFullPath('logo') }}" alt="Herkobi Panel" class="img-fluid mw-200 mb-3">
+                    <a href="{{ route('login') }}" title="Oturum Aç" class="text-decoration-none fw-medium">Oturum Aç</a>
                 </div>
             </div>
         </div>
@@ -25,7 +28,7 @@
                                             <i class="bi bi-check-circle text-success"></i>
                                             {{ $feature->name }}<br>
                                             @if ($feature->pivot->charges)
-                                                ({{ (int)$feature->pivot->charges }} Adet)
+                                                ({{ (int) $feature->pivot->charges }} Adet)
                                             @endif
                                         </li>
                                     @endforeach

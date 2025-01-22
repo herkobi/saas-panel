@@ -20,6 +20,11 @@ class OrderService
         $this->taxService = $taxService;
     }
 
+    public function getOrderById(string $id): Order
+    {
+        return $this->repository->getOrderById($id);
+    }
+
     public function getAllOrders(): LengthAwarePaginator
     {
         return $this->repository->getAllOrders();
@@ -125,14 +130,14 @@ class OrderService
         $this->repository->delete($id);
     }
 
-    public function approvePayment(Order $order): bool
+    public function approvePayment(string $id): bool
     {
-        return $this->repository->approvePayment($order);
+        return $this->repository->approvePayment($id);
     }
 
-    public function rejectPayment(Order $order): bool
+    public function rejectPayment(string $id): bool
     {
-        return $this->repository->rejectPayment($order);
+        return $this->repository->rejectPayment($id);
     }
 
     public function createSwitchOrder(array $data): ?Order

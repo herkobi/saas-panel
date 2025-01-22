@@ -20,6 +20,11 @@ class OrderRepository extends BaseRepository
         $this->orderStatusService = $orderstatusService;
     }
 
+    public function getOrderById(string $id): Order
+    {
+        return $this->model::findOrFail($id);
+    }
+
     public function getAllOrders(): LengthAwarePaginator
     {
         return $this->model::with(['user', 'tenant', 'plan', 'orderstatus', 'currency'])
@@ -107,16 +112,18 @@ class OrderRepository extends BaseRepository
             ->exists();
     }
 
-    public function approvePayment(Order $order): bool
+    public function approvePayment(string $id): bool
     {
+        $order = $this->getById($id);
         return $order->update([
             'orderstatus_id' => $this->orderStatusService->getOrderstatusByCode('APPROVED')->id,
             'payment_date' => now()
         ]);
     }
 
-    public function rejectPayment(Order $order): bool
+    public function rejectPayment(string $id): bool
     {
+        $order = $this->getOrderById($id);
         // Reject işlemi
         $rejected = $order->update([
             'orderstatus_id' => $this->orderStatusService->getOrderstatusByCode('REJECTED')->id

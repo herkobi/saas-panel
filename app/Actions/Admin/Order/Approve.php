@@ -2,7 +2,6 @@
 
 namespace App\Actions\Admin\Order;
 
-use App\Models\Order;
 use App\Services\OrderService;
 use App\Events\Admin\Order\PaymentApproved as Event;
 use App\Traits\AuthUser;
@@ -19,10 +18,11 @@ class Approve
         $this->initializeAuthUser();
     }
 
-    public function execute(Order $order): bool
+    public function execute(string $id): bool
     {
         // Ödemeyi onayla
-        $result = $this->orderService->approvePayment($order);
+        $result = $this->orderService->approvePayment($id);
+        $order = $this->orderService->getOrderById($id);
 
         if ($result) {
             // Subscription'ı yenile

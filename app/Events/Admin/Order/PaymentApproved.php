@@ -3,17 +3,20 @@
 namespace App\Events\Admin\Order;
 
 use App\Models\Order;
-use App\Models\User;
-use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class PaymentApproved
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, SerializesModels;
 
-    public function __construct(
-        public Order $order,
-        public User $user
-    ) {}
+    public $order;
+    public $approvedBy;
+
+    public function __construct(Order $order, Authenticatable $approvedBy)
+    {
+        $this->order = $order;
+        $this->approvedBy = $approvedBy;
+    }
 }
