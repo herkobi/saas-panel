@@ -2,12 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Enums\AccountStatus;
 use App\Models\Order;
-use App\Models\Orderstatus;
 use App\Scopes\GlobalQuery;
 use App\Services\Admin\Tools\OrderstatusService;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class OrderRepository extends BaseRepository
@@ -118,7 +115,7 @@ class OrderRepository extends BaseRepository
     public function approvePayment(string $id): bool
     {
         $order = $this->getOrderById($id);
-        return $order->update([
+        return $order->withoutGlobalScope(GlobalQuery::class)->update([
             'orderstatus_id' => $this->orderStatusService->getOrderstatusByCode('APPROVED')->id,
             'payment_date' => now()
         ]);
@@ -128,7 +125,7 @@ class OrderRepository extends BaseRepository
     {
         $order = $this->getOrderById($id);
         // Reject işlemi
-        $rejected = $order->update([
+        $rejected = $order->withoutGlobalScope(GlobalQuery::class)->update([
             'orderstatus_id' => $this->orderStatusService->getOrderstatusByCode('REJECTED')->id
         ]);
 
