@@ -16,7 +16,7 @@ class OrderRejectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'order' => ['required', 'uuid', 'exists:orders,id'],
+            'order' => ['required', 'exists:orders,id'],
         ];
     }
 
@@ -31,7 +31,6 @@ class OrderRejectRequest extends FormRequest
     {
         return [
             'order.required' => 'Sipariş bulunamadı.',
-            'order.uuid' => 'Geçersiz sipariş formatı.',
             'order.exists' => 'Sipariş bulunamadı.',
         ];
     }

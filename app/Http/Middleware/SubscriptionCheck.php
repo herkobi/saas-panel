@@ -89,10 +89,10 @@ class SubscriptionCheck
         }
 
         // İlişkili verilere ihtiyaç varsa model kullan
-        $subscriptionModel = Subscription::first($subscription->id);
+        $subscriptionModel = Subscription::find($subscription->id);
 
         // Abonelik aktif ama süresi 7 gün veya daha az kaldıysa ödeme kaydı oluştur
-        if ($subscriptionModel->expired_at && $subscriptionModel->expired_at->diffInDays(now()) <= 7 && $subscriptionModel->plan->price > 0) {
+        if ($subscriptionModel->plan->price > 0 && $subscriptionModel->expired_at->diffInDays(now()) <= 7) {
             $hasPendingOrder = Order::query()
                 ->where('tenant_id', $user->tenant_id)
                 ->where('plan_id', $subscriptionModel->plan_id)

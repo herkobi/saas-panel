@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Country;
 use App\Models\Order;
+use App\Models\State;
 use App\Repositories\OrderRepository;
 use App\Services\Admin\Tools\TaxService;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -99,6 +101,18 @@ class OrderService
             $data['state_id']
         );
 
+        $country = Country::select('name')->where('id', $data['country_id'])->first();
+        $state = State::select('name')->where('id', $data['state_id'])->first();
+
+        $invoiceData = array_intersect_key($data, array_flip([
+            'invoice_name', 'tax_number', 'tax_office',
+            'address', 'zip_code', 'country_id', 'state_id'
+        ]));
+
+        $invoiceData['country_name'] = $country?->name;
+        $invoiceData['state_name'] = $state?->name;
+        $invoiceData['tax_data'] = $taxCalculation['tax_data'];
+
         $orderData = [
             'user_id' => $data['user_id'],
             'tenant_id' => $data['tenant_id'],
@@ -107,13 +121,7 @@ class OrderService
             'amount' => $data['amount'],
             'total_amount' => $taxCalculation['total_amount'],
             'payment_type' => $data['payment_type'],
-            'invoice_data' => array_merge(
-                array_intersect_key($data, array_flip([
-                    'invoice_name', 'tax_number', 'tax_office',
-                    'address', 'zip_code', 'country_id', 'state_id'
-                ])),
-                ['tax_data' => $taxCalculation['tax_data']]
-            ),
+            'invoice_data' => $invoiceData,
             'notes' => $data['notes'] ?? null,
             'orderstatus_id' => $data['orderstatus_id']
         ];

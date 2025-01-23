@@ -120,7 +120,8 @@
                                                     @endif
                                                     <tr>
                                                         <th>Adres:</th>
-                                                        <td>{{ $order->invoice_data['address'] }}</td>
+                                                        <td>{{ $order->invoice_data['address'] }}<br>{{ $order->invoice_data['state_name'] }}
+                                                            {{ $order->invoice_data['country_name'] }} </td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -155,11 +156,11 @@
                                 </div>
                             @endif
 
-                            @if (in_array($order->orderstatus->code, ['PENDING_PAYMENT', 'REVIEW']))
+                            @if (in_array($order->orderstatus->code, ['REVIEW']))
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <form action="{{ route('panel.order.approve', $order->code) }}" method="POST"
+                                            <form action="{{ route('panel.order.approve', $order->id) }}" method="POST"
                                                 class="d-inline">
                                                 @csrf
                                                 <button type="submit" class="btn btn-success">
@@ -172,7 +173,7 @@
                                                 </button>
                                             </form>
 
-                                            <form action="{{ route('panel.order.reject', $order->code) }}" method="POST"
+                                            <form action="{{ route('panel.order.reject', $order->id) }}" method="POST"
                                                 class="d-inline">
                                                 @csrf
                                                 <button type="submit" class="btn btn-danger"
