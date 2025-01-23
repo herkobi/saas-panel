@@ -33,7 +33,7 @@ class PaymentApproved
 
         if ($subscription) {
             $subscription->update(['suppressed_at' => null]);
-            //$subscription->renew();
+            $subscription->renew();
         }
 
         $this->loggingService->logUserAction(
