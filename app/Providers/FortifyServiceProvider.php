@@ -41,19 +41,26 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::registerView(function (Request $request) {
+            if (!$request->has('plan')) {
+                return redirect()->route('front'); // veya planların listelendiği sayfa
+            }
+
+            $planService = app(PlanService::class);
+            $plan = $planService->getPlanById($request->plan);
+
+            if (!$plan) {
+                return redirect()->route('front')
+                    ->with('error', 'Geçersiz plan seçimi.');
+            }
+
+            // Planı session'a kaydet
+            session(['selected_plan' => $plan->id]);
+
             // Sözleşmeler
             $registerAgreements = Agreement::where('user_type', UserType::USER)
                 ->where('show_on_register', true)
                 ->where('status', Status::ACTIVE)
                 ->get();
-
-            // Plan kontrolü
-            $plan = null;
-            if ($request->has('plan')) {
-                $planService = app(PlanService::class);
-                $plan = $planService->getPlanById($request->plan);
-                session(['selected_plan' => $plan->id]);
-            }
 
             return view('auth.register', [
                 'registerAgreements' => $registerAgreements,

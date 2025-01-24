@@ -91,12 +91,14 @@ class OrdersController extends Controller
 
     public function reject(OrderRejectRequest $request, string $id): RedirectResponse
     {
-        $result = $this->rejectPayment->execute($id);
+        $order = $this->orderService->getOrderById($id);
+        if($request->validated()) {
+            $result = $this->rejectPayment->execute($order->id);
+            return $result
+                ? Redirect::back()->with('success', 'Ödeme reddedildi ve yeni ödeme kaydı oluşturuldu.')
+                : Redirect::back()->with('error', 'Ödeme reddedilirken bir hata oluştu.');
+        };
 
-        return $result
-            ? Redirect::back()
-                ->with('success', 'Ödeme reddedildi ve yeni ödeme kaydı oluşturuldu.')
-            : Redirect::back()
-                ->with('error', 'Ödeme reddedilirken bir hata oluştu.');
+        return Redirect::back()->with('error', 'Ödeme reddedilirken bir hata oluştu.');
     }
 }

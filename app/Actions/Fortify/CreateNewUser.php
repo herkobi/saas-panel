@@ -8,6 +8,9 @@ use App\Enums\UserType;
 use App\Models\Agreement;
 use App\Models\Plan;
 use App\Models\User;
+use App\Services\Admin\Tools\OrderstatusService;
+use App\Services\OrderService;
+use App\Actions\User\Order\Create;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -22,10 +25,20 @@ class CreateNewUser implements CreatesNewUsers
     use PasswordValidationRules;
 
     protected $tenantService;
+    protected $orderstatusService;
+    protected $orderService;
+    protected $create;
 
-    public function __construct(TenantService $tenantService)
-    {
+    public function __construct(
+        TenantService $tenantService,
+        OrderstatusService $orderstatusService,
+        OrderService $orderService,
+        Create $create
+    ) {
         $this->tenantService = $tenantService;
+        $this->orderstatusService = $orderstatusService;
+        $this->orderService = $orderService;
+        $this->create = $create;
     }
 
     public function create(array $input): User
@@ -113,10 +126,27 @@ class CreateNewUser implements CreatesNewUsers
         // Plan subscription
         if (session()->has('selected_plan')) {
             $plan = Plan::where('id', session('selected_plan'))->first();
-            $subscription = $tenant->subscribeTo($plan);
 
-            if ($plan->price > 0 && !$plan->has_postpaid_feature) {
-                $subscription->suppress();
+            // Ücretsiz plan ve postpaid özelliği yoksa
+            if ($plan->price == 0 && !$plan->has_postpaid_feature) {
+                $tenant->subscribeTo($plan);
+            } else {
+                // Ücretli planlar için order kaydı oluştur
+                $orderData = [
+                    'user_id' => $user->id,
+                    'tenant_id' => $tenant->id,
+                    'plan_id' => $plan->id,
+                    'currency_id' => $plan->currency_id,
+                    'amount' => $plan->price,
+                    'payment_type' => 'bank',
+                    'invoice_data' => [
+                        'invoice_name' => $user->account->invoice_name
+                    ],
+                    'notes' => 'İlk üyelik ödemesi',
+                    'orderstatus_id' => $this->orderstatusService->getOrderstatusByCode('PENDING_PAYMENT')->id,
+                ];
+
+                $this->create->execute($orderData);
             }
         }
 

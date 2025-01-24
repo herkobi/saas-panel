@@ -25,15 +25,8 @@ class PaymentApproved
     public function handle(Event $event)
     {
 
-        $subscription = Subscription::where('subscriber_id', $event->order->tenant_id)
-            ->where('subscriber_type', get_class($event->order->tenant))
-            ->withoutGlobalScope(SuppressingScope::class)
-            ->latest('started_at')
-            ->first();
-
-        if ($subscription) {
-            $subscription->update(['suppressed_at' => null]);
-            $subscription->renew();
+        if ($event->order->orderstatus->code === 'APPROVED') {
+            $event->order->tenant->subscribeTo($event->order->plan);
         }
 
         $this->loggingService->logUserAction(

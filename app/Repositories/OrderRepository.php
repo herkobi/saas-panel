@@ -124,13 +124,11 @@ class OrderRepository extends BaseRepository
     public function rejectPayment(string $id): bool
     {
         $order = $this->getOrderById($id);
-        // Reject işlemi
         $rejected = $order->withoutGlobalScope(GlobalQuery::class)->update([
             'orderstatus_id' => $this->orderStatusService->getOrderstatusByCode('REJECTED')->id
         ]);
 
         if ($rejected) {
-            // Yeni order oluştur
             $this->create([
                 'user_id' => $order->user_id,
                 'tenant_id' => $order->tenant_id,

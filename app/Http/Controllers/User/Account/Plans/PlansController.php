@@ -20,16 +20,22 @@ class PlansController extends Controller
         $this->planService = $planService;
     }
 
-    public function index()
+    public function index(): View
     {
-        $subscription = $this->user->subscription;
-        $pendingOrder = Order::where('user_id', $this->user->id)
+        // Get current subscription
+        $subscription = $this->user->tenant->subscription;
+
+        // Get pending payment order - tenant_id ile sorgula
+        $pendingOrder = Order::where('tenant_id', $this->user->tenant_id)
             ->whereHas('orderstatus', fn($q) => $q->where('code', 'PENDING_PAYMENT'))
             ->first();
 
         // Tenant'a özel ve genel planlar
         $tenantPlans = $this->planService->getBasePlans($this->user->tenant_id);
-        $generalPlans = $this->planService->getFrontPlans();
+        $generalPlans = $this->planService->getFrontPlans()
+            ->when($subscription, function($query) use ($subscription) {
+                return $query->where('id', '!=', $subscription->plan_id);
+            });
 
         return view('user.account.plans.index', compact(
             'subscription',

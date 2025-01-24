@@ -93,9 +93,6 @@
                         </button>
                     </div>
                 </form>
-                <div class="text-center text-danger mt-3">
-                    <a href="{{ route('register') }}" title="Üye Ol" class="link" tabindex="-1">Üye Ol</a>
-                </div>
             </div>
         </div>
     </div>

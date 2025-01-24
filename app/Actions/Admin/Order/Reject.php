@@ -2,7 +2,6 @@
 
 namespace App\Actions\Admin\Order;
 
-use App\Models\Order;
 use App\Services\OrderService;
 use App\Events\Admin\Order\PaymentRejected as Event;
 use App\Traits\AuthUser;

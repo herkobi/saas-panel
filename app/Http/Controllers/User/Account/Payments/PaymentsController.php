@@ -162,7 +162,6 @@ class PaymentsController extends Controller
         }
 
         if ($plan->price == 0) {
-            $subscription = $this->user->subscribeTo($plan);
             return Redirect::route('app.account.payment.free-success', $created->code);
         }
 
@@ -178,7 +177,7 @@ class PaymentsController extends Controller
    {
        $order = $this->orderService->getOrderByCode($code);
 
-       if ($order->user_id !== $this->user->id) {
+       if ($order->tenant_id !== $this->user->tenant_id) {
            return Redirect::back()->with('error', 'Bu ödeme kaydını görüntüleme yetkiniz yok.');
        }
 
@@ -187,7 +186,14 @@ class PaymentsController extends Controller
        ]);
    }
 
-    // PaymentsController.php
+    public function freeSuccess(string $code): View|RedirectResponse
+    {
+        $order = $this->orderService->getOrderByCode($code);
+        return view('user.account.payments.free-success', [
+            'order' => $order
+        ]);
+    }
+
     public function bacsSuccess(string $code): View|RedirectResponse
     {
         $order = $this->orderService->getOrderByCode($code);
@@ -215,7 +221,7 @@ class PaymentsController extends Controller
     {
         $order = $this->orderService->getOrderByCode($code);
 
-        if ($order->user_id !== $this->user->id) {
+        if ($order->tenant_id !== $this->user->tenant_id) {
             return Redirect::back()->with('error', 'Bu ödeme kaydını güncelleme yetkiniz yok.');
         }
 
