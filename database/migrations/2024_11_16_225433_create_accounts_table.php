@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('user_id');
+            $table->uuid('tenant_id');
             $table->string('invoice_name')->unique();
             $table->string('tax_office')->nullable();
             $table->string('tax_number')->nullable()->unique();
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('kep')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('tenant_id')->references('id')->on('tenants')->onDelete('cascade');
         });
     }
 

@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->uuid('group_id')->nullable()->after('id');
             $table->integer('status')->default(1)->after('id');
             $table->integer('type')->after('status');
             $table->string('surname')->after('name');
@@ -22,7 +21,6 @@ return new class extends Migration
             $table->uuid('created_by')->default(0)->after('agent');
             $table->string('created_by_name')->default('Owner')->after('created_by');
 
-            $table->foreign('group_id')->references('id')->on('account_groups')->restrictOnDelete();
         });
     }
 

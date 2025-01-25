@@ -2,21 +2,19 @@
 
 namespace App\Models;
 
-use App\Traits\HasDefaultPagination;
-use App\Traits\Owner;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class UserAccount extends Model
+class Account extends Model
 {
-    use HasFactory, HasUuids, HasDefaultPagination, Owner;
+    use HasFactory, HasUuids;
 
     protected $table = "accounts";
 
     protected $fillable = [
-        'user_id',
+        'tenant_id',
         'invoice_name',
         'tax_office',
         'tax_number',
@@ -45,9 +43,9 @@ class UserAccount extends Model
         ];
     }
 
-    public function user(): BelongsTo
+    public function tenant(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Tenant::class);
     }
 
     public function state(): BelongsTo

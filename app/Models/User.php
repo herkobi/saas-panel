@@ -89,16 +89,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(UserMeta::class);
     }
 
-    public function account(): HasOne
-    {
-        return $this->hasOne(UserAccount::class);
-    }
-
-    public function accountGroup(): BelongsTo
-    {
-        return $this->belongsTo(AccountGroup::class, 'group_id');
-    }
-
     public function authlogs(): HasMany
     {
         return $this->hasMany(Authlog::class);

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\UserAccount;
+use App\Models\Account;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\UserMeta;
 use Illuminate\Database\Seeder;
@@ -77,8 +77,8 @@ class DatabaseSeeder extends Seeder
         /**
          * Sadece tenant owner için fatura bilgileri oluştur
          */
-        UserAccount::create([
-            'user_id' => $normal->id,  // Sadece tenant owner
+        Account::create([
+            'tenant_id' => $normal->tenant_id,  // Sadece tenant owner
             'invoice_name' => $normal->name . ' ' . $normal->surname
         ]);
     }

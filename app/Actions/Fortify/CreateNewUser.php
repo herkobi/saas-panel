@@ -139,8 +139,10 @@ class CreateNewUser implements CreatesNewUsers
                     'currency_id' => $plan->currency_id,
                     'amount' => $plan->price,
                     'payment_type' => 'bank',
+                    'country_id' => $tenant->account->country_id,
+                    'state_id' => $tenant->account->state_id,
                     'invoice_data' => [
-                        'invoice_name' => $user->account->invoice_name
+                        'invoice_name' => $tenant->account->invoice_name
                     ],
                     'notes' => 'İlk üyelik ödemesi',
                     'orderstatus_id' => $this->orderstatusService->getOrderstatusByCode('PENDING_PAYMENT')->id,

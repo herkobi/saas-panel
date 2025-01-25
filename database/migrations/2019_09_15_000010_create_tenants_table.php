@@ -11,6 +11,7 @@ return new class extends Migration
     {
         Schema::create('tenants', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->uuid('group_id')->nullable();
             $table->string('code')->unique();
             $table->string('domain')->nullable()->unique();
             $table->boolean('has_domain')->default(false);
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->index(['code', 'domain']);
+            $table->foreign('group_id')->references('id')->on('account_groups')->restrictOnDelete();
         });
 
         // Users tablosuna tenant_id ekleme

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\Status;
 use App\Traits\HasDefaultPagination;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -29,13 +28,13 @@ class AccountGroup extends Model
         ];
     }
 
-    public function users(): HasMany
+    public function tenant(): HasMany
     {
-        return $this->hasMany(User::class, 'group_id');
+        return $this->hasMany(Tenant::class, 'group_id');
     }
 
     public function getUsersCountAttribute(): int
     {
-        return $this->users()->count();
+        return $this->tenant()->count();
     }
 }
