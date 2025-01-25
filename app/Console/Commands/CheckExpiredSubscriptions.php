@@ -46,7 +46,6 @@ class CheckExpiredSubscriptions extends Command
             ->get();
 
         foreach($expiredGraceSubscriptions as $subscription) {
-            $subscription->suppress();
             $tenant = $subscription->subscriber;
 
             // Grace period sonu bildirimi
@@ -88,7 +87,6 @@ class CheckExpiredSubscriptions extends Command
             ->get();
 
         foreach($expiredNoGraceSubscriptions as $subscription) {
-            $subscription->suppress();
             $tenant = $subscription->subscriber;
 
             // Normal süre bitiş bildirimi

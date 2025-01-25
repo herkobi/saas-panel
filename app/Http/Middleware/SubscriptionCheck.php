@@ -8,135 +8,124 @@ use App\Services\OrderService;
 use App\Traits\AuthUser;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use LucasDotVin\Soulbscription\Models\Subscription;
 
 class SubscriptionCheck
 {
-    use AuthUser;
+   use AuthUser;
 
-    protected array $allowedRoutes = [
-        'app.country.states',  // Ödeme formunda ülke/eyalet seçimi için
-        'app.taxes',          // Vergi hesaplaması için
-        'app.account.payments',
-        'app.account.payment.show',
-        'app.account.payment.create',  // Ödeme sayfası
-        'app.account.payment.store',   // Ödeme işlemi
-        'app.account.payment.bacs-success', // Banka havalesi başarılı sayfası
-        'app.account.payment.upload',   // Dekont yükleme
-        'app.account.payment.normaluser',   // Dekont yükleme
-        'app.account.plans',           // Planlar sayfası
-    ];
+   protected array $allowedRoutes = [
+       'app.country.states',  // Ödeme formunda ülke/eyalet seçimi için
+       'app.taxes',          // Vergi hesaplaması için
+       'app.account.payments',
+       'app.account.payment.show',
+       'app.account.payment.create',  // Ödeme sayfası
+       'app.account.payment.store',   // Ödeme işlemi
+       'app.account.payment.bacs-success', // Banka havalesi başarılı sayfası
+       'app.account.payment.upload',   // Dekont yükleme
+       'app.account.plans',           // Planlar sayfası
+   ];
 
-    protected $orderService;
-    protected $orderstatusService;
+   protected $orderService;
+   protected $orderstatusService;
 
-    public function __construct(
-        OrderService $orderService,
-        OrderstatusService $orderstatusService
-    ) {
-        $this->initializeAuthUser();
-        $this->orderService = $orderService;
-        $this->orderstatusService = $orderstatusService;
-    }
+   public function __construct(
+       OrderService $orderService,
+       OrderstatusService $orderstatusService
+   ) {
+       $this->initializeAuthUser();
+       $this->orderService = $orderService;
+       $this->orderstatusService = $orderstatusService;
+   }
 
-    protected function isAllowedRoute(?string $currentRoute): bool
-    {
-        if (!$currentRoute) {
-            return false;
-        }
+   protected function isAllowedRoute(?string $currentRoute): bool
+   {
+       if (!$currentRoute) {
+           return false;
+       }
 
-        return collect($this->allowedRoutes)->some(
-            fn ($pattern) => Str::is($pattern, $currentRoute)
-        );
-    }
+       return collect($this->allowedRoutes)->some(
+           fn ($pattern) => Str::is($pattern, $currentRoute)
+       );
+   }
 
-    public function handle(Request $request, Closure $next)
-    {
-        $user = $this->user;
-        $tenant = $user->tenant;
-        $currentRoute = $request->route()?->getName();
+   public function handle(Request $request, Closure $next)
+   {
+       $currentRoute = $request->route()?->getName();
 
-        // İzin verilen rotalar için devam et
-        if ($this->isAllowedRoute($currentRoute)) {
-            return $next($request);
-        }
+       // İzin verilen rotalara sadece tenant owner erişebilir
+       if ($this->isAllowedRoute($currentRoute)) {
+           if (!$this->user->is_tenant_owner) {
+               return redirect()
+                   ->route('app.account.payment.normaluser')
+                   ->with('warning', 'Ödeme işlemleri sadece hesap yöneticisi tarafından yapılabilir.');
+           }
+           return $next($request);
+       }
 
-        $subscription = DB::table('subscriptions')
-            ->select(['id', 'plan_id', 'suppressed_at'])
-            ->where('subscriber_id', $tenant->id)
-            ->where('subscriber_type', get_class($tenant))
-            ->orderBy('started_at', 'desc')
-            ->first();
+       // Aktif subscription kontrolü
+       $subscription = $this->user->tenant->subscription;
 
-        if (!$user->is_tenant_owner) {
-            return redirect()
-                ->route('app.account.payment.normaluser')
-                ->with('warning', 'Hesabınızla ilgili yapılması gereken işlemler var. Lütfen tenant yöneticiniz ile iletişime geçin.');
-        }
+       if (!$subscription || $subscription->expired()) {
+           if ($this->user->is_tenant_owner) {
+               return redirect()
+                   ->route('app.account.plans')
+                   ->with('warning', 'Aboneliğiniz sona ermiştir. Lütfen yeni bir plan seçin.');
+           }
 
-        if (!$subscription) {
-            return redirect()
-                ->route('app.account.plans')
-                ->with('warning', 'Lütfen bir abonelik planı seçin.');
-        }
+           return redirect()
+               ->route('app.account.payment.normaluser')
+               ->with('warning', 'Aboneliğiniz sona ermiştir. Lütfen hesap yöneticiniz ile iletişime geçin.');
+       }
 
-        if ($subscription->suppressed_at) {
-            return redirect()
-                ->route('app.account.payment.create', $subscription->plan_id)
-                ->with('warning', 'Lütfen ödeme işleminizi tamamlayın.');
-        }
+       // Abonelik aktif ama süresi 7 gün veya daha az kaldıysa ödeme kaydı oluştur
+       if ($subscription->plan->price > 0 && $subscription->expired_at->diffInDays(now()) <= 7) {
+           $hasPendingOrder = Order::query()
+               ->where('tenant_id', $this->user->tenant_id)
+               ->where('plan_id', $subscription->plan_id)
+               ->whereHas('orderstatus', fn ($q) => $q->where('code', 'PENDING_PAYMENT'))
+               ->exists();
 
-        // İlişkili verilere ihtiyaç varsa model kullan
-        $subscriptionModel = Subscription::find($subscription->id);
+           if (!$hasPendingOrder) {
+               $orderData = [
+                   'user_id' => $this->user->id,
+                   'tenant_id' => $this->user->tenant_id,
+                   'plan_id' => $subscription->plan_id,
+                   'currency_id' => $subscription->plan->currency_id,
+                   'amount' => $subscription->plan->price,
+                   'payment_type' => 'bank',
+                   'invoice_data' => [
+                       'invoice_name' => $this->user->account->invoice_name,
+                       'tax_number' => $this->user->account->tax_number,
+                       'tax_office' => $this->user->account->tax_office,
+                       'address' => $this->user->account->address,
+                       'zip_code' => $this->user->account->zip_code,
+                       'country_id' => $this->user->account->country_id,
+                       'state_id' => $this->user->account->state_id,
+                   ],
+                   'notes' => 'Otomatik oluşturulan yenileme ödemesi',
+                   'orderstatus_id' => $this->orderstatusService->getOrderstatusByCode('PENDING_PAYMENT')->id,
+               ];
 
-        // Abonelik aktif ama süresi 7 gün veya daha az kaldıysa ödeme kaydı oluştur
-        if ($subscriptionModel->plan->price > 0 && $subscriptionModel->expired_at->diffInDays(now()) <= 7) {
-            $hasPendingOrder = Order::query()
-                ->where('tenant_id', $user->tenant_id)
-                ->where('plan_id', $subscriptionModel->plan_id)
-                ->whereHas('orderstatus', fn ($q) => $q->where('code', 'PENDING_PAYMENT'))
-                ->exists();
+               $this->orderService->createPaymentOrder($orderData);
+           }
+       }
 
-            if (!$hasPendingOrder) {
-                $orderData = [
-                    'user_id' => $user->id,
-                    'tenant_id' => $user->tenant_id,
-                    'plan_id' => $subscriptionModel->plan_id,
-                    'currency_id' => $subscriptionModel->plan->currency_id,
-                    'amount' => $subscriptionModel->plan->price,
-                    'payment_type' => 'bank',
-                    'invoice_data' => [
-                        'invoice_name' => $user->account->invoice_name,
-                        'tax_number' => $user->account->tax_number,
-                        'tax_office' => $user->account->tax_office,
-                        'address' => $user->account->address,
-                        'zip_code' => $user->account->zip_code,
-                        'country_id' => $user->account->country_id,
-                        'state_id' => $user->account->state_id,
-                    ],
-                    'notes' => 'Otomatik oluşturulan yenileme ödemesi',
-                    'orderstatus_id' => $this->orderstatusService->getOrderstatusByCode('PENDING_PAYMENT')->id,
-                ];
+       // Bekleyen ödeme varsa ve tenant owner ise ödeme sayfasına yönlendir
+       if ($this->user->is_tenant_owner) {
+           $pendingOrder = Order::query()
+               ->where('tenant_id', $this->user->tenant_id)
+               ->where('plan_id', $subscription->plan_id)
+               ->whereHas('orderstatus', fn ($q) => $q->where('code', 'PENDING_PAYMENT'))
+               ->first();
 
-                $order = $this->orderService->createPaymentOrder($orderData);
-            }
-        }
+           if ($pendingOrder) {
+               return redirect()
+                   ->route('app.account.payment.create', $subscription->plan_id)
+                   ->with('warning', 'Bekleyen ödemenizi tamamlayın.');
+           }
+       }
 
-        // Bekleyen ödeme kontrolü
-        $pendingOrder = Order::query()
-            ->where('tenant_id', $user->tenant_id)
-            ->where('plan_id', $subscriptionModel->plan_id)
-            ->whereHas('orderstatus', fn ($q) => $q->where('code', 'PENDING_PAYMENT'))
-            ->first();
-
-        if ($pendingOrder) {
-            return redirect()
-                ->route('app.account.payment.create', $subscriptionModel->plan_id)
-                ->with('warning', 'Bekleyen ödemenizi tamamlayın.');
-        }
-
-        return $next($request);
-    }
+       return $next($request);
+   }
 }
