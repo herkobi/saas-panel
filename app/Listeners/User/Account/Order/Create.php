@@ -26,6 +26,21 @@ class Create
             $event->order->tenant->subscribeTo($event->order->plan);
         }
 
+        // Sadece new_tenant true ise güncelle
+        if ($event->order->tenant->new_tenant) {
+            $event->order->tenant->new_tenant = false;
+        }
+
+        // first_paid_plan null ise order'daki plan ile güncelle
+        if (is_null($event->order->tenant->first_paid_plan)) {
+            $event->order->tenant->first_paid_plan = $event->order->plan_id;
+        }
+
+        // Eğer değişiklik varsa kaydet
+        if ($event->order->tenant->isDirty()) {
+            $event->order->tenant->save();
+        }
+
         $this->loggingService->logUserAction(
             'order.created',
             $event->createdBy,

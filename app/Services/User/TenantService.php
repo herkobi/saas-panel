@@ -24,6 +24,11 @@ class TenantService
         ]);
     }
 
+    public function updateTenantPlan(string $id, array $data): Tenant
+    {
+        return $this->repository->updateTenantPlan($id, $data);
+    }
+
     public function changeStatus(Tenant $tenant, AccountStatus $status): bool
     {
         return $this->repository->updateStatus($tenant, $status);

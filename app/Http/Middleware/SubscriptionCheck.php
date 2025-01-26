@@ -53,6 +53,10 @@ class SubscriptionCheck
            return $next($request);
        }
 
+        if ($this->user->tenant->new_tenant && $this->user->tenant->first_paid_plan) {
+            return redirect()->route('app.account.payment.create', $this->user->tenant->first_paid_plan);
+        }
+
        // Aktif subscription kontrolü
        $subscription = $this->user->tenant->subscription;
 
@@ -70,6 +74,7 @@ class SubscriptionCheck
 
        // Bekleyen ödeme varsa ve tenant owner ise ödeme sayfasına yönlendir
        if ($this->user->is_tenant_owner) {
+
            $pendingOrder = Order::query()
                ->where('tenant_id', $this->user->tenant_id)
                ->where('plan_id', $subscription->plan_id)

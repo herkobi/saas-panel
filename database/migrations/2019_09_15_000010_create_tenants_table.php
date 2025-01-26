@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('domain')->nullable()->unique();
             $table->boolean('has_domain')->default(false);
             $table->integer('status');
+            $table->foreignId('first_plan')->nullable(); // İlk seçilen plan
+            $table->foreignId('first_paid_plan')->nullable(); // İlk ücretli plan
+            $table->boolean('new_tenant')->default(true); // Yeni tenant mi?
             $table->json('settings')->nullable();
             $table->string('storage_folder');
             $table->timestamps();

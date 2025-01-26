@@ -109,7 +109,7 @@ class PaymentsController extends Controller
             'agreements' => $agreements,
             'taxes' => $taxes,
             'defaultCountry' => $defaultCountry,
-            'user' => $this->user
+            'tenant' => $this->user->tenant
         ]);
    }
 
@@ -121,7 +121,7 @@ class PaymentsController extends Controller
             'address', 'zip_code', 'country_id', 'state_id'
         ]));
 
-        $accountUpdated = $this->updateAccount->execute($this->user->account->id, $accountData);
+        $accountUpdated = $this->updateAccount->execute($this->user->tenant->account->id, $accountData);
 
         if (!$accountUpdated) {
             return Redirect::back()->with('error', 'Fatura bilgileri güncellenirken bir hata oluştu.');

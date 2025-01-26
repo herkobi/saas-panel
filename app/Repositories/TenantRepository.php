@@ -43,6 +43,15 @@ class TenantRepository extends BaseRepository
         return $tenant->update(['status' => $status]);
     }
 
+    public function updateTenantPlan(string $id, array $data): Tenant
+    {
+        return $this->update($id, [
+            'first_plan' => $data['first_plan'],
+            'first_paid_plan' => $data['first_paid_plan'],
+            'new_tenant' => $data['new_tenant'],
+        ]);
+    }
+
     public function createUserTenant(array $data): Tenant
     {
         return $this->create([

@@ -76,7 +76,7 @@ class CreateNewUser implements CreatesNewUsers
 
         // Önce tenant oluştur
         $tenant = $this->tenantService->createForUser([
-            'domain' => $input['domain'] ?? null
+            'domain' => $input['domain'] ?? null,
         ]);
 
         // Kullanıcıyı tenant ile ilişkilendir
@@ -131,21 +131,13 @@ class CreateNewUser implements CreatesNewUsers
             // Ücretsiz plan ve postpaid özelliği yoksa
             if ($plan->price == 0 && !$plan->has_postpaid_feature) {
                 $tenant->subscribeTo($plan);
-            } else {
-                // Ücretli planlar için order kaydı oluştur
-                $code = 'ORD' . strtoupper(Str::random(8));
-
-                Order::insert([
-                    'id' => Str::uuid(),
-                    'code' => $code,
-                    'user_id' => $user->id,
-                    'tenant_id' => $tenant->id,
-                    'plan_id' => $plan->id,
-                    'currency_id' => $plan->currency_id,
-                    'amount' => $plan->price,
-                    'orderstatus_id' => $this->orderstatusService->getOrderstatusByCode('PENDING_PAYMENT')->id,
-                ]);
             }
+
+            $this->tenantService->updateTenantPlan($tenant->id,[
+                'first_plan' => $plan->id,
+                'first_paid_plan' => $plan->price > 0 ? $plan->id : null,
+                'new_tenant' => true
+            ]);
         }
 
         return $user;

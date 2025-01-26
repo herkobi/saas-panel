@@ -22,6 +22,9 @@ class Tenant extends Model
         'domain',
         'has_domain',
         'status',
+        'first_plan',
+        'first_paid_plan',
+        'new_tenant',
         'settings',
         'storage_folder',
     ];
@@ -30,6 +33,7 @@ class Tenant extends Model
     {
         return [
             'has_domain' => 'boolean',
+            'new_tenant' => 'boolean',
             'status' => AccountStatus::class,
             'settings' => 'array',
             'created_at' => 'datetime',

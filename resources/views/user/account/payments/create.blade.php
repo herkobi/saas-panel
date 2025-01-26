@@ -41,7 +41,7 @@
                                                     <input type="text" name="invoice_name" id="invoice_name"
                                                         class="form-control rounded-0 border-start-0"
                                                         placeholder="Firma/Kişi Adı"
-                                                        value="{{ old('invoice_name', $user->account->invoice_name ?? '') }}"
+                                                        value="{{ old('invoice_name', $tenant->account->invoice_name ?? '') }}"
                                                         required>
                                                 </div>
                                                 <span class="form-hint small">Lütfen firma ya da kişi adını
@@ -66,7 +66,7 @@
                                                     <input type="text" name="tax_number" id="tax_number"
                                                         class="form-control rounded-0 border-start-0"
                                                         placeholder="Vergi Numarası"
-                                                        value="{{ old('tax_number', $user->account->tax_number ?? '') }}">
+                                                        value="{{ old('tax_number', $tenant->account->tax_number ?? '') }}">
                                                 </div>
                                                 <span class="form-hint small">Lütfen vergi numaranızı giriniz.
                                                     Bireysel müşteriler T.C. kimlik numaralarını girmelidir.</span>
@@ -88,7 +88,7 @@
                                                     <input type="text" name="tax_office" id="tax_office"
                                                         class="form-control rounded-0 border-start-0"
                                                         placeholder="Vergi Dairesi"
-                                                        value="{{ old('tax_office', $user->account->tax_office ?? '') }}">
+                                                        value="{{ old('tax_office', $tenant->account->tax_office ?? '') }}">
                                                 </div>
                                                 <span class="form-hint small">Lütfen vergi dairenizi giriniz.
                                                     Bireysel müşteriler bu kısmı boş bırakabilir.</span>
@@ -112,7 +112,7 @@
                                                     </span>
                                                     <input type="text" class="form-control rounded-0 border-start-0"
                                                         name="address" placeholder="Adresiniz"
-                                                        value="{{ old('address', $user->account->address ?? '') }}"
+                                                        value="{{ old('address', $tenant->account->address ?? '') }}"
                                                         required>
                                                 </div>
                                                 <span class="form-hint small">Lütfen fatura adresinizi giriniz.</span>
@@ -138,7 +138,7 @@
                                                     <input type="text" name="zip_code" id="zip_code"
                                                         class="form-control rounded-0 border-start-0"
                                                         placeholder="Posta Kodu"
-                                                        value="{{ old('zip_code', $user->account->zip_code ?? '') }}"
+                                                        value="{{ old('zip_code', $tenant->account->zip_code ?? '') }}"
                                                         required>
                                                 </div>
                                                 <span class="form-hint small">Lütfen posta kodunu giriniz.</span>
@@ -161,7 +161,7 @@
                                                     </div>
                                                     <input type="text" name="district" id="district"
                                                         class="form-control rounded-0 border-start-0" placeholder="İlçe"
-                                                        value="{{ old('district', $user->account->district ?? '') }}"
+                                                        value="{{ old('district', $tenant->account->district ?? '') }}"
                                                         required>
                                                 </div>
                                                 <span class="form-hint small">Lütfen ilçe adını giriniz.</span>
@@ -177,7 +177,7 @@
                                                     id="country_id">
                                                     @foreach ($countries as $countryItem)
                                                         <option value="{{ $countryItem->id }}"
-                                                            {{ (old('country_id') ?? $user->account->country_id) == $countryItem->id ? 'selected' : '' }}>
+                                                            {{ (old('country_id') ?? $tenant->account->country_id) == $countryItem->id ? 'selected' : '' }}>
                                                             {{ $countryItem->name }}
                                                         </option>
                                                     @endforeach
