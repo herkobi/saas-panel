@@ -2,12 +2,12 @@
 
 namespace App\Actions\User\Account;
 
+use App\Models\Account;
 use App\Events\User\Account\Account\Account as Event;
-use App\Models\UserAccount;
-use App\Services\User\Account\UserAccountService as Service;
+use App\Services\User\Account\AccountService as Service;
 use App\Traits\AuthUser;
 
-class Account
+class Update
 {
     use AuthUser;
 
@@ -30,7 +30,7 @@ class Account
      * @param string $id Getirilecek kullanıcı ID'si
      * @return mixed Güncellenecek veriler
      */
-    public function execute(string $id, array $data): UserAccount
+    public function execute(string $id, array $data): Account
     {
         $oldData = $this->postService->getAccount($id);
         $updatedData = $this->postService->updateAccount($id, $data);

@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Services\Admin\Tools\OrderstatusService;
 use App\Services\OrderService;
 use App\Actions\User\Order\Create;
+use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -103,7 +104,7 @@ class CreateNewUser implements CreatesNewUsers
         ]);
 
         // User account
-        $user->account()->create([
+        $tenant->account()->create([
             'invoice_name' => $user->name . ' ' . $user->surname
         ]);
 
@@ -132,23 +133,18 @@ class CreateNewUser implements CreatesNewUsers
                 $tenant->subscribeTo($plan);
             } else {
                 // Ücretli planlar için order kaydı oluştur
-                $orderData = [
+                $code = 'ORD' . strtoupper(Str::random(8));
+
+                Order::insert([
+                    'id' => Str::uuid(),
+                    'code' => $code,
                     'user_id' => $user->id,
                     'tenant_id' => $tenant->id,
                     'plan_id' => $plan->id,
                     'currency_id' => $plan->currency_id,
                     'amount' => $plan->price,
-                    'payment_type' => 'bank',
-                    'country_id' => $tenant->account->country_id,
-                    'state_id' => $tenant->account->state_id,
-                    'invoice_data' => [
-                        'invoice_name' => $tenant->account->invoice_name
-                    ],
-                    'notes' => 'İlk üyelik ödemesi',
                     'orderstatus_id' => $this->orderstatusService->getOrderstatusByCode('PENDING_PAYMENT')->id,
-                ];
-
-                $this->create->execute($orderData);
+                ]);
             }
         }
 

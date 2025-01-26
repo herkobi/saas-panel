@@ -4,7 +4,7 @@ namespace App\Http\Controllers\User\Account\Payments;
 
 use App\Actions\User\Order\Create;
 use App\Actions\User\Order\Upload;
-use App\Actions\User\Account\Account as UpdateAccount;
+use App\Actions\User\Account\Update as UpdateAccount;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\Payment\PaymentCreateRequest;
 use App\Http\Requests\User\Payment\PaymentUploadRequest;

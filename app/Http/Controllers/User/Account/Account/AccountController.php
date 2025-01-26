@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\User\Account\Account;
 
-use App\Actions\User\Account\Account;
+use App\Actions\User\Account\Update as Account;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\Account\UserAccountUpdateRequest;
 use App\Services\Admin\Tools\CountryService;

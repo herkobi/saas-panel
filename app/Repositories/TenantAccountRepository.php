@@ -2,18 +2,18 @@
 
 namespace App\Repositories;
 
-use App\Models\UserAccount;
+use App\Models\Account;
 
-class UserAccountRepository extends BaseRepository
+class TenantAccountRepository extends BaseRepository
 {
-    protected $model = UserAccount::class;
+    protected $model = Account::class;
 
-    public function createUserAccount(array $data)
+    public function createAccount(array $data)
     {
         return $this->model::create($data);
     }
 
-    public function updateUserAccount(string $id, array $data): UserAccount
+    public function updateAccount(string $id, array $data): Account
     {
         $account = $this->getAccount($id);
         $account->update([
@@ -35,7 +35,7 @@ class UserAccountRepository extends BaseRepository
         return $account;
     }
 
-    public function getAccount(string $id): UserAccount
+    public function getAccount(string $id): Account
     {
         return $this->model::with(['state', 'country'])->findOrFail($id);
     }
