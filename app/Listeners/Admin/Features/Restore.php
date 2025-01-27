@@ -27,7 +27,7 @@ class Restore
             $event->restoredBy,
             $event->feature,
             [
-                'feature_title' => $event->feature->title,
+                'feature_title' => $event->feature->name,
             ]
         );
 
@@ -38,7 +38,7 @@ class Restore
                 $event->restoredBy,
                 $event->feature,
                 [
-                    'feature_title' => $event->feature->title
+                    'feature_title' => $event->feature->name
                 ]
             ),
         ]);

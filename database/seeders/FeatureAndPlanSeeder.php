@@ -13,20 +13,44 @@ class FeatureAndPlanSeeder extends Seeder
 {
     public function run(): void
     {
-        // Önce feature'ı oluşturalım
-        $feature = Feature::create([
-            'name' => 'icerik-yonetimi',
-            'consumable' => true,
-            'quota' => false,
-            'postpaid' => false,
-            'periodicity' => null,
-            'periodicity_type' => null
-        ]);
-
-        // TRY currency'sini bulalım
+        // Currency'i bul
         $currency = Currency::where('iso_code', Setting::get('currency'))->first();
 
-        // Planları oluşturalım
+        // Features
+        $features = [
+            [
+                'name' => 'icerik-yonetimi',
+                'consumable' => true,
+                'quota' => false,
+                'postpaid' => false,
+                'periodicity' => null,
+                'periodicity_type' => null
+            ],
+            [
+                'name' => 'sayfa-yonetimi',
+                'consumable' => true,
+                'quota' => false,
+                'postpaid' => false,
+                'periodicity' => null,
+                'periodicity_type' => null
+            ],
+            [
+                'name' => 'dosya-yonetimi',
+                'consumable' => true,
+                'quota' => true,
+                'postpaid' => false,
+                'periodicity' => null,
+                'periodicity_type' => null
+            ]
+        ];
+
+        // Feature'ları oluştur
+        $createdFeatures = [];
+        foreach ($features as $feature) {
+            $createdFeatures[$feature['name']] = Feature::create($feature);
+        }
+
+        // Plans
         $plans = [
             [
                 'base' => null,
@@ -37,7 +61,9 @@ class FeatureAndPlanSeeder extends Seeder
                 'price' => 0,
                 'currency_id' => $currency->id,
                 'grace_days' => 0,
-                'feature_limit' => 50
+                'features' => [
+                    'icerik-yonetimi' => 10
+                ]
             ],
             [
                 'base' => null,
@@ -48,7 +74,11 @@ class FeatureAndPlanSeeder extends Seeder
                 'price' => 50,
                 'currency_id' => $currency->id,
                 'grace_days' => 0,
-                'feature_limit' => 100
+                'features' => [
+                    'icerik-yonetimi' => 50,
+                    'sayfa-yonetimi' => 50,
+                    'dosya-yonetimi' => 5 // 5MB
+                ]
             ],
             [
                 'base' => null,
@@ -59,18 +89,25 @@ class FeatureAndPlanSeeder extends Seeder
                 'price' => 100,
                 'currency_id' => $currency->id,
                 'grace_days' => 7,
-                'feature_limit' => 250
+                'features' => [
+                    'icerik-yonetimi' => 100,
+                    'sayfa-yonetimi' => 100,
+                    'dosya-yonetimi' => 10 // 10MB
+                ]
             ]
         ];
 
+        // Planları oluştur ve feature'ları ekle
         foreach ($plans as $planData) {
-            $featureLimit = $planData['feature_limit'];
-            unset($planData['feature_limit']);
+            $features = $planData['features'];
+            unset($planData['features']);
 
             $plan = Plan::create($planData);
 
-            // Feature'ı plana bağlayalım ve limitini belirleyelim
-            $plan->features()->attach($feature->id, ['charges' => $featureLimit]);
+            // Feature'ları plana bağla
+            foreach ($features as $featureName => $limit) {
+                $plan->features()->attach($createdFeatures[$featureName]->id, ['charges' => $limit]);
+            }
         }
     }
 }

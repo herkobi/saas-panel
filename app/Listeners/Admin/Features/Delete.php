@@ -27,7 +27,7 @@ class Delete
             $event->deletedBy,
             $event->feature,
             [
-                'feature_title' => $event->feature->title,
+                'feature_title' => $event->feature->name,
             ]
         );
 
@@ -38,7 +38,7 @@ class Delete
                 $event->deletedBy,
                 $event->feature,
                 [
-                    'feature_title' => $event->feature->title
+                    'feature_title' => $event->feature->name
                 ]
             ),
         ]);
