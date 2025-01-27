@@ -25,22 +25,6 @@ class FeatureAndPlanSeeder extends Seeder
                 'postpaid' => false,
                 'periodicity' => null,
                 'periodicity_type' => null
-            ],
-            [
-                'name' => 'sayfa-yonetimi',
-                'consumable' => true,
-                'quota' => false,
-                'postpaid' => false,
-                'periodicity' => null,
-                'periodicity_type' => null
-            ],
-            [
-                'name' => 'dosya-yonetimi',
-                'consumable' => true,
-                'quota' => true,
-                'postpaid' => false,
-                'periodicity' => null,
-                'periodicity_type' => null
             ]
         ];
 
@@ -76,8 +60,6 @@ class FeatureAndPlanSeeder extends Seeder
                 'grace_days' => 0,
                 'features' => [
                     'icerik-yonetimi' => 50,
-                    'sayfa-yonetimi' => 50,
-                    'dosya-yonetimi' => 5 // 5MB
                 ]
             ],
             [
@@ -91,8 +73,6 @@ class FeatureAndPlanSeeder extends Seeder
                 'grace_days' => 7,
                 'features' => [
                     'icerik-yonetimi' => 100,
-                    'sayfa-yonetimi' => 100,
-                    'dosya-yonetimi' => 10 // 10MB
                 ]
             ]
         ];

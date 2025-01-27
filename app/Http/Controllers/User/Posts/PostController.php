@@ -23,7 +23,7 @@ class PostController extends Controller
     protected $createPost;
     protected $updatePost;
     protected $deletePost;
-
+    protected $featureName = 'icerik-yonetimi';
 
     public function __construct(
         PostService $postService,
@@ -39,37 +39,33 @@ class PostController extends Controller
 
     public function index(): View
     {
-       $posts = $this->postService->getAllPosts();
-       $remainingPosts = $this->getFeatureUsage('icerik-yonetimi');
+        $posts = $this->postService->getAllPosts();
+        $remainingPosts = $this->getFeatureUsage('icerik-yonetimi');
 
-       return view('user.posts.index', [
-           'posts' => $posts,
-           'remainingPosts' => $remainingPosts,
-           'hasFeature' => $this->canUseFeature('icerik-yonetimi')
-       ]);
+        return view('user.posts.index', [
+            'posts' => $posts,
+            'remainingPosts' => $remainingPosts,
+            'hasFeature' => $this->canUseFeature('icerik-yonetimi')
+        ]);
     }
 
-    public function create(): View
+    public function create(): View|RedirectResponse
     {
-       $remainingPosts = $this->getFeatureUsage('icerik-yonetimi');
+        // Limit kontrolü
+        if ($this->getFeatureUsage($this->featureName) <= 0) {
+            return redirect()->route('app.posts')
+                ->with('error', 'İçerik oluşturma limitinize ulaştınız.');
+        }
 
-       return view('user.posts.create', [
-           'remainingPosts' => $remainingPosts
-       ]);
+        return view('user.posts.create');
     }
 
     public function store(PostCreateRequest $request): RedirectResponse
     {
-       $created = $this->createPost->execute($request->validated());
-
-       if ($created) {
-           $this->useFeature('icerik-yonetimi');
-           return Redirect::route('app.posts')
-               ->with('success', 'Sayfanız başarılı bir şekilde oluşturuldu');
-       }
-
-       return Redirect::back()
-           ->with('error', 'Sayfa oluşturulurken bir hata oluştu. Lütfen tekrar deneyiniz.');
+        $created = $this->createPost->execute($request->validated());
+        return $created
+                ? Redirect::route('app.posts')->with('success', 'Sayfanız başarılı bir şekilde oluşturuldu')
+                : Redirect::back()->with('error', 'Sayfa oluşturulurken bir hata oluştu. Lütfen tekrar deneyiniz.');
     }
 
     public function edit($id): View

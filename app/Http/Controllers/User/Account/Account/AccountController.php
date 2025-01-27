@@ -29,7 +29,7 @@ class AccountController extends Controller
 
     public function index(): View
     {
-        $account = $this->user->account;
+        $account = $this->user->tenant->account;
         $countries = $this->countryService->getAllCountries();
         return view('user.account.account.index', [
             'account' => $account,
@@ -39,7 +39,7 @@ class AccountController extends Controller
 
     public function update(UserAccountUpdateRequest $request): RedirectResponse
     {
-        $account = $this->user->account->id;
+        $account = $this->user->tenant->account->id;
         $updated = $this->account->execute($account, $request->validated());
         return $updated
                 ? Redirect::route('app.account')->with('success', 'Hesap bilgileri başarılı bir şekilde güncellendi.')

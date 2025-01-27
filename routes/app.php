@@ -2,9 +2,7 @@
 
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\Account\Account\AccountController;
-use App\Http\Controllers\User\Account\Invoices\InvoiceController;
 use App\Http\Controllers\User\Account\Payments\PaymentsController;
-use App\Http\Controllers\User\Account\Payments\PlanSwitchController;
 use App\Http\Controllers\User\Account\Plans\PlansController;
 use App\Http\Controllers\User\Account\Profile\ProfileController;
 use App\Http\Controllers\User\Posts\PostController;
@@ -21,10 +19,10 @@ Route::middleware(['auth', 'auth.session', 'verified', 'resolve.tenant', 'check.
         Route::get('/taxes', 'getTaxes')->name('taxes');
     });
 
-    Route::controller(PostController::class)->group(function() {
-        Route::get('/posts', 'index')->middleware('check.feature:icerik-yonetimi')->name('posts');
-        Route::get('/post/create', 'create')->middleware('check.feature:icerik-yonetimi')->name('post.create');
-        Route::post('/post/store', 'store')->middleware('check.feature:icerik-yonetimi')->name('post.store');
+    Route::controller(PostController::class)->middleware('check.feature:icerik-yonetimi')->group(function() {
+        Route::get('/posts', 'index')->name('posts');
+        Route::get('/post/create', 'create')->name('post.create');
+        Route::post('/post/store', 'store')->name('post.store');
         Route::get('/post/edit/{post}', 'edit')->name('post.edit');
         Route::post('/post/update/{post}', 'update')->name('post.update');
         Route::delete('/post/delete/{post}', 'destroy')->name('post.delete');
@@ -40,11 +38,6 @@ Route::middleware(['auth', 'auth.session', 'verified', 'resolve.tenant', 'check.
         Route::get('/account/plans', 'index')->name('account.plans');
     });
 
-    Route::controller(PlanSwitchController::class)->group(function () {
-        Route::get('/account/payment/switch/plan/{plan}', 'create')->name('account.payment.switch.create');
-        Route::post('/account/payment/switch', 'store')->name('account.payment.switch.store');
-    });
-
     Route::controller(PaymentsController::class)->group( function() {
         Route::get('/account/payments', 'index')->name('account.payments');
         Route::get('/account/payment/create/plan/{plan}', 'create')->name('account.payment.create');
@@ -56,10 +49,6 @@ Route::middleware(['auth', 'auth.session', 'verified', 'resolve.tenant', 'check.
         Route::post('/account/payment/{code}/upload', 'uploadDocument')->name('account.payment.upload');
 
         Route::get('/account/payment/blocked', 'normaluser')->name('account.payment.normaluser');
-    });
-
-    Route::controller(InvoiceController::class)->group( function() {
-        Route::get('/account/invoices', 'index')->name('account.invoices');
     });
 
     Route::controller(ProfileController::class)->group( function() {
