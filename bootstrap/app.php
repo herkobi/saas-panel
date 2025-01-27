@@ -37,6 +37,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'userstatus' => \App\Http\Middleware\UserStatusCheck::class,
             'system.settings' => \App\Http\Middleware\SystemSettings::class,
             'agreement.check' => \App\Http\Middleware\AgreementCheck::class,
+            'check.feature' => \App\Http\Middleware\CheckFeature::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
