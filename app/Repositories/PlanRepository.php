@@ -127,4 +127,9 @@ class PlanRepository
         return $plan->forceDelete();
     }
 
+    public function switchPlan(int $id): Plan
+    {
+        return true;
+    }
+
 }
