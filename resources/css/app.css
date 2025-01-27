@@ -422,6 +422,7 @@ ul.menu li a:hover {
 .payment-method {
     padding-left: 0;
 }
+
 .payment-method .payment-box {
     border: 1px solid #dee2e6;
     border-radius: 0.5rem;
@@ -451,4 +452,25 @@ ul.menu li a:hover {
 
 .form-check-input:checked+.payment-box .payment-box-header {
     color: #0d6efd;
+}
+
+.posts-container {
+    position: relative;
+}
+
+.feature-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.blur-table {
+    filter: blur(3px);
 }

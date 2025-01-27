@@ -15,7 +15,7 @@ class FeatureAndPlanSeeder extends Seeder
     {
         // Önce feature'ı oluşturalım
         $feature = Feature::create([
-            'name' => 'İçerik Yönetimi',
+            'name' => 'icerik-yonetimi',
             'consumable' => true,
             'quota' => false,
             'postpaid' => false,

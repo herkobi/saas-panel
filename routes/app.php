@@ -7,6 +7,7 @@ use App\Http\Controllers\User\Account\Payments\PaymentsController;
 use App\Http\Controllers\User\Account\Payments\PlanSwitchController;
 use App\Http\Controllers\User\Account\Plans\PlansController;
 use App\Http\Controllers\User\Account\Profile\ProfileController;
+use App\Http\Controllers\User\Posts\PostController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'auth.session', 'verified', 'resolve.tenant', 'check.tenant', 'panel:user', 'system.settings', 'userstatus', 'tenant.status', 'subscription.check'])->prefix('app')->name('app.')->group(function () {
@@ -18,6 +19,15 @@ Route::middleware(['auth', 'auth.session', 'verified', 'resolve.tenant', 'check.
         Route::post('/accept-agreement', 'accept')->name('agreement.accept');
         Route::get('/states', 'getStates')->name('country.states');
         Route::get('/taxes', 'getTaxes')->name('taxes');
+    });
+
+    Route::controller(PostController::class)->group(function() {
+        Route::get('/posts', 'index')->middleware('check.feature:icerik-yonetimi')->name('posts');
+        Route::get('/post/create', 'create')->middleware('check.feature:icerik-yonetimi')->name('post.create');
+        Route::post('/post/store', 'store')->middleware('check.feature:icerik-yonetimi')->name('post.store');
+        Route::get('/post/edit/{post}', 'edit')->name('post.edit');
+        Route::post('/post/update/{post}', 'update')->name('post.update');
+        Route::delete('/post/delete/{post}', 'destroy')->name('post.delete');
     });
 
     Route::controller(AccountController::class)->group( function() {
