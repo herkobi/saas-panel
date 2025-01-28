@@ -23,8 +23,10 @@ class PaymentApproved
     public function handle(Event $event)
     {
 
-        if ($event->order->orderstatus->code === 'APPROVED') {
-            $event->order->tenant->subscribeTo($event->order->plan);
+        $order = $event->order->fresh();  // Güncel kopyayı al
+
+        if ($order->orderstatus->code === 'APPROVED') {
+            $order->tenant->subscribeTo($order->plan);
         }
 
         $this->loggingService->logUserAction(

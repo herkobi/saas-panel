@@ -124,10 +124,10 @@ class OrderRepository extends BaseRepository
                 'orderstatus_id' => $this->orderStatusService->getOrderstatusByCode('APPROVED')->id,
                 'payment_date' => now()
             ]);
-
+            
         return $order->fresh();
     }
-    
+
     public function rejectPayment(string $id): bool
     {
         $order = $this->getOrderForPanel($id);
