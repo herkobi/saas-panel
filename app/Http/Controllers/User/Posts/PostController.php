@@ -8,7 +8,6 @@ use App\Actions\User\Post\Update;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\Post\PostCreateRequest;
 use App\Http\Requests\User\Post\PostUpdateRequest;
-use App\Services\User\FeatureService;
 use App\Services\User\Post\PostService;
 use App\Traits\HasFeatureConsumption;
 use Illuminate\Http\RedirectResponse;
@@ -64,8 +63,8 @@ class PostController extends Controller
     {
         $created = $this->createPost->execute($request->validated());
         return $created
-                ? Redirect::route('app.posts')->with('success', 'Sayfanız başarılı bir şekilde oluşturuldu')
-                : Redirect::back()->with('error', 'Sayfa oluşturulurken bir hata oluştu. Lütfen tekrar deneyiniz.');
+                ? Redirect::route('app.posts')->with('success', 'İçerik başarılı bir şekilde oluşturuldu')
+                : Redirect::back()->with('error', 'İçerik oluşturulurken bir hata oluştu. Lütfen tekrar deneyiniz.');
     }
 
     public function edit($id): View
@@ -80,15 +79,15 @@ class PostController extends Controller
     {
         $updated = $this->updatePost->execute($id, $request->validated());
         return $updated
-                ? Redirect::route('app.posts')->with('success', 'Sayfanız başarılı bir şekilde güncellendi.')
-                : Redirect::back()->with('error', 'Sayfa güncellenirken bir hata oluştu. Lütfen tekrar deneyiniz.');
+                ? Redirect::route('app.posts')->with('success', 'İçerik başarılı bir şekilde güncellendi.')
+                : Redirect::back()->with('error', 'İçerik güncellenirken bir hata oluştu. Lütfen tekrar deneyiniz.');
     }
 
     public function destroy($id): RedirectResponse
     {
         $deleted = $this->deletePost->execute($id);
         return $deleted
-                ? Redirect::route('app.posts')->with('success', 'Sayfanız başarılı bir şekilde silindi.')
-                : Redirect::back()->with('error', 'Sayfa silinirken bir hata oluştu. Lütfen tekrar deneyiniz.');
+                ? Redirect::route('app.posts')->with('success', 'İçerik başarılı bir şekilde silindi.')
+                : Redirect::back()->with('error', 'İçerik silinirken bir hata oluştu. Lütfen tekrar deneyiniz.');
     }
 }

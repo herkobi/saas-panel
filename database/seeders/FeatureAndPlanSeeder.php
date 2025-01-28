@@ -21,7 +21,7 @@ class FeatureAndPlanSeeder extends Seeder
             [
                 'name' => 'icerik-yonetimi',
                 'consumable' => true,
-                'quota' => false,
+                'quota' => true,
                 'postpaid' => false,
                 'periodicity' => null,
                 'periodicity_type' => null

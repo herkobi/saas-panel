@@ -14,7 +14,7 @@
             </a>
         </li>
         <li class="title">İçerikler</li>
-        <li {{ request()->routeIs(['app.posts', 'app.posts.*', 'app.post.*']) ? 'class=active' : '' }}>
+        <li {{ request()->routeIs(['app.posts', 'app.post.edit']) ? 'class=active' : '' }}>
             <a href="{{ route('app.posts') }}" title="İçerikler">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                     class="bi bi-check2-square" viewBox="0 0 20 20">

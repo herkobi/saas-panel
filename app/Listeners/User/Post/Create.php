@@ -5,14 +5,16 @@ namespace App\Listeners\User\Post;
 use App\Events\User\Post\Create as Event;
 use App\Models\Activity;
 use App\Services\LoggingService;
+use App\Traits\HasFeatureConsumption;
 use App\Traits\LogActivity;
 
 class Create
 {
-    use LogActivity;
+    use LogActivity, HasFeatureConsumption;
 
     protected $loggingService;
     protected $activity;
+    protected $featureName = 'icerik-yonetimi';
 
     public function __construct(LoggingService $loggingService, Activity $activity)
     {
@@ -22,6 +24,8 @@ class Create
 
     public function handle(Event $event)
     {
+        $this->useFeature($this->featureName);
+
         $this->loggingService->logUserAction(
             'post.created',
             $event->createdBy,
