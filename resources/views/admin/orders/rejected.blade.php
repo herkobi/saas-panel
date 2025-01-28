@@ -47,11 +47,6 @@
                                                 <span class="badge bg-secondary">Ücretsiz</span>
                                             @endif
                                         </td>
-                                        <td class="text-center">
-                                            <a href="{{ route('panel.order.show', $order->code) }}" class="btn btn-sm">
-                                                Detay
-                                            </a>
-                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

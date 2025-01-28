@@ -37,7 +37,7 @@ class OrderRejectRequest extends FormRequest
 
     public function passedValidation(): void
     {
-        $order = Order::withoutGlobalScope(GlobalQuery::class)
+        $order = Order::withoutGlobalScopes()
             ->with('orderstatus')
             ->findOrFail($this->order);
 

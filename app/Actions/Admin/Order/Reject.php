@@ -21,8 +21,8 @@ class Reject
     public function execute(string $id): bool
     {
         // Ödemeyi reddet
+        $order = $this->orderService->getOrderForPanel($id);
         $result = $this->orderService->rejectPayment($id);
-        $order = $this->orderService->getOrderById($id);
 
         if ($result) {
             // Event'i tetikle

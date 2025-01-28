@@ -15,7 +15,10 @@ trait Owner
         }
 
         static::creating(function (Model $model) {
-            $model->user_id = Auth::id();
+            // Eğer user_id zaten set edilmişse, onu koruyalım
+            if (!$model->isDirty('user_id')) {
+                $model->user_id = Auth::id();
+            }
         });
 
         static::updating(function (Model $model) {

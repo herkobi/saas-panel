@@ -72,7 +72,7 @@ class PaymentsController extends Controller
 
    public function index(): View
    {
-       $orders = $this->orderService->getUserOrders($this->user->id);
+       $orders = $this->orderService->getAllOrders();
        return view('user.account.payments.index', [
            'orders' => $orders
        ]);

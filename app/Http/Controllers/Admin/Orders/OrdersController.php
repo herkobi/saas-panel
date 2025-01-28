@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin\Orders;
 
-use App\Models\Order;
 use App\Actions\Admin\Order\Approve;
 use App\Actions\Admin\Order\Reject;
 use App\Http\Controllers\Controller;
@@ -70,7 +69,7 @@ class OrdersController extends Controller
 
     public function detail(string $id): View
     {
-        $order = $this->orderService->getOrderById($id);
+        $order = $this->orderService->getOrderForPanel($id);
         return view('admin.orders.detail', [
             'order' => $order
         ]);
@@ -78,7 +77,7 @@ class OrdersController extends Controller
 
     public function approve(OrderApproveRequest $request, string $id): RedirectResponse
     {
-        $order = $this->orderService->getOrderById($id);
+        $order = $this->orderService->getOrderForPanel($id);
         if($request->validated()) {
             $result = $this->approvePayment->execute($order->id);
             return $result
@@ -91,7 +90,7 @@ class OrdersController extends Controller
 
     public function reject(OrderRejectRequest $request, string $id): RedirectResponse
     {
-        $order = $this->orderService->getOrderById($id);
+        $order = $this->orderService->getOrderForPanel($id);
         if($request->validated()) {
             $result = $this->rejectPayment->execute($order->id);
             return $result

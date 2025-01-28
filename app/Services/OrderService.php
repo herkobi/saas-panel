@@ -22,6 +22,11 @@ class OrderService
         $this->taxService = $taxService;
     }
 
+    public function getOrderForPanel(string $id): Order
+    {
+        return $this->repository->getOrderForPanel($id);
+    }
+
     public function getOrderById(string $id): Order
     {
         return $this->repository->getOrderById($id);
@@ -139,7 +144,7 @@ class OrderService
         $this->repository->delete($id);
     }
 
-    public function approvePayment(string $id): bool
+    public function approvePayment(string $id): Order
     {
         return $this->repository->approvePayment($id);
     }

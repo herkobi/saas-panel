@@ -18,17 +18,20 @@ class OrderRepository extends BaseRepository
         $this->orderStatusService = $orderstatusService;
     }
 
+    public function getOrderForPanel(string $id): Order
+    {
+        return $this->model::withoutGlobalScopes()->with(['user', 'orderstatus', 'tenant', 'plan', 'currency'])->findOrFail($id);
+    }
+
     public function getOrderById(string $id): Order
     {
-        return $this->model::withoutGlobalScope(GlobalQuery::class)
-            ->with(['orderstatus', 'tenant', 'plan', 'currency'])
+        return $this->model::with(['orderstatus', 'tenant', 'plan', 'currency'])
             ->findOrFail($id);
     }
 
     public function getAllOrders(): LengthAwarePaginator
     {
-        return $this->model::with(['user', 'tenant', 'plan', 'orderstatus', 'currency'])
-            ->defaultPagination();
+        return $this->model::defaultPagination();
     }
 
     public function getApprovedOrders(): LengthAwarePaginator
@@ -112,19 +115,23 @@ class OrderRepository extends BaseRepository
             ->exists();
     }
 
-    public function approvePayment(string $id): bool
+    public function approvePayment(string $id): Order
     {
-        $order = $this->getOrderById($id);
-        return $order->withoutGlobalScope(GlobalQuery::class)->update([
-            'orderstatus_id' => $this->orderStatusService->getOrderstatusByCode('APPROVED')->id,
-            'payment_date' => now()
-        ]);
-    }
+        $order = $this->getOrderForPanel($id);
+        $this->model::withoutGlobalScopes()
+            ->where('id', $id)  // önemli: spesifik order'ı belirt
+            ->update([
+                'orderstatus_id' => $this->orderStatusService->getOrderstatusByCode('APPROVED')->id,
+                'payment_date' => now()
+            ]);
 
+        return $order->fresh();
+    }
+    
     public function rejectPayment(string $id): bool
     {
-        $order = $this->getOrderById($id);
-        $rejected = $order->withoutGlobalScope(GlobalQuery::class)->update([
+        $order = $this->getOrderForPanel($id);
+        $rejected = $order->withoutGlobalScopes()->update([
             'orderstatus_id' => $this->orderStatusService->getOrderstatusByCode('REJECTED')->id
         ]);
 

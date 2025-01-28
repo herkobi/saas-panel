@@ -6,8 +6,6 @@ use App\Events\Admin\Order\PaymentApproved as Event;
 use App\Models\Activity;
 use App\Services\LoggingService;
 use App\Traits\LogActivity;
-use LucasDotVin\Soulbscription\Models\Scopes\SuppressingScope;
-use LucasDotVin\Soulbscription\Models\Subscription;
 
 class PaymentApproved
 {
