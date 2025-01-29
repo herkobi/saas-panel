@@ -64,8 +64,9 @@
                                                             name="quota" value="1" disabled>
                                                         <label class="form-check-label">Kota Takibi</label>
                                                     </div>
-                                                    <span class="form-hint small">Depolama alanı gibi kota takibi
-                                                        yapılacaksa seçin</span>
+                                                    <span class="form-hint small">Eğer özellik belirli bir dönemde
+                                                        yenilenecek/sıfırlanacaksa bu seçeneği kapatıp periyot belirleyiniz.
+                                                        Örn: Aylık SMS kotası</span>
                                                 </div>
                                             </div>
                                             <!-- Sonradan Ödeme -->
@@ -78,20 +79,6 @@
                                                     </div>
                                                     <span class="form-hint small">Özellik kullanıldıktan sonra ödemeye izin
                                                         ver</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <!-- Periyodik Yenileme -->
-                                            <div class="col-lg-4">
-                                                <div class="custom-control custom-switch">
-                                                    <div class="form-check form-switch border-bottom pb-3 mb-2">
-                                                        <input class="form-check-input" type="checkbox" id="has_periodic"
-                                                            name="has_periodic" value="1" disabled>
-                                                        <label class="form-check-label">Periyodik Yenileme</label>
-                                                    </div>
-                                                    <span class="form-hint small">Belirlenen sürelerde yenilenecekse seçin
-                                                        (Aylık SMS paketi gibi)</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -186,9 +173,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const consumableCheckbox = document.getElementById('consumable');
-            const hasPeriodicCheckbox = document.getElementById('has_periodic');
             const quotaCheckbox = document.getElementById('quota');
-            const postpaidCheckbox = document.getElementById('postpaid'); // Postpaid checkbox'ını seç
+            const postpaidCheckbox = document.getElementById('postpaid');
             const periodicityOptions = document.getElementById('periodicityOptions');
             const periodicityTypeSelect = document.getElementById('periodicity_type');
             const periodicityInput = document.getElementById('periodicity');
@@ -197,32 +183,34 @@
             consumableCheckbox.addEventListener('change', function() {
                 const isConsumable = this.checked;
 
-                // Periyodik seçeneğini aktif/pasif yap
-                hasPeriodicCheckbox.disabled = !isConsumable;
                 quotaCheckbox.disabled = !isConsumable;
-                postpaidCheckbox.disabled = !isConsumable; // Postpaid'i de aktif/pasif yap
+                postpaidCheckbox.disabled = !isConsumable;
 
-                if (!isConsumable) {
-                    // Tüketilebilir değilse diğer seçenekleri sıfırla
-                    hasPeriodicCheckbox.checked = false;
+                if (isConsumable) {
+                    // Tüketilebilir seçildiğinde quota otomatik true olsun
+                    quotaCheckbox.checked = true;
+                    periodicityOptions.style.display = 'none';
+                    clearPeriodicityFields();
+                } else {
+                    // Tüketilebilir değilse hepsi kapansın
                     quotaCheckbox.checked = false;
-                    postpaidCheckbox.checked = false; // Postpaid'i de sıfırla
+                    postpaidCheckbox.checked = false;
                     periodicityOptions.style.display = 'none';
                     clearPeriodicityFields();
                 }
             });
 
-            // Periyodik yenileme değiştiğinde
-            hasPeriodicCheckbox.addEventListener('change', function() {
-                const isPeriodic = this.checked;
+            // Kota seçeneği değiştiğinde
+            quotaCheckbox.addEventListener('change', function() {
+                const isQuota = this.checked;
 
-                periodicityOptions.style.display = isPeriodic ? 'block' : 'none';
-
-                periodicityTypeSelect.required = isPeriodic;
-                periodicityInput.required = isPeriodic;
-
-                if (!isPeriodic) {
+                if (isQuota) {
+                    periodicityOptions.style.display = 'none';
                     clearPeriodicityFields();
+                } else {
+                    periodicityOptions.style.display = 'block';
+                    periodicityTypeSelect.required = true;
+                    periodicityInput.required = true;
                 }
             });
 
@@ -233,27 +221,28 @@
                 periodicityInput.required = false;
             }
 
+            // Sayfa yüklendiğinde mevcut duruma göre ayarla
+            consumableCheckbox.dispatchEvent(new Event('change'));
+
             // Edit formu için eski değerleri doldur
             const oldFeatureData = {!! isset($feature) ? json_encode($feature) : 'null' !!};
             if (oldFeatureData) {
-                // Checkbox'ları ayarla
                 consumableCheckbox.checked = oldFeatureData.consumable;
                 quotaCheckbox.checked = oldFeatureData.quota;
-                postpaidCheckbox.checked = oldFeatureData.postpaid; // Postpaid değerini ayarla
+                postpaidCheckbox.checked = oldFeatureData.postpaid;
 
-                // Periyodik kontrolü
+                // Period alanlarını başlangıçta gizli tut
+                periodicityOptions.style.display = 'none';
+
+                // Eğer period bilgileri varsa
                 if (oldFeatureData.periodicity_type && oldFeatureData.periodicity) {
-                    hasPeriodicCheckbox.checked = true;
-                    periodicityTypeSelect.value = oldFeatureData.periodicity_type;
+                    periodicityTypeSelect.value = `PeriodicityType::${oldFeatureData.periodicity_type}`;
                     periodicityInput.value = oldFeatureData.periodicity;
+                    periodicityOptions.style.display = 'block';
                 }
 
-                // Form durumunu güncelle
                 consumableCheckbox.dispatchEvent(new Event('change'));
-                hasPeriodicCheckbox.dispatchEvent(new Event('change'));
-            } else {
-                // Create form için başlangıç durumunu ayarla
-                consumableCheckbox.dispatchEvent(new Event('change'));
+                quotaCheckbox.dispatchEvent(new Event('change'));
             }
         });
     </script>

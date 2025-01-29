@@ -46,7 +46,7 @@ class FeatureAndPlanSeeder extends Seeder
                 'currency_id' => $currency->id,
                 'grace_days' => 0,
                 'features' => [
-                    'icerik-yonetimi' => 10
+                    'icerik-yonetimi' => 3
                 ]
             ],
             [
@@ -59,7 +59,7 @@ class FeatureAndPlanSeeder extends Seeder
                 'currency_id' => $currency->id,
                 'grace_days' => 0,
                 'features' => [
-                    'icerik-yonetimi' => 50,
+                    'icerik-yonetimi' => 5,
                 ]
             ],
             [
@@ -72,7 +72,7 @@ class FeatureAndPlanSeeder extends Seeder
                 'currency_id' => $currency->id,
                 'grace_days' => 7,
                 'features' => [
-                    'icerik-yonetimi' => 100,
+                    'icerik-yonetimi' => 10,
                 ]
             ]
         ];
