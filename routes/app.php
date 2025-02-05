@@ -43,6 +43,7 @@ Route::middleware(['auth', 'auth.session', 'verified', 'resolve.tenant', 'check.
         Route::get('/account/payment/create/plan/{plan}', 'create')->name('account.payment.create');
         Route::post('/account/payment/store', 'store')->name('account.payment.store');
         Route::get('/account/payment/{code}', 'show')->name('account.payment.show');
+        Route::get('/account/payment/process/{code}', 'process')->name('account.payment.process');
 
         Route::get('/account/payment/free-success/{code}', 'freeSuccess')->name('account.payment.free-success');
         Route::get('/account/payment/bacs-success/{code}', 'bacsSuccess')->name('account.payment.bacs-success');

@@ -173,6 +173,18 @@ class PaymentsController extends Controller
         };
    }
 
+   public function process(string $code)
+   {
+        $order = $this->orderService->getOrderByCode($code);
+
+        if ($order->tenant_id !== $this->user->tenant_id) {
+            return Redirect::back()->with('error', 'Bu ödeme kaydını görüntüleme yetkiniz yok.');
+        }
+
+        $currency = $order->currency->iso_code;
+        $plan = $order->plan->name;
+   }
+
    public function show(string $code): View|RedirectResponse
    {
        $order = $this->orderService->getOrderByCode($code);
