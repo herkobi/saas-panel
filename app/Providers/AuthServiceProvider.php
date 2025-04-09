@@ -3,14 +3,9 @@
 namespace App\Providers;
 
 use App\Models\User;
-use App\Models\Campaign;
-use App\Models\Link;
-use App\Models\Pixel;
-use App\Models\Space;
-use App\Policies\CampaignPolicy;
-use App\Policies\LinkPolicy;
-use App\Policies\PixelPolicy;
-use App\Policies\SpacePolicy;
+use App\Models\Content;
+use App\Policies\UserPolicy;
+use App\Policies\ContentPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -22,10 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        Campaign::class => CampaignPolicy::class,
-        Pixel::class => PixelPolicy::class,
-        Space::class => SpacePolicy::class,
-        Link::class => LinkPolicy::class,
+        Content::class => ContentPolicy::class,
+        User::class => UserPolicy::class
     ];
 
     /**
@@ -51,18 +44,8 @@ class AuthServiceProvider extends ServiceProvider
             return $user->isTenantOwner();
         });
 
-        // Kampanya yönetim izinleri
-        Gate::define('manage-campaigns', function (User $user) {
-            return $user->isTenantUser();
-        });
-
-        // Pixel yönetim izinleri
-        Gate::define('manage-pixels', function (User $user) {
-            return $user->isTenantUser();
-        });
-
-        // Space yönetim izinleri
-        Gate::define('manage-spaces', function (User $user) {
+        // Content yönetim izinleri
+        Gate::define('manage-content', function (User $user) {
             return $user->isTenantUser();
         });
     }

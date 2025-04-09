@@ -32,9 +32,6 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->name('panel.')
                 ->group(base_path('routes/panel.php'));
 
-            // Yönlendirme route'ları
-            Route::middleware(['web'])
-                ->group(base_path('routes/redirect.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware) {

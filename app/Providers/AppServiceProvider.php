@@ -2,11 +2,9 @@
 
 namespace App\Providers;
 
-use App\Models\Campaign;
-use App\Models\Link;
+use App\Models\Content;
 use App\Models\Subscription;
-use App\Observers\CampaignObserver;
-use App\Observers\LinkObserver;
+use App\Observers\ContentObserver;
 use App\Observers\SubscriptionObserver;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,8 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Campaign::observe(CampaignObserver::class);
-        Link::observe(LinkObserver::class);
+        Content::observe(ContentObserver::class);
         Subscription::observe(SubscriptionObserver::class); // Yeni eklenen satır
     }
 }
