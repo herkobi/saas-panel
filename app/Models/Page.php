@@ -2,24 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\Sluggable;
-use App\Enums\Status;
-use App\Traits\HasDefaultPagination;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Page extends Model
 {
-    use HasFactory, HasUuids, Sluggable, HasDefaultPagination;
+    use HasFactory, Sluggable;
 
-    protected $tables = "pages";
+    protected $table = "pages";
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
 
     protected $fillable = [
-        'status',
         'title',
         'slug',
-        'content'
+        'summary',
+        'content',
+        'status',
     ];
 
     protected function casts(): array
@@ -27,7 +31,7 @@ class Page extends Model
         return [
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
-            'status' => Status::class,
+            'status' => 'boolean',
         ];
     }
 
@@ -36,4 +40,5 @@ class Page extends Model
         $this->attributes['title'] = $value;
         $this->attributes['slug'] = $this->generateSlug($value);
     }
+
 }

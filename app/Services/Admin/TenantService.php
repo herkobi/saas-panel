@@ -2,47 +2,39 @@
 
 namespace App\Services\Admin;
 
+use App\Enums\UserType;
 use App\Models\Tenant;
-use App\Repositories\TenantRepository;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class TenantService
 {
-    protected $repository;
-
-    public function __construct(TenantRepository $repository)
+    /**
+     * Tüm tenant'ları sahipleriyle birlikte getir
+     */
+    public function getAllTenants(): Collection
     {
-        $this->repository = $repository;
+        return Tenant::with('users')
+            ->whereHas('users', function ($query) {
+                $query->where('type', UserType::TENANT_OWNER->value);
+            })
+            ->latest()
+            ->get();
     }
 
-    public function getAllTenants(): LengthAwarePaginator
+    /**
+     * Tenant sahibini getir
+     */
+    public function getTenantOwner(Tenant $tenant): ?User
     {
-        return $this->repository->getAll();
+        return $tenant->users()->where('type', UserType::TENANT_OWNER->value)->first();
     }
 
-    public function getActiveTenants(): Collection
+    /**
+     * Tenant kullanıcılarını getir
+     */
+    public function getTenantUsers(Tenant $tenant): Collection
     {
-        return $this->repository->getActiveTenants();
-    }
-
-    public function getTenantById(string $id): Tenant
-    {
-        return $this->repository->getById($id);
-    }
-
-    public function createTenant(array $data): Tenant
-    {
-        return $this->repository->createTenant($data);
-    }
-
-    public function updateTenant(string $id, array $data): Tenant
-    {
-        return $this->repository->updateTenant($id, $data);
-    }
-
-    public function deleteTenant(string $id): void
-    {
-        $this->repository->delete($id);
+        return $tenant->users;
     }
 }

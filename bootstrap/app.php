@@ -1,9 +1,10 @@
 <?php
-// bootstrap/app.php
 
+use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -12,34 +13,54 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function () {
-            // Subdomain kontrolü
-            if (config('tenant.use_subdomain', false)) {
-                Route::domain('{tenant}.' . config('app.domain'))
+            // Tenant routes (app paneli için)
+            if (config('tenant.subdomain_enabled', false)) {
+                Route::domain('{tenant}.' . config('tenant.domain.suffix', 'localhost'))
                     ->middleware(['web', 'resolve.tenant'])
+                    ->name('app.')
                     ->group(base_path('routes/app.php'));
             } else {
-                Route::middleware('web')
+                Route::prefix( 'app')
+                    ->middleware(['web', 'resolve.tenant'])
+                    ->name('app.')
                     ->group(base_path('routes/app.php'));
             }
 
-            // Panel route'ları değişmiyor
-            Route::middleware('web')
+            // Admin panel route'ları
+            Route::prefix('panel')
+                ->middleware(['web'])
+                ->name('panel.')
                 ->group(base_path('routes/panel.php'));
+
+            // Yönlendirme route'ları
+            Route::middleware(['web'])
+                ->group(base_path('routes/redirect.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->web(append: [
+            HandleInertiaRequests::class,
+            AddLinkHeadersForPreloadedAssets::class,
+        ]);
+
         $middleware->alias([
-            'panel' => \App\Http\Middleware\PanelAccess::class,
+            'check.subscription' => \App\Http\Middleware\CheckSubscription::class,
+            'check.user.status' => \App\Http\Middleware\CheckUserStatus::class,
             'resolve.tenant' => \App\Http\Middleware\ResolveTenant::class,
-            'check.tenant' => \App\Http\Middleware\CheckTenant::class,
             'tenant.status' => \App\Http\Middleware\TenantStatusCheck::class,
-            'subscription.check' => \App\Http\Middleware\SubscriptionCheck::class,
-            'userstatus' => \App\Http\Middleware\UserStatusCheck::class,
-            'system.settings' => \App\Http\Middleware\SystemSettings::class,
-            'agreement.check' => \App\Http\Middleware\AgreementCheck::class,
-            'check.feature' => \App\Http\Middleware\CheckFeature::class,
+            'panel' => \App\Http\Middleware\PanelAccess::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        // Hata işleme yapılandırması
+        $exceptions->dontReport([
+            // Raporlanmayacak istisnalar
+        ]);
+
+        // Sadece debug modunda görüntülenecek istisnalar
+        if (config('app.debug')) {
+            $exceptions->renderable(function (\Throwable $e) {
+                // İsteğe bağlı: Hataları özel formatta görüntüle
+            });
+        }
     })->create();

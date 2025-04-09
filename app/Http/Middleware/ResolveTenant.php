@@ -2,30 +2,47 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Models\Tenant;
-use App\Services\TenantManager;
+use App\Traits\AuthUser;
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ResolveTenant
 {
-    protected $tenantManager;
+    use AuthUser;
 
-    public function __construct(TenantManager $tenantManager)
+    /**
+     * Handle an incoming request.
+     */
+    public function handle(Request $request, Closure $next): Response
     {
-        $this->tenantManager = $tenantManager;
-    }
+        // AuthUser trait'inden kullanıcı bilgisini al
+        $this->initializeAuthUser();
 
-    public function handle($request, Closure $next)
-    {
-        if (config('tenant.use_subdomain')) {
-            $hostname = $request->getHost();
-            $tenant = Tenant::where('domain', $hostname)->first();
+        // Kullanıcı giriş yapmış ve tenant_id'si varsa
+        if ($this->user && $this->user->tenant_id) {
+            $tenant = Tenant::find($this->user->tenant_id);
 
-            if (!$tenant) {
-                abort(404, 'Tenant not found');
+            if ($tenant) {
+                // Tenant'ı paylaşılan veride sakla
+                app()->instance('tenant', $tenant);
+
+                // Tenant ID'yi request'e ekle
+                $request->merge(['tenant_id' => $tenant->id]);
             }
+        }
+        // Subdomain üzerinden tenant çözümleme (kullanıcı girişinden bağımsız)
+        else if (config('tenant.subdomain_enabled', false) && $request->route('tenant')) {
+            $tenant = Tenant::where('domain', $request->route('tenant'))->first();
 
-            $this->tenantManager->setTenant($tenant);
+            if ($tenant) {
+                // Tenant'ı paylaşılan veride sakla
+                app()->instance('tenant', $tenant);
+
+                // Tenant ID'yi request'e ekle
+                $request->merge(['tenant_id' => $tenant->id]);
+            }
         }
 
         return $next($request);

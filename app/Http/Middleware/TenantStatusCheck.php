@@ -2,41 +2,48 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\AccountStatus;
+use App\Models\Activity;
 use App\Traits\AuthUser;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
 
 class TenantStatusCheck
 {
     use AuthUser;
 
-    public function __construct()
+    /**
+     * Handle an incoming request.
+     */
+    public function handle(Request $request, Closure $next): Response
     {
+        // AuthUser trait'inden kullanıcı bilgisini al
         $this->initializeAuthUser();
-    }
 
-    public function handle(Request $request, Closure $next)
-    {
-        $user = $this->user;
-        $tenant = $user->tenant;
+        // Eğer tenant container'a bağlanmışsa ve kullanıcı giriş yapmışsa
+        if (app()->bound('tenant') && $this->user) {
+            // Get the tenant
+            $tenant = app()->make('tenant');
 
-        // Tenant yoksa veya yönetici ise geçir
-        if (!$tenant || $request->routeIs('panel.*')) {
-            return $next($request);
-        }
+            // Tenant varsa ve aktif değilse
+            if ($tenant && !$tenant->status) {
 
-        // Account Status kontrolü
-        if ($tenant->status === AccountStatus::DRAFT || $tenant->status === AccountStatus::PASSIVE) {
-            if ($request->isMethod('post') ||
-                $request->isMethod('put') ||
-                $request->isMethod('patch') ||
-                $request->isMethod('delete')
-            ) {
-                return redirect()->back()
-                    ->withErrors(['error' => 'Hesap durumunuz nedeniyle bu işlemi gerçekleştiremezsiniz.']);
+                Activity::create([
+                    'tenant_id' => $tenant->id,
+                    'user_id' => $this->user->id,
+                    'message' => 'tenant.status_check.disabled',
+                    'log' => [
+                        'action' => 'tenant_disabled_logout',
+                        'tenant_name' => $tenant->name,
+                        'user_email' => $this->user->email,
+                        'user_type' => $this->user->type->value,
+                    ],
+                ]);
+
+                Auth::logout();
+                return redirect()->route('login')
+                    ->with('error', 'Hesabınız askıya alınmış veya devre dışı bırakılmıştır. Lütfen yönetici ile iletişime geçin.');
             }
         }
 

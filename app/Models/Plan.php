@@ -2,91 +2,157 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use LucasDotVin\Soulbscription\Models\Plan as ModelsPlan;
-use LucasDotVin\Soulbscription\Enums\PeriodicityType;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Plan extends ModelsPlan
+class Plan extends Model
 {
     use HasFactory;
 
-    protected $table = "plans";
+    protected $table = 'plans';
 
     protected $fillable = [
-        'base',
         'name',
         'description',
-        'periodicity',
-        'periodicity_type',
-        'price',
-        'currency_id',
-        'grace_days',
+        'sort_order',
+        'is_featured',
+        'is_free',
+        'billing_period',
+        'country_code',
+        'currency_code',
+        'tax_rate_code',
+        'monthly_price',
+        'yearly_price',
+        'trial_days',
+        'grace_period_days',
+        'payment_timing',
+        'status',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected function casts(): array
     {
         return [
-            'deleted_at' => 'datetime',
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
-            'price' => 'decimal:2',
+            'is_featured' => 'boolean',
+            'is_free' => 'boolean',
+            'status' => 'boolean',
+            'monthly_price' => 'decimal:2',
+            'yearly_price' => 'decimal:2',
+            'sort_order' => 'integer',
+            'trial_days' => 'integer',
+            'grace_period_days' => 'integer',
         ];
     }
 
     /**
-     * Postpaid özelliğine sahip Feature var mı?
-     *
-     * @return bool
+     * Planın sahip olduğu özellikleri alır
      */
-    public function getHasPostpaidFeatureAttribute(): bool
+    public function planFeatures(): HasMany
     {
-        return $this->features()->where('postpaid', true)->exists();
+        return $this->hasMany(PlanFeature::class);
     }
 
     /**
-     * Periyot açıklamasını döndürür
-     * Örnek: "1 Ay", "6 Ay", "1 Yıl" vb.
+     * Verilen özellik ID'sine göre plan özelliğini alır
+     *
+     * @param int $featureId
+     * @return PlanFeature|null
      */
-    public function getPeriodicityTextAttribute(): string
+    public function getFeature($featureId): ?PlanFeature
     {
-        if (!$this->periodicity || !$this->periodicity_type) {
-            return 'Süresiz';
-        }
-
-        $period = match($this->periodicity_type) {
-            PeriodicityType::Day => 'Gün',
-            PeriodicityType::Week => 'Hafta',
-            PeriodicityType::Month => 'Ay',
-            PeriodicityType::Year => 'Yıl',
-            default => $this->periodicity_type
-        };
-
-        return "{$this->periodicity} {$period}";
+        return $this->planFeatures()->where('feature_id', $featureId)->first();
     }
 
-    // Para birimi ile birlikte fiyat formatı
-    public function getFormattedPriceAttribute()
+    /**
+     * Planın özelliklerini özellikleriyle birlikte alır
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function featuresWithDetails()
     {
-        if (!$this->price || !$this->currency) {
+        return $this->planFeatures()->with('feature')->get();
+    }
+
+    /**
+     * Planın aktif olup olmadığını kontrol eder
+     */
+    public function isActive(): bool
+    {
+        return $this->status;
+    }
+
+    /**
+     * Planın ücretsiz olup olmadığını kontrol eder
+     */
+    public function isFree(): bool
+    {
+        return $this->is_free;
+    }
+
+    /**
+     * Aylık fiyatı formatlı şekilde döndürür
+     */
+    public function getFormattedMonthlyPriceAttribute()
+    {
+        if ($this->is_free) {
+            return 'Ücretsiz';
+        }
+
+        return $this->formatPrice($this->monthly_price);
+    }
+
+    /**
+     * Yıllık fiyatı formatlı şekilde döndürür
+     */
+    public function getFormattedYearlyPriceAttribute()
+    {
+        if ($this->is_free) {
+            return 'Ücretsiz';
+        }
+
+        return $this->formatPrice($this->yearly_price);
+    }
+
+    /**
+     * Fiyatı formatlar
+     */
+    protected function formatPrice($price)
+    {
+        if ($price === null) {
             return null;
         }
 
-        return number_format($this->price, 2) . ' ' . $this->currency->symbol;
+        // Config dosyasından para birimi bilgilerini al
+        $currencies = config('tenant.currencies');
+        $currency = collect($currencies)->firstWhere('iso_code', $this->currency_code);
+
+        if (!$currency) {
+            return $price;
+        }
+
+        $formatted = number_format(
+            $price,
+            $currency['decimals'],
+            $currency['decimal_separator'],
+            $currency['thousands_separator']
+        );
+
+        switch ($currency['position']) {
+            case 'left':
+                return $currency['symbol'] . $formatted;
+            case 'left_space':
+                return $currency['symbol'] . ' ' . $formatted;
+            case 'right':
+                return $formatted . $currency['symbol'];
+            case 'right_space':
+                return $formatted . ' ' . $currency['symbol'];
+            default:
+                return $formatted;
+        }
     }
 
-    public function tenant(): BelongsTo
+    public function getFormattedPrice($price)
     {
-        return $this->belongsTo(Tenant::class, 'base');
-    }
-
-    public function currency(): BelongsTo
-    {
-        return $this->belongsTo(Currency::class);
+        return $this->formatPrice($price);
     }
 }

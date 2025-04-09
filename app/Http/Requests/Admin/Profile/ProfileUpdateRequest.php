@@ -2,40 +2,29 @@
 
 namespace App\Http\Requests\Admin\Profile;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProfileUpdateRequest extends FormRequest
 {
-    public function authorize()
-    {
-        return true;
-    }
-
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
     public function rules(): array
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'surname' => ['required', 'string', 'max:255'],
-            'title' => ['string', 'max:255'],
-        ];
-    }
-
-    /**
-     * Get custom messages for validator errors.
-     *
-     * @return array
-     */
-    public function messages(): array
-    {
-        return [
-            'name.required' => 'Lütfen isminizi giriniz.',
-            'name.string' => 'Lütfen geçerli bir isim giriniz.',
-            'name.max' => 'Lütfen isminizi daha kısa giriniz.',
-            'surname.required' => 'Lütfen soyadınızı giriniz.',
-            'surname.string' => 'Lütfen geçerli bir soyad giriniz.',
-            'surname.max' => 'Lütfen soyadınızı daha kısa giriniz.',
-            'title.string' => 'Lütfen geçerli bir görev giriniz.',
-            'title.max' => 'Lütfen görevinizi daha kısa giriniz.',
+            'email' => [
+                'required',
+                'string',
+                'lowercase',
+                'email',
+                'max:255',
+                Rule::unique(User::class)->ignore($this->user()->id),
+            ],
         ];
     }
 }

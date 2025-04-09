@@ -2,70 +2,62 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Actions\Admin\Settings\Agreement\Accept;
-use App\Enums\AgreementVersionStatus;
-use App\Enums\Status;
-use App\Enums\UserType;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Settings\Agreement\AgreementAcceptRequest;
-use App\Models\Agreement;
-use App\Models\User;
-use App\Traits\AuthUser;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
+use App\Models\Tenant;
+use App\Models\Activity;
+use App\Models\Payment;
+use App\Models\Plan;
+use App\Models\Subscription;
+use Carbon\Carbon;
+use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
-
-    use AuthUser;
-
-    protected $accept;
-
-    public function __construct(
-        Accept $accept,
-    ) {
-        $this->accept = $accept;
-        $this->initializeAuthUser();
-    }
-
-    public function index(): View
+    public function index()
     {
-        return view('admin.index');
-    }
+        // Temel istatistikler (Mevcut yapınıza göre)
+        $stats = [
+            'totalTenants' => Tenant::count(),
+            'activeTenants' => Tenant::where('status', 'active')->count(),
+            'newTenants' => Tenant::where('created_at', '>=', Carbon::now()->subDays(30))->count(),
+            'monthlyRevenue' => Payment::where('status', 'completed')
+                ->whereBetween('paid_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])
+                ->sum('amount'),
+        ];
 
-    public function passive(User $user): View
-    {
-        return view('layouts.passive', [
-            'user' => $user
+        // Tenant büyüme grafiği (Mevcut yapınız)
+        $tenantGrowth = [];
+        for ($i = 29; $i >= 0; $i--) {
+            $date = Carbon::now()->subDays($i);
+            $tenantGrowth[] = [
+                'date' => $date->format('Y-m-d'),
+                'count' => Tenant::whereDate('created_at', $date)->count(),
+            ];
+        }
+
+        // Plan dağılımı (Subscription tablosu üzerinden)
+        $planDistribution = [];
+        $plans = Plan::all(); // Mevcut planlar
+
+        foreach ($plans as $plan) {
+            $planDistribution[] = [
+                'name' => $plan->name,
+                'count' => Subscription::where('plan_id', $plan->id)
+                    ->where('status', 'active')
+                    ->count(),
+            ];
+        }
+
+        // Son etkinlikler (Mevcut yapınız)
+        $recentActivities = Activity::with(['tenant' => function($query) {
+            $query->select('id', 'name');
+        }])->latest()->take(5)->get();
+
+        return Inertia::render('admin/Dashboard', [
+            'stats' => $stats,
+            'tenantGrowth' => $tenantGrowth,
+            'planDistribution' => $planDistribution,
+            'recentActivities' => $recentActivities,
         ]);
-    }
-
-    public function sign(): View
-    {
-        $agreements = Agreement::where('user_type', $this->user->type)
-            ->where('status', Status::ACTIVE)
-            ->whereHas('versions', function($query) {
-                $query->where('status', AgreementVersionStatus::PUBLISHED);
-            })
-            ->with(['versions' => function($query) {
-                $query->where('status', AgreementVersionStatus::PUBLISHED)
-                     ->latest('published_at');
-            }])
-            ->get()
-            ->filter(function($agreement) {
-                $latestVersion = $agreement->latestVersion();
-                return $latestVersion && !$this->user->hasAcceptedVersion($latestVersion);
-            });
-
-        return view('user.sign', [
-            'agreements' => $agreements
-        ]);
-    }
-
-    public function accept(AgreementAcceptRequest $request): RedirectResponse
-    {
-        $agreement = $this->accept->execute($request->validated());
-        return redirect()->back()
-            ->with('success', $agreement->title . ' başarıyla kabul edildi.');
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\UserType;
 use App\Traits\AuthUser;
 use Closure;
 use Illuminate\Http\Request;
@@ -11,24 +10,29 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PanelAccess
 {
+    use AuthUser;
 
     /**
      * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $panelType): Response
+    public function handle(Request $request, Closure $next): Response
     {
-        if($panelType === 'admin' &&
-            Auth::user()->type !== UserType::ADMIN &&
-            Auth::user()->type !== UserType::SUPER) {
-            return redirect('/app');
-        }
+        // AuthUser trait'inden kullanıcı bilgisini al
+        $this->initializeAuthUser();
 
-        if($panelType === 'user' &&
-            Auth::user()->type !== UserType::USER &&
-            Auth::user()->type !== UserType::DEMO) {
-            return redirect('/panel');
+        // Kullanıcı girişi yapılmış mı ve admin mi kontrolü
+        if (!$this->user || !$this->user->isAdmin()) {
+            if (!$this->user) {
+                return redirect()->route('login');
+            }
+
+            // Kullanıcı giriş yapmış ama admin değilse, çıkış yaptırıp login'e yönlendir
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')
+                ->with('error', 'Bu alana erişim yetkiniz bulunmamaktadır. Lütfen yönetici hesabı ile giriş yapın.');
         }
 
         return $next($request);

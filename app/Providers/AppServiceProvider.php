@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
-use App\Listeners\Admin\Tools\PasswordResetRequest;
-use App\Services\SettingService;
-use Illuminate\Auth\Events\PasswordResetLinkSent;
-use Illuminate\Support\Facades\Event;
+use App\Models\Campaign;
+use App\Models\Link;
+use App\Models\Subscription;
+use App\Observers\CampaignObserver;
+use App\Observers\LinkObserver;
+use App\Observers\SubscriptionObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,8 +17,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('setting', function ($app) {
-            return $app->make(SettingService::class);
+        $this->app->singleton('tenant', function ($app) {
+            return null;
         });
     }
 
@@ -25,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Event::listen(PasswordResetLinkSent::class, PasswordResetRequest::class);
+        Campaign::observe(CampaignObserver::class);
+        Link::observe(LinkObserver::class);
+        Subscription::observe(SubscriptionObserver::class); // Yeni eklenen satır
     }
 }

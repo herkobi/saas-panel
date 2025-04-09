@@ -1,28 +1,51 @@
 <?php
+
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Enums\UserType;
 use App\Models\Tenant;
-use App\Enums\AccountStatus;
+use App\Models\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class TenantSeeder extends Seeder
 {
-    public function run()
+    /**
+     * Tenant ve kullanıcıları oluştur.
+     */
+    public function run(): void
     {
-        $tenants = [
-            [
-                'code' => Tenant::generateCode(),
-                'domain' => 'demo',
-                'has_domain' => false,
-                'status' => AccountStatus::ACTIVE,
-                'settings' => [
-                    'locale' => 'tr'
-                ]
+        // Önce tenant kaydı oluşturalım
+        $tenant = Tenant::create([
+            'name' => 'Demo Firma',
+            'domain' => 'demo',
+            'status' => true,
+            'settings' => [
+                'theme' => 'light',
+                'language' => 'tr'
             ]
-        ];
+        ]);
 
-        foreach ($tenants as $tenant) {
-            Tenant::create($tenant);
-        }
+        // Şimdi bu tenant'a sahip kullanıcı ekleyelim
+        User::create([
+            'name' => 'User',
+            'email' => 'user@user.com',
+            'password' => Hash::make('password'),
+            'email_verified_at' => now(),
+            'type' => UserType::TENANT_OWNER,
+            'tenant_id' => $tenant->id,
+            'status' => true
+        ]);
+
+        // İsterseniz birkaç staff kullanıcısı da ekleyebiliriz
+        User::create([
+            'name' => 'Staff User',
+            'email' => 'staff@user.com',
+            'password' => Hash::make('password'),
+            'email_verified_at' => now(),
+            'type' => UserType::TENANT_STAFF,
+            'tenant_id' => $tenant->id,
+            'status' => true
+        ]);
     }
 }

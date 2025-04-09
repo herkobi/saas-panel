@@ -2,93 +2,47 @@
 
 namespace App\Models;
 
-use App\Enums\AccountStatus;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use App\Enums\SubscriptionStatus;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use LucasDotVin\Soulbscription\Models\Concerns\HasSubscriptions;
 
 class Tenant extends Model
 {
-    use HasUuids, HasSubscriptions;
+    use HasFactory;
 
     protected $fillable = [
-        'code',
+        'name',
         'domain',
-        'has_domain',
         'status',
-        'first_plan',
-        'first_paid_plan',
-        'new_tenant',
         'settings',
-        'storage_folder',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'has_domain' => 'boolean',
-            'new_tenant' => 'boolean',
-            'status' => AccountStatus::class,
-            'settings' => 'array',
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime'
-        ];
-    }
+    protected $casts = [
+        'settings' => 'json',
+        'status' => 'boolean',
+    ];
 
-    public static function generateCode(): string
-    {
-        $code = 'TNT' . strtoupper(Str::random(6));
-
-        // Uniquelik kontrolü
-        if (static::where('code', $code)->exists()) {
-            return static::generateCode(); // Recursive olarak yeni kod üret
-        }
-
-        return $code;
-    }
-
-    // Tenant.php
     protected static function booted()
     {
         static::creating(function ($tenant) {
-            // Benzersiz folder adı oluştur
-            $tenant->storage_folder = config('tenant.storage.prefix') . Str::random(7);
+            // Tenant oluşturulmadan önce public_path değerini settings içine ekle
+            $settings = $tenant->settings ?: [];
+            $settings['public_path'] = 'folder_' . Str::random(8);
+            $tenant->settings = $settings;
         });
 
         static::created(function ($tenant) {
-            // Tenant klasörlerini private altında oluştur
-            $paths = [
-                'private/tenants/' . $tenant->storage_folder,
-                'private/tenants/' . $tenant->storage_folder . '/shared',
-                'private/tenants/' . $tenant->storage_folder . '/users'
-            ];
-
-            foreach ($paths as $path) {
-                File::ensureDirectoryExists(storage_path('app/' . $path));
-            }
+            // Tenant oluşturulduğunda otomatik olarak public klasörünü oluştur
+            $tenant->createPublicDirectory();
         });
 
         static::deleted(function ($tenant) {
-            // Tenant silindiğinde klasörünü sil
-            Storage::deleteDirectory('private/tenants/' . $tenant->storage_folder);
+            // Tenant silindiğinde klasörü de sil
+            $tenant->deletePublicDirectory();
         });
-    }
-
-    // Helper metodlar güncellendi
-    public function getSharedPath(): string
-    {
-        return 'private/tenants/' . $this->storage_folder . '/shared';
-    }
-
-    public function getUserPath(string $user_folder): string
-    {
-        return 'private/tenants/' . $this->storage_folder . '/users/' . $user_folder;
     }
 
     public function users(): HasMany
@@ -96,18 +50,81 @@ class Tenant extends Model
         return $this->hasMany(User::class);
     }
 
-    public function account(): HasOne
+    public function owner()
     {
-        return $this->hasOne(Account::class);
+        return $this->users()->whereType('tenant_owner')->first();
     }
 
-    public function accountGroup(): BelongsTo
+    /**
+     * Tenant'a ait public klasör yolunu döndürür
+     *
+     * @return string
+     */
+    public function getPublicPath(): string
     {
-        return $this->belongsTo(AccountGroup::class, 'group_id');
+        if (isset($this->settings['public_path'])) {
+            return $this->settings['public_path'];
+        }
+
+        // Eğer kayıtlı bir public_path yoksa, oluştur ve kaydet
+        $folderName = 'folder_' . Str::random(8);
+        $settings = $this->settings ?: [];
+        $settings['public_path'] = $folderName;
+        $this->settings = $settings;
+        $this->save();
+
+        return $folderName;
     }
 
-    public function orders(): HasMany
+    /**
+     * Tenant'a ait public klasörünü oluşturur
+     *
+     * @return bool
+     */
+    public function createPublicDirectory(): bool
     {
-        return $this->hasMany(Order::class);
+        return Storage::disk('public')->makeDirectory($this->getPublicPath());
+    }
+
+    /**
+     * Tenant'a ait public klasörünü siler
+     *
+     * @return bool
+     */
+    public function deletePublicDirectory(): bool
+    {
+        return Storage::disk('public')->deleteDirectory($this->getPublicPath());
+    }
+
+    /**
+     * Tenant'a ait abonelikler
+     *
+     */
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    /**
+     * Tenant'ın aktif aboneliğini getirir
+     */
+    public function activeSubscription()
+    {
+        return $this->subscriptions()
+            ->where('status', SubscriptionStatus::ACTIVE->value)
+            ->where(function ($query) {
+                $query->whereNull('ends_at')
+                    ->orWhere('ends_at', '>', now());
+            })
+            ->latest()
+            ->first();
+    }
+
+    /**
+     * Tenant'ın aktif bir aboneliği olup olmadığını kontrol eder
+     */
+    public function hasActiveSubscription(): bool
+    {
+        return $this->activeSubscription() !== null;
     }
 }
