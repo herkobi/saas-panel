@@ -2,7 +2,7 @@
 import FlashMessageCatcher from '@/components/FlashMessageCatcher.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import { Toaster } from '@/components/ui/sonner';
-import AppLayout from '@/layouts/tenant/app/AppHeaderLayout.vue';
+import AppLayout from '@/layouts/tenant/app/AppSidebarLayout.vue';
 import type { BreadcrumbItemType } from '@/types';
 
 interface Props {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Traits\AuthUser;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,8 @@ use Inertia\Response;
 
 class AuthenticatedSessionController extends Controller
 {
+    use AuthUser;
+
     /**
      * Show the login page.
      */
@@ -30,10 +33,21 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // AuthUser trait'inden kullanıcı bilgisini al
+        $this->initializeAuthUser();
+
+        // Kullanıcı tipine göre yönlendirme yapılıyor
+        if ($this->user && $this->user->isAdmin()) {
+            // Doğrudan URL ile yönlendirme yapalım, intended kullanmadan
+            return redirect(route('panel.dashboard'));
+        } elseif ($this->user && $this->user->isTenantUser()) {
+            // Doğrudan URL ile yönlendirme yapalım, intended kullanmadan
+            return redirect(route('app.dashboard'));
+        }
+
+        return redirect('/');
     }
 
     /**
