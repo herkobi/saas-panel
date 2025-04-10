@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HeadingSmall from '@/components/tenant/HeadingSmall.vue';
+import HeadingSmall from '@/components/HeadingSmall.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';

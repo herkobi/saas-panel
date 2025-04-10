@@ -86,16 +86,16 @@ const clearCache = () => {
             <div class="mb-6">
                 <div class="mb-4">
                     <h1 class="text-lg font-medium tracking-tight">Önbellek Yönetimi</h1>
-                    <p class="mt-0.5 text-sm text-muted-foreground">Sistem önbelleklerini yönetin</p>
+                    <p class="text-muted-foreground mt-0.5 text-sm">Sistem önbelleklerini yönetin</p>
                 </div>
 
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <Card v-for="cache in caches" :key="cache.id">
-                        <CardHeader class="pb-2 pt-3">
+                        <CardHeader class="pt-3 pb-2">
                             <CardTitle class="text-sm font-medium">{{ cache.title }}</CardTitle>
                         </CardHeader>
                         <CardContent class="pb-3">
-                            <p class="mb-3 text-sm text-muted-foreground">
+                            <p class="text-muted-foreground mb-3 text-sm">
                                 {{ cache.description }}
                             </p>
                             <Button variant="destructive" size="sm" @click="openConfirmModal(cache)"> Temizle </Button>

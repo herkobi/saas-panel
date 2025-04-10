@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import FlashMessageCatcher from '@/components/FlashMessageCatcher.vue';
-import AppFooter from '@/components/tenant/AppFooter.vue';
-import { ToastProvider } from '@/components/ui/toast';
+import AppFooter from '@/components/AppFooter.vue';
+import { Toaster } from '@/components/ui/sonner';
 import AppLayout from '@/layouts/tenant/app/AppHeaderLayout.vue';
 import type { BreadcrumbItemType } from '@/types';
 
@@ -15,7 +15,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <ToastProvider />
+    <Toaster />
     <FlashMessageCatcher />
     <AppLayout :breadcrumbs="breadcrumbs" class="mb-12">
         <slot />

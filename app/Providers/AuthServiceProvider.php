@@ -3,14 +3,6 @@
 namespace App\Providers;
 
 use App\Models\User;
-use App\Models\Campaign;
-use App\Models\Link;
-use App\Models\Pixel;
-use App\Models\Space;
-use App\Policies\CampaignPolicy;
-use App\Policies\LinkPolicy;
-use App\Policies\PixelPolicy;
-use App\Policies\SpacePolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;

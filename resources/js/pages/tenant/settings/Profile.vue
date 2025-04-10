@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { TransitionRoot } from '@headlessui/vue';
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 
-import DeleteUser from '@/components/tenant/DeleteUser.vue';
-import HeadingSmall from '@/components/tenant/HeadingSmall.vue';
-import InputError from '@/components/tenant/InputError.vue';
+import DeleteUser from '@/components/DeleteUser.vue';
+import HeadingSmall from '@/components/HeadingSmall.vue';
+import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
