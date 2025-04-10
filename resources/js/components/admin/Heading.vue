@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Separator } from '@/components/ui/separator';
+
 interface Props {
     title: string;
     description?: string;
@@ -14,4 +16,5 @@ defineProps<Props>();
             {{ description }}
         </p>
     </div>
+    <Separator class="my-6" />
 </template>

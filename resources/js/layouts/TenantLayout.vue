@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import FlashMessageCatcher from '@/components/FlashMessageCatcher.vue';
-import AppFooter from '@/components/AppFooter.vue';
+import AppFooter from '@/components/tenant/AppFooter.vue';
 import { Toaster } from '@/components/ui/sonner';
 import AppLayout from '@/layouts/tenant/app/AppSidebarLayout.vue';
 import type { BreadcrumbItemType } from '@/types';
