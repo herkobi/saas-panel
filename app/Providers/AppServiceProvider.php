@@ -2,9 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Content;
 use App\Models\Subscription;
-use App\Observers\ContentObserver;
 use App\Observers\SubscriptionObserver;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,7 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Content::observe(ContentObserver::class);
         Subscription::observe(SubscriptionObserver::class); // Yeni eklenen satır
     }
 }

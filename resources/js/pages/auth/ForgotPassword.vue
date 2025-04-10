@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import InputError from '@/components/admin/InputError.vue';
-import TextLink from '@/components/admin/TextLink.vue';
+import InputError from '@/components/InputError.vue';
+import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -22,8 +22,8 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthLayout title="Şifremi unutttum" description="Şifrenizi yenilemek için e-posta adresinizi giriniz">
-        <Head title="Şifremi unutttum" />
+    <AuthLayout title="Forgot password" description="Enter your email to receive a password reset link">
+        <Head title="Forgot password" />
 
         <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
             {{ status }}
@@ -32,22 +32,22 @@ const submit = () => {
         <div class="space-y-6">
             <form @submit.prevent="submit">
                 <div class="grid gap-2">
-                    <Label for="email">E-posta Adresi</Label>
-                    <Input id="email" type="email" name="email" autocomplete="off" v-model="form.email" autofocus placeholder="email@domain.com" />
+                    <Label for="email">Email address</Label>
+                    <Input id="email" type="email" name="email" autocomplete="off" v-model="form.email" autofocus placeholder="email@example.com" />
                     <InputError :message="form.errors.email" />
                 </div>
 
                 <div class="my-6 flex items-center justify-start">
                     <Button class="w-full" :disabled="form.processing">
                         <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
-                        Şifremi Yenile
+                        Email password reset link
                     </Button>
                 </div>
             </form>
 
             <div class="space-x-1 text-center text-sm text-muted-foreground">
-                <span>ya da </span>
-                <TextLink :href="route('login')">oturum açın</TextLink>
+                <span>Or, return to</span>
+                <TextLink :href="route('login')">log in</TextLink>
             </div>
         </div>
     </AuthLayout>

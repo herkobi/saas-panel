@@ -3,9 +3,15 @@
 namespace App\Providers;
 
 use App\Models\User;
-use App\Models\Content;
+use App\Models\Campaign;
+use App\Models\Link;
+use App\Models\Pixel;
+use App\Models\Space;
+use App\Policies\CampaignPolicy;
+use App\Policies\LinkPolicy;
+use App\Policies\PixelPolicy;
+use App\Policies\SpacePolicy;
 use App\Policies\UserPolicy;
-use App\Policies\ContentPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -17,8 +23,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        Content::class => ContentPolicy::class,
-        User::class => UserPolicy::class
+        User::class => UserPolicy::class,
     ];
 
     /**
@@ -42,11 +47,6 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('manage-tenant-users', function (User $user) {
             return $user->isTenantOwner();
-        });
-
-        // Content yönetim izinleri
-        Gate::define('manage-content', function (User $user) {
-            return $user->isTenantUser();
         });
     }
 }

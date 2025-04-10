@@ -1,24 +1,18 @@
 <script setup lang="ts">
-import { cn } from '@/lib/utils';
-import { AvatarRoot } from 'radix-vue';
-import type { HTMLAttributes } from 'vue';
-import { avatarVariant, type AvatarVariants } from '.';
+import type { HTMLAttributes } from 'vue'
+import { cn } from '@/lib/utils'
+import { AvatarRoot } from 'reka-ui'
 
-const props = withDefaults(
-    defineProps<{
-        class?: HTMLAttributes['class'];
-        size?: AvatarVariants['size'];
-        shape?: AvatarVariants['shape'];
-    }>(),
-    {
-        size: 'sm',
-        shape: 'circle',
-    },
-);
+const props = defineProps<{
+  class?: HTMLAttributes['class']
+}>()
 </script>
 
 <template>
-    <AvatarRoot :class="cn(avatarVariant({ size, shape }), props.class)">
-        <slot />
-    </AvatarRoot>
+  <AvatarRoot
+    data-slot="avatar"
+    :class="cn('relative flex size-8 shrink-0 overflow-hidden rounded-full', props.class)"
+  >
+    <slot />
+  </AvatarRoot>
 </template>
