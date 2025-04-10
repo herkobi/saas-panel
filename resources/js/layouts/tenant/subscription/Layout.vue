@@ -1,36 +1,34 @@
 <script setup lang="ts">
-import Heading from '@/components/Heading.vue';
+import Heading from '@/components/tenant/Heading.vue';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { type NavItem } from '@/types';
-import { Link, usePage } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 
 const sidebarNavItems: NavItem[] = [
     {
-        title: 'Profile',
-        href: '/settings/profile',
+        title: 'Abonelik Bilgisi',
+        href: '/app/subscription/usage',
     },
     {
-        title: 'Password',
-        href: '/settings/password',
+        title: 'Planlar',
+        href: '/app/subscription/plans',
     },
     {
-        title: 'Appearance',
-        href: '/settings/appearance',
+        title: 'Ödemeler',
+        href: '/app/subscription/billing',
     },
 ];
 
-const page = usePage();
-
-const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.location).pathname : '';
+const currentPath = window.location.pathname;
 </script>
 
 <template>
-    <div class="px-4 py-6">
-        <Heading title="Settings" description="Manage your profile and account settings" />
+    <div class="p-4">
+        <Heading title="Abonelik Yönetimi" description="Abonelik planınızı ve kullanım detaylarınızı görüntüleyin" />
 
-        <div class="flex flex-col space-y-8 md:space-y-0 lg:flex-row lg:space-x-12 lg:space-y-0">
-            <aside class="w-full max-w-xl lg:w-48">
+        <div class="flex flex-col space-y-8 md:space-y-0 lg:flex-row lg:space-y-0">
+            <aside class="w-full max-w-xl pr-6 lg:w-48">
                 <nav class="flex flex-col space-x-0 space-y-1">
                     <Button
                         v-for="item in sidebarNavItems"
@@ -46,10 +44,12 @@ const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.locati
                 </nav>
             </aside>
 
+            <div class="hidden border-r border-border lg:block"></div>
+
             <Separator class="my-6 md:hidden" />
 
-            <div class="flex-1 md:max-w-2xl">
-                <section class="max-w-xl space-y-12">
+            <div class="flex-1 pl-6">
+                <section class="space-y-6">
                     <slot />
                 </section>
             </div>

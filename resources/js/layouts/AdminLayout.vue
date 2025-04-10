@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import AppLayout from '@/layouts/app/AppSidebarLayout.vue';
+import FlashMessageCatcher from '@/components/FlashMessageCatcher.vue';
+import { ToastProvider } from '@/components/ui/toast';
+import AppLayout from '@/layouts/admin/app/AppSidebarLayout.vue';
 import type { BreadcrumbItemType } from '@/types';
 
 interface Props {
@@ -12,6 +14,8 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
+    <ToastProvider />
+    <FlashMessageCatcher />
     <AppLayout :breadcrumbs="breadcrumbs">
         <slot />
     </AppLayout>
